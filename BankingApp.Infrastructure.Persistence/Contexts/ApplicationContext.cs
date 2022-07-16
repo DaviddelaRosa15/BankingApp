@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BankingApp.Core.Domain.Entities;
 
 namespace BankingApp.Infrastructure.Persistence.Contexts
 {
@@ -13,8 +14,13 @@ namespace BankingApp.Infrastructure.Persistence.Contexts
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
 
-        //public DbSet<Product> Products { get; set; }
-        //public DbSet<Category> Categories { get; set; }    
+        #region DbSets
+        public DbSet<SavingAccount> SavingAccounts { get; set; }
+        public DbSet<Beneficiary> Beneficiaries { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<CreditCard> CreditCards { get; set; }
+        public DbSet<Loan> Loans { get; set; }
+        #endregion
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -23,6 +29,7 @@ namespace BankingApp.Infrastructure.Persistence.Contexts
                 switch (entry.State)
                 {
                     case EntityState.Added:
+                        entry.Entity.Id = int.Parse(DateTime.UtcNow.Ticks.ToString().Substring(9));
                         entry.Entity.Created = DateTime.Now;
                         entry.Entity.CreatedBy = "DefaultAppUser";
                         break;
@@ -42,51 +49,70 @@ namespace BankingApp.Infrastructure.Persistence.Contexts
 
             #region Tables
 
-            //modelBuilder.Entity<Product>()
-            //    .ToTable("Products");
+            modelBuilder.Entity<SavingAccount>()
+                .ToTable("SavingAccounts");
 
-            //modelBuilder.Entity<Category>()
-            //    .ToTable("Categories");    
+            modelBuilder.Entity<Beneficiary>()
+                .ToTable("Beneficiaries");
+
+            modelBuilder.Entity<Loan>()
+                .ToTable("Loans");
+
+            modelBuilder.Entity<CreditCard>()
+                .ToTable("CreditCards");
+
+            modelBuilder.Entity<Transaction>()
+                .ToTable("Transactions");
             #endregion
 
             #region Primary keys
-            //modelBuilder.Entity<Product>()
-            //    .HasKey(product => product.Id);
+            modelBuilder.Entity<SavingAccount>()
+                .HasKey(save => save.Id);
 
-            //modelBuilder.Entity<Category>()
-            //    .HasKey(category => category.Id);      
+            modelBuilder.Entity<CreditCard>()
+                .HasKey(credit => credit.Id);
+
+            modelBuilder.Entity<Loan>()
+                .HasKey(loan => loan.Id);
+
+            modelBuilder.Entity<Beneficiary>()
+                .HasKey(beneficiary => beneficiary.Id);
+
+            modelBuilder.Entity<Beneficiary>()
+                .HasKey(beneficiary => beneficiary.Id);
             #endregion
 
             #region Relationships
-            //modelBuilder.Entity<Category>()
-            //    .HasMany<Product>(category => category.Products)
-            //    .WithOne(product => product.Category)
-            //    .HasForeignKey(product => product.CategoryId)
-            //    .OnDelete(DeleteBehavior.Cascade);
-      
+
+            modelBuilder.Entity<SavingAccount>()
+                .HasMany<Beneficiary>(save => save.beneficiaries)
+                .WithOne(beneficiary => beneficiary.savingAccount)
+                .HasForeignKey(beneficiary => beneficiary.SavingAccountId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             #endregion
 
             #region Property configurations
 
-            #region Products
+            modelBuilder.Entity<SavingAccount>().
+                Property(save => save.Id)
+                .ValueGeneratedNever();
 
-            //modelBuilder.Entity<Product>().
-            //    Property(product => product.Name)
-            //    .IsRequired();
+            modelBuilder.Entity<Transaction>().
+                Property(transaction => transaction.Id)
+                .ValueGeneratedNever();
 
-            //modelBuilder.Entity<Product>().
-            //   Property(product => product.Price)
-            //   .IsRequired();
+            modelBuilder.Entity<Loan>().
+                Property(loan => loan.Id)
+                .ValueGeneratedNever();
 
-            #endregion
+            modelBuilder.Entity<CreditCard>().
+                Property(credit => credit.Id)
+                .ValueGeneratedNever();
 
-            #region categories
-            //modelBuilder.Entity<Category>().
-            //  Property(category => category.Name)
-            //  .IsRequired()
-            //  .HasMaxLength(100);
-            #endregion           
-
+            modelBuilder.Entity<Beneficiary>().
+                Property(beneficiary => beneficiary.Id)
+                .ValueGeneratedNever();
             #endregion
         }
 
