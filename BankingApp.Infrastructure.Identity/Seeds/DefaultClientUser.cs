@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace BankingApp.Infrastructure.Identity.Seeds
 {
-    public static class DefaultSuperAdminUser
+    public static class DefaultClientUser
     {
         public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             ApplicationUser defaultUser = new();
-            defaultUser.UserName = "superadminuser";
-            defaultUser.Email = "superadminuser@email.com";
+            defaultUser.UserName = "defaultUser";
+            defaultUser.Email = "default_user@email.com";
             defaultUser.FirstName = "John";
             defaultUser.LastName = "Doe";
             defaultUser.EmailConfirmed = true;
@@ -27,9 +27,7 @@ namespace BankingApp.Infrastructure.Identity.Seeds
                 if (user == null)
                 {
                     await userManager.CreateAsync(defaultUser, "123Pa$$word!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
-                    await userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin.ToString());
+                    await userManager.AddToRoleAsync(defaultUser, Roles.CLient.ToString());
                 }
             }
          
