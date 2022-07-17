@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankingApp.Core.Application.Enums
+namespace BankingApp.Core.Application.Interfaces.Services
 {
-    public enum Roles
+    public interface IBeneficiaryService
     {
-        Administrator,
-        CLient
+
     }
 }

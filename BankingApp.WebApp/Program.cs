@@ -28,8 +28,8 @@ namespace BankingApp.WebApp
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
                     await DefaultRoles.SeedAsync(userManager, roleManager);
-                    await DefaultSuperAdminUser.SeedAsync(userManager, roleManager);
-                    await DefaultBasicUser.SeedAsync(userManager, roleManager);
+                    await DefaultAdministratorUser.SeedAsync(userManager, roleManager);
+                    await DefaultClientUser.SeedAsync(userManager, roleManager);
                 }
                 catch(Exception ex)
                 {
