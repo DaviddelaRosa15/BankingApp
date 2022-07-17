@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StockApp.Core.Application.Interfaces.Repositories
+namespace BankingApp.Core.Application.Interfaces.Repositories
 {
     public interface ILoanRepository : IGenericRepository<Loan>
     {

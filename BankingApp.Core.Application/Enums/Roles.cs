@@ -9,6 +9,6 @@ namespace BankingApp.Core.Application.Enums
     public enum Roles
     {
         Administrator,
-        CLient
+        Client
     }
 }

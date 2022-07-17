@@ -1,12 +1,11 @@
-﻿using BankingApp.Infrastructure.Persistence.Contexts;
-using BankingApp.Infrastructure.Persistence.Repositories;
+﻿using BankingApp.Core.Application.Interfaces.Repositories;
+using BankingApp.Core.Domain.Entities;
+using BankingApp.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
-using StockApp.Core.Application.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Transactions;
 
-namespace Application.Repository
+namespace BankingApp.Infrastructure.Persistence.Repositories
 {
     public class TransactionRepository : GenericRepository<Transaction>, ITransactionRepository
     {

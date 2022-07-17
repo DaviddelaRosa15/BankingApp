@@ -102,7 +102,7 @@ namespace BankingApp.Infrastructure.Identity.Services
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, Roles.Basic.ToString());
+                await _userManager.AddToRoleAsync(user, Roles.Client.ToString());
                 var verificationUri = await SendVerificationEmailUri(user, origin);
                 await _emailService.SendAsync(new Core.Application.DTOs.Email.EmailRequest()
                 {
