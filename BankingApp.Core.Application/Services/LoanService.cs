@@ -18,14 +18,14 @@ namespace BankingApp.Core.Application.Services
         private readonly ILoanRepository _loanRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
-        private readonly AuthenticationResponse userViewModel;
+        private readonly AuthenticationResponse _userViewModel;
 
         public LoanService(ILoanRepository loanRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(loanRepository, mapper)
         {
             _loanRepository = loanRepository;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
-            userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+            this._userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
 
         //public async Task<List<LoanViewModel>> GetAllViewModelWithInclude()

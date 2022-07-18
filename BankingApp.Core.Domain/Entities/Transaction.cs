@@ -13,5 +13,7 @@ namespace BankingApp.Core.Domain.Entities
         public int DestinyAccount { get; set; }
         public double Amount { get; set; }
         public string TransactionType { get; set; }
+    
+        //We should include a reference of who does this transaction. 
     }
 }

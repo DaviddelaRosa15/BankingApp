@@ -19,8 +19,6 @@ namespace BankingApp.Core.Application.ViewModels.SavingAccount
         public string UserId { get; set; }
         public bool IsPrincipal { get; set; } = false;
 
-        //Reference Property
-        public List<BeneficiaryViewModel> Beneficiaries { get; set; }
 
     }
 }

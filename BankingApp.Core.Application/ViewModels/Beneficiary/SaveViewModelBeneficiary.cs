@@ -15,6 +15,5 @@ namespace BankingApp.Core.Application.ViewModels.Beneficiary
         public string UserId { get; set; }
         
         public int SavingAccountId { get; set; }
-        public SavingAccountViewModel SavingAccount { get; set; }
     }
 }

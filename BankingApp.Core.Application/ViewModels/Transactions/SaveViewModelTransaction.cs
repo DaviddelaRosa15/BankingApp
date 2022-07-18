@@ -21,8 +21,8 @@ namespace BankingApp.Core.Application.ViewModels.Transactions
         [DataType(DataType.Currency)]
         public double Amount { get; set; }
 
-        public string TransactionType { get; set; }        
-        public DateTime CreatedAt { get; set; }
+        public string TransactionType { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     }
 }
