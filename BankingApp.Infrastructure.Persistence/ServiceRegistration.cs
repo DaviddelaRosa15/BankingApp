@@ -36,8 +36,12 @@ namespace BankingApp.Infrastructure.Persistence
 
             #region Repositories
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            //services.AddTransient<IProductRepository, ProductRepository>();
-            //services.AddTransient<ICategoryRepository, CategoryRepository>();          
+            services.AddTransient<ISavingAccountRepository, SavingAccountRepository>();
+            services.AddTransient<IBeneficiaryRepository, BeneficiaryRepository>();
+            services.AddTransient<ICreditCardRepository, CreditCardRepository>();
+            services.AddTransient<ILoanRepository, LoanRepository>();
+            services.AddTransient<ISavingAccountRepository, SavingAccountRepository>();
+            services.AddTransient<ITransactionRepository, TransactionRepository>();
             #endregion
         }
     }
