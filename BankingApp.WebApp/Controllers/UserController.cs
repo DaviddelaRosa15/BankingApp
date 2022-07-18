@@ -35,7 +35,7 @@ namespace BankingApp.WebApp.Controllers
             AuthenticationResponse userVm = await _userService.LoginAsync(vm);
             if (userVm != null && userVm.HasError != true)
             {
-                HttpContext.Session.Set<AuthenticationResponse>("user", userVm);
+                HttpContext.Session.Set<AuthenticationResponse>("user_session", userVm);
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
             else
