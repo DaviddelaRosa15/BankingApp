@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankingApp.Core.Application.ViewModels.Operation
 {
-    public class ExpressPaymentViewModel
+    public class AccountTransferViewModel
     {
         public int OriginAccount { get; set; }
         public int DestinyAccount { get; set; }

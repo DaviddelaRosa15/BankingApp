@@ -56,7 +56,7 @@ namespace BankingApp.Core.Application.Mappings
             #endregion
 
             #region Loan
-            CreateMap<Loan, LoanViewModel>()
+            CreateMap<Loan, LoanViewModel>()                
                 .ReverseMap()
                 .ForMember(x => x.Created, opt => opt.Ignore())
                 .ForMember(x => x.CreatedBy, opt => opt.Ignore())
@@ -64,6 +64,7 @@ namespace BankingApp.Core.Application.Mappings
                 .ForMember(x => x.LastModifiedBy, opt => opt.Ignore());
 
             CreateMap<Loan, SaveLoanViewModel>()
+                .ForMember(x => x.ShareQuantity, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(x => x.Created, opt => opt.Ignore())
                 .ForMember(x => x.CreatedBy, opt => opt.Ignore())

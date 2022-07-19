@@ -13,6 +13,7 @@ namespace BankingApp.Core.Application.ViewModels.Loan
         public double LoanAmount { get; set; }
         public double AmountPaid { get; set; }
         public double Share { get; set; }
+        public int ShareQuantity { get; set; }
         public bool IsPaid { get; set; }
     }
 }

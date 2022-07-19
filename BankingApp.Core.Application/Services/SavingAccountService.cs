@@ -30,5 +30,21 @@ namespace BankingApp.Core.Application.Services
             this._userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
 
+        public async Task<SaveVM_SavingAccount> GetPrincipalByUserId(string id)
+        {
+            var accountList = await _accountRepository.GetAllAsync();
+
+            SaveVM_SavingAccount save = new();
+
+            foreach(var item in accountList.Where(a => a.UserId == id && a.IsPrincipal == true)){
+                save.SavingAccountId = item.Id;
+                save.Balance = item.Balance;
+                save.UserId = item.UserId;
+                save.IsPrincipal = item.IsPrincipal;
+            }
+
+            return save;
+        }
+
     }
 }

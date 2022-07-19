@@ -11,7 +11,9 @@ namespace BankingApp.Core.Application.Interfaces.Services
 {
     public interface IOperationService
     {
-        Task<ResponseExpressPaymentViewModel> ExpressPay(ExpressPaymentViewModel vm);
+        Task<ResponsePaymentViewModel> ExpressPay(PaymentViewModel vm);
         Task<CreditPaymentViewModel> CreditCardPay(CreditPaymentViewModel vm);
+        Task<LoanPaymentViewModel> LoanPay(LoanPaymentViewModel vm);
+        Task<CashAdvanceViewModel> CashAdvance(CashAdvanceViewModel vm);
     }
 }

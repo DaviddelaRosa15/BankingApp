@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace BankingApp.Core.Application.ViewModels.Operation
 {
-    public class ResponseExpressPaymentViewModel
+    public class PaymentViewModel
     {
-        public string FullNameOwner { get; set; }
+        public int OriginAccount { get; set; }
         public int DestinyAccount { get; set; }
+        public double Amount { get; set; }
         public bool HasError { get; set; }
         public string Error { get; set; }
 
