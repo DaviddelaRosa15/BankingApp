@@ -10,6 +10,5 @@ namespace BankingApp.Core.Application.Interfaces.Services
 {
     public interface ISavingAccountService : IGenericService<SaveVM_SavingAccount,SavingAccountViewModel,SavingAccount>
     {
-        Task<List<SavingAccountViewModel>> GetAllWithIncludes();
     }
 }

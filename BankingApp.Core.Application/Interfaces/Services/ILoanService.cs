@@ -10,6 +10,6 @@ namespace BankingApp.Core.Application.Interfaces.Services
 {
     public interface ILoanService : IGenericService<SaveLoanViewModel, LoanViewModel, Loan>
     {
-        //Task<List<LoanViewModel>> GetAllViewModelWithInclude();
+
     }
 }

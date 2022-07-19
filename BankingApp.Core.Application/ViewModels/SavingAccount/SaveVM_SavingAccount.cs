@@ -15,7 +15,6 @@ namespace BankingApp.Core.Application.ViewModels.SavingAccount
         [Required(ErrorMessage = "You must specify an amount.")]
         [DataType(DataType.Currency)]
         public double Balance { get; set; } = 0.00;
-
         public string UserId { get; set; }
         public bool IsPrincipal { get; set; } = false;
 

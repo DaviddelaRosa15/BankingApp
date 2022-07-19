@@ -86,7 +86,7 @@ namespace BankingApp.Infrastructure.Persistence.Contexts
 
             modelBuilder.Entity<SavingAccount>()
                 .HasMany<Beneficiary>(save => save.beneficiaries)
-                .WithOne(beneficiary => beneficiary.savingAccount)
+                .WithOne(beneficiary => beneficiary.SavingAccount)
                 .HasForeignKey(beneficiary => beneficiary.SavingAccountId)
                 .OnDelete(DeleteBehavior.Cascade);
 

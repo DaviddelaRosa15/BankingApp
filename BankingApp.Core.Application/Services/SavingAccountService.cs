@@ -30,10 +30,5 @@ namespace BankingApp.Core.Application.Services
             this._userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
 
-        public async Task<List<SavingAccountViewModel>> GetAllWithIncludes()
-        {
-            var savingAccounts  = await _accountRepository.GetAllWithIncludeAsync(new List<string>() { "Beneficiary" });
-            return _mapper.Map<List<SavingAccountViewModel>>(savingAccounts);
-        }
     }
 }

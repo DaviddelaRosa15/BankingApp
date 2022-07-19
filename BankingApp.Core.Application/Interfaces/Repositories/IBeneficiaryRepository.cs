@@ -1,5 +1,6 @@
 ﻿
 using BankingApp.Core.Application.Interfaces.Repositories;
+using BankingApp.Core.Application.ViewModels.Beneficiary;
 using BankingApp.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,5 @@ namespace BankingApp.Core.Application.Interfaces.Repositories
 {
     public interface IBeneficiaryRepository : IGenericRepository<Beneficiary>
     {
-   
     }
 }

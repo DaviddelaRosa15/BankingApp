@@ -26,21 +26,8 @@ namespace BankingApp.Core.Application.Services
             _creditCardRepository = creditCardRepository;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
-            //this.userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
+            this.userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
-
-        //public async Task<List<CreditCardViewModel>> GetAllViewModelWithInclude()
-        //{
-        //    var categoryList = await _categoryRepository.GetAllWithIncludeAsync(new List<string> { "Products"});
-
-        //    return categoryList.Select(category => new CategoryViewModel
-        //    {
-        //        Name = category.Name,
-        //        Description = category.Description,
-        //        Id= category.Id,
-        //        ProductsQuantity = category.Products.Where(product=> product.UserId == userViewModel.Id).Count()
-        //    }).ToList();
-        //}
 
     }
 }

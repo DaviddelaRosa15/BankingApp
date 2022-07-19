@@ -170,6 +170,19 @@ namespace BankingApp.Infrastructure.Identity.Services
             return response;
         }
 
+        public async Task<AuthenticationResponse> GetUserById(string id)
+        {
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            AuthenticationResponse response = new()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email
+            };
+            return response;
+        }
         public async Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordRequest request)
         {
             ResetPasswordResponse response = new()
