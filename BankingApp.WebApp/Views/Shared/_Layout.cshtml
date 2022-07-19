@@ -4,9 +4,9 @@
 @using BankingApp.Core.Application.ViewModels.User
 @inject IHttpContextAccessor httpContextAccessor
 @{
-    var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+    var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
     var isAdmin = User != null ? User.Roles.Any(r => r == "Admin") : false;
-     var isBasic = User != null ? User.Roles.Any(r => r == "Basic") : false;
+    var isClient = User != null ? User.Roles.Any(r => r == "Client") : false;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -29,31 +29,55 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav me-auto mb-2 mb-md-0">
                         @if (User != null)
-                        {                        
+                        {
 
-                            if(isBasic)
+                            if (isClient)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Product" asp-action="Index">Mant. Productos</a>
+                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Client" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Pagos
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Index">Expreso</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Index">Beneficiarios</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Index">Tarjeta de crédito</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Index">Préstamo</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Client" asp-action="Index">Beneficiario</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Client" asp-action="Index">Avance de efectivo</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Client" asp-action="Index">Transferencia</a>
                                 </li>
                             }
 
-                               if (isAdmin)
+                            if (isAdmin)
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Category" asp-action="Index">Mant. Categorias</a>
-                                </li>
-                            }
-
-                            <li class="nav-item align-content-end">
-                                <a class="nav-link text-white fw-bold" asp-area="" asp-controller="User" asp-action="LogOut">Cerrar session (@(User.UserName))</a>
+                            <li class="nav-item">
+                                <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Administrar Usuarios</a>
+                            </li>
+                            }
+
+                        <li class="nav-item align-content-end">
+                            <a class="nav-link text-white fw-bold" asp-area="" asp-controller="User" asp-action="LogOut">Cerrar session (@(User.UserName))</a>
+                        </li>
                         }
                         else
                         {
-                            <li class="nav-item align-content-end">
-                                <a class="nav-link text-white fw-bold" asp-area="" asp-controller="User" asp-action="Register">Registrate!</a>
-                            </li>
+                        <li class="nav-item align-content-end">
+                            <a class="nav-link text-white fw-bold" asp-area="" asp-controller="User" asp-action="Register">Registrate!</a>
+                        </li>
                         }
                     </ul>
                 </div>

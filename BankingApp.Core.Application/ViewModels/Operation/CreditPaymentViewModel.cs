@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BankingApp.Core.Application.ViewModels.Operation
 {
-    public class ExpressPaymentViewModel
+    public class CreditPaymentViewModel
     {
         public int OriginAccount { get; set; }
-        public int DestinyAccount { get; set; }
+        public int DestinyCard { get; set; }
         public double Amount { get; set; }
         public bool HasError { get; set; }
         public string Error { get; set; }

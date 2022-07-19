@@ -79,5 +79,52 @@ namespace BankingApp.Core.Application.Services
 
             return response;
         }
+
+        public async Task<CreditPaymentViewModel> CreditCardPay(CreditPaymentViewModel vm)
+        {
+            CreditPaymentViewModel response = new()
+            {
+                HasError = false
+            };
+
+            var accountOrigin = await _savingService.GetByIdSaveViewModel(vm.OriginAccount);
+            if (accountOrigin.Balance < vm.Amount)
+            {
+                response.HasError = true;
+                response.Error = $"La cuenta de origen seleccionada no tiene balance suficiente para realizar este pago";
+                return response;
+            }
+
+            var cardDestiny = await _cardService.GetByIdSaveViewModel(vm.DestinyCard);
+
+            cardDestiny.Debit -= vm.Amount;
+            accountOrigin.Balance -= vm.Amount;
+
+            if (cardDestiny.Debit == 0)
+            {
+                cardDestiny.AvailableCredit = cardDestiny.Limit;
+            }
+            if (cardDestiny.Debit < 0)
+            {
+                accountOrigin.Balance += cardDestiny.Debit * -1;
+                cardDestiny.Debit = 0;
+                cardDestiny.AvailableCredit = cardDestiny.Limit;
+            }
+
+            await _cardService.Update(cardDestiny, cardDestiny.Id);
+            await _savingService.Update(accountOrigin, accountOrigin.SavingAccountId);
+
+            SaveViewModelTransaction transaction = new()
+            {
+                OriginAccount = accountOrigin.SavingAccountId,
+                DestinyAccount = cardDestiny.Id,
+                Amount = vm.Amount,
+                TransactionType = "Pay"
+            };
+
+            await _transactionService.Add(transaction);
+
+            return response;
+        }
     }
 }

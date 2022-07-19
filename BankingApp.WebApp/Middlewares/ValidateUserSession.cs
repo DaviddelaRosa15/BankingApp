@@ -16,7 +16,7 @@ namespace BankingApp.WebApp.Middlewares
 
         public bool HasUser()
         {
-            AuthenticationResponse userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+            AuthenticationResponse userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
 
             if (userViewModel == null)
             {
