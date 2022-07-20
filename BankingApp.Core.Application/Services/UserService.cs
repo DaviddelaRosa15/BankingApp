@@ -54,5 +54,24 @@ namespace BankingApp.Core.Application.Services
             ResetPasswordRequest resetRequest = _mapper.Map<ResetPasswordRequest>(vm);
             return await _accountService.ResetPasswordAsync(resetRequest);
         }
+
+        public async Task<AuthenticationResponse> GetUserById(string id)
+        {
+            AuthenticationResponse userResponse = new();
+
+            userResponse = await _accountService.GetUserById(id);
+            
+            if(string.IsNullOrEmpty(userResponse.FirstName) || userResponse == null || !userResponse.IsVerified)
+            {
+                userResponse.HasError = true;
+                userResponse.Error = "This user does not exist or is not with us.";
+
+                return userResponse;
+            }
+
+            return userResponse;
+        }
+
+
     }
 }

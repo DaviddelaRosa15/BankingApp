@@ -30,6 +30,7 @@ namespace BankingApp.Core.Application.Services
             _loanService = loanService;
         }
 
+
         //Método para pago expreso y de beneficiario
         public async Task<ResponsePaymentViewModel> ExpressPay(PaymentViewModel vm)
         {
