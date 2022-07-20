@@ -1,0 +1,194 @@
+﻿@using BankingApp.Core.Application.ViewModels.CreditCard;
+@using BankingApp.Core.Application.ViewModels.Loan;
+@using BankingApp.Core.Application.ViewModels.SavingAccount;
+@using BankingApp.Core.Application.ViewModels.Transactions;
+@using BankingApp.Core.Application.ViewModels.Client;
+@model ClientProductsViewModel
+@{
+    ViewData["Title"] = "Home NetBanking";
+}
+
+
+<div class="row bg-info container-fluid">
+
+    <div class="col-4 text-white">
+
+        <h4 class="h4">
+            Mr/Ms. User Name
+        </h4>
+
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-4">
+        @* Aqui un menu vertical *@
+        <h4>Need Help?</h4>
+        <hr />
+
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Cras justo odio
+                <span class="badge badge-primary badge-pill">14</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Dapibus ac facilisis in
+                <span class="badge badge-primary badge-pill">2</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Morbi leo risus
+                <span class="badge badge-primary badge-pill">1</span>
+            </li>
+        </ul>
+
+    </div>
+
+    <div class="col-8">
+
+        <div class="col-12">
+            @* Collapse Container *@
+            <p class="d-flex justify-content-around p-3">
+                <h3>My Accounts</h3>
+
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    🔽
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    @* CardBody *@
+
+                    @{
+                        foreach (SavingAccountViewModel savingAccount in Model.SavingAccounts.OrderBy(data => data.IsPrincipal))
+                        {
+
+                            <div class="row p-4">
+
+                                <div class="col-8">
+                                    <h6 class="text-secondary">Current Account</h6>
+                                    <p><small>@savingAccount.SavingAccountId</small></p>
+                                </div>
+
+                                <div class="col-2">
+                                    <h4 class="text-success">RD @savingAccount.Balance</h4>
+                                </div>
+
+                                <div class="col-2">
+                                    <p><small>Avaible</small></p>
+                                    <p><small>@savingAccount.Balance</small></p>
+                                </div>
+
+                            </div>
+
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12 mt-4">
+            @* Collapse Container *@
+            <p class="d-flex justify-content-around p-3">
+                <h3>Credit Cards</h3>
+
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    🔽
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    @* CardBody *@
+
+                    @{
+                        if(Model.CreditCards.Count() == 0 || Model.CreditCards == null)
+                        {
+                            <div class="row"> <h6> Contact with any of our administrator or headsquare and open a new one.</h6> </div>
+                        }
+
+                        foreach (CreditCardViewModel creditCard in Model.CreditCards)
+                        {
+
+                            <div class="row p-4">
+
+                                <div class="col-8">
+                                    <h6 class="text-secondary">Current Account</h6>
+                                    <p><small>@creditCard.Id</small></p>
+                                </div>
+
+                                <div class="col-2">
+                                    <h4 class="text-danger">RD -@creditCard.Debit</h4>
+                                </div>
+
+                                <div class="col-2">
+                                    <p><small>Avaible</small></p>
+                                    <p><small>@creditCard.AvailableCredit</small></p>
+                                </div>
+
+                            </div>
+
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12 mt-4">
+            @* Collapse Container *@
+            <p class="d-flex justify-content-around p-3">
+                <h3>Loans</h3>
+
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    🔽
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    @* CardBody *@
+
+                    @{
+
+                        if (Model.Loans.Count() == 0 || Model.Loans == null)
+                        {
+                            <div class="row"> <h6> Contact with any of our administrator or go to our headsquare and start a new one.</h6> </div>
+                        }
+
+                        foreach (LoanViewModel loan in Model.Loans.Where(loan => loan.IsPaid == false).ToList())
+                        {
+
+                            <div class="row p-4">
+
+                                <div class="col-8">
+                                    <h6 class="text-secondary">Loan ID</h6>
+                                    <p><small>@loan.Id</small></p>
+                                </div>
+
+                                <div class="col-2">
+                                    <h4 class="text-danger">RD -@(loan.LoanAmount - loan.AmountPaid)</h4>
+                                </div>
+
+                                <div class="col-2">
+                                    <p><small>Assigned amount</small></p>
+                                    <p><small>@loan.LoanAmount</small></p>
+                                </div>
+
+                            </div>
+
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+
