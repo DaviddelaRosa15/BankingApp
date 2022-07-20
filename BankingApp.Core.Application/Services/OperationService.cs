@@ -101,6 +101,13 @@ namespace BankingApp.Core.Application.Services
             }
 
             var cardDestiny = await _cardService.GetByIdSaveViewModel(vm.DestinyCard);
+            
+            if (cardDestiny.Debit == 0)
+            {
+                response.HasError = true;
+                response.Error = $"Usted está al día con el pago de esta tarjeta";
+                return response;
+            }
 
             cardDestiny.Debit -= vm.Amount;
             accountOrigin.Balance -= vm.Amount;

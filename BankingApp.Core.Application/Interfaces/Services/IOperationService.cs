@@ -15,5 +15,6 @@ namespace BankingApp.Core.Application.Interfaces.Services
         Task<CreditPaymentViewModel> CreditCardPay(CreditPaymentViewModel vm);
         Task<LoanPaymentViewModel> LoanPay(LoanPaymentViewModel vm);
         Task<CashAdvanceViewModel> CashAdvance(CashAdvanceViewModel vm);
+        Task<AccountTransferViewModel> AccountTransfer(AccountTransferViewModel vm);
     }
 }
