@@ -13,8 +13,13 @@ namespace BankingApp.Core.Application.ViewModels.Beneficiary
 
         //Reference Properties
         public string UserId { get; set; }
-        
+        public string BeneficiaryName { get; set; }
+        public string BeneficiaryLastName { get; set; }
         public int SavingAccountId { get; set; }
         public SavingAccountViewModel SavingAccount { get; set; }
+
+        //Validation Properties
+        public bool HasError { get; set; }
+        public string Error { get; set; }
     }
 }
