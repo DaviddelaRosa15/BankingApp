@@ -1,0 +1,137 @@
+﻿@using BankingApp.Core.Application.ViewModels.Beneficiary;
+@model List<BeneficiaryViewModel>
+@{
+    ViewData["Title"] = "Beneficiaries";
+}
+
+
+@{ 
+    if (ViewBag.beneficiaryStatus.HasError && ViewBag.beneficiaryStatus != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error:</strong> @ViewBag.beneficiaryStatus.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+}
+
+
+<div class="row bg-info container-fluid">
+
+    <div class="col-4 text-white">
+
+        <h4 class="h4">
+            Beneficiaries 👋
+        </h4>
+
+    </div>
+
+</div>
+
+
+
+<div class="container">
+
+    <div class="row text-center mb-4">
+
+        <div class="col-3">
+            <h2> My Beneficiaries:</h2>
+        </div>
+
+        <div class="col-3 offset-6">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                New Beneficiary
+            </button>  
+        </div>
+
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <form method="post" asp-controller="Client" asp-action="Beneficiary">
+                        
+                       <div class="form-group">
+                           <label for="exampleInputEmail1">Beneficiary Account</label>
+                           <input type="text"  name="SavingAccountId" class="form-control" aria-describedby="Account" placeholder="Account Number" required>
+                       </div>
+                          
+                       <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+        @{
+
+            if (Model.Count == 0 || Model == null)
+            {
+                <h3 class="text-danger"> There are not beneficiary yet, add a new one! </h3>
+            }
+            else
+            {
+
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Account</th>
+                            <th scope="col">FirstName</th>
+                            <th scope="col">LastName</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0232242421</td>
+                            <td>Otto</td>
+                            <td>Porter Jr</td>
+
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-danger">Unlink</button>
+                                    <button type="button" class="btn btn-close-white">💸</button>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
+
+            }
+
+        }
+
+
+
+
+    </div>
+
+
+
+
+</div>
