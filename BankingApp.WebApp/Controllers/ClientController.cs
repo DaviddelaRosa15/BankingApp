@@ -1,4 +1,6 @@
-﻿using BankingApp.WebApp.Models;
+﻿using BankingApp.Core.Application.Interfaces.Services;
+using BankingApp.Core.Application.ViewModels.Operation;
+using BankingApp.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,15 +14,21 @@ namespace BankingApp.WebApp.Controllers
     public class ClientController : Controller
     {
 
-        public ClientController()
+        private readonly IUserService _userService;
+        private readonly IOperationService _operationService;
+        public ClientController(IUserService userService, IOperationService operationService)
         {
-            
+            this._userService = userService;
+            this._operationService = operationService;
         }
 
         public IActionResult Index()
         {
             return View();
         }
+
+       
+
 
     }
 }

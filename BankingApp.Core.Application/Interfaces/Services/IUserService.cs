@@ -12,5 +12,6 @@ namespace BankingApp.Core.Application.Interfaces.Services
         Task<RegisterResponse> RegisterAsync(SaveUserViewModel vm, string origin);
         Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordViewModel vm);
         Task SignOutAsync();
+        Task<AuthenticationResponse> GetUserById(string id);
     }
 }

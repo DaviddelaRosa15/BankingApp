@@ -8,6 +8,7 @@ namespace BankingApp.Core.Application.ViewModels.Operation
 {
     public class ResponsePaymentViewModel
     {
+        public string DestinyUserId { get; set; }
         public string FullNameOwner { get; set; }
         public int DestinyAccount { get; set; }
         public bool HasError { get; set; }
