@@ -10,6 +10,6 @@ namespace BankingApp.Core.Application.Interfaces.Services
 {
     public interface ICreditCardService : IGenericService<SaveCreditCardViewModel, CreditCardViewModel, CreditCard>
     {
-
+        Task<List<CreditCardViewModel>> GetAllViewModelWithInclude();
     }
 }

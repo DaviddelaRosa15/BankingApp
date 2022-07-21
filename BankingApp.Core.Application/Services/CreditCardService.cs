@@ -18,11 +18,29 @@ namespace BankingApp.Core.Application.Services
     {
         private readonly ICreditCardRepository _creditCardRepository;
         private readonly IMapper _mapper;
+        private readonly AuthenticationResponse userViewModel;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CreditCardService(ICreditCardRepository creditCardRepository, IMapper mapper) : base(creditCardRepository, mapper)
+        public CreditCardService(ICreditCardRepository creditCardRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(creditCardRepository, mapper)
         {
             _creditCardRepository = creditCardRepository;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
+            userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
+        }
+
+        public async Task<List<CreditCardViewModel>> GetAllViewModelWithInclude()
+        {
+            var cardList = await _creditCardRepository.GetAllWithIncludeAsync(new List<string> { });
+
+            return cardList.Where(x => x.UserId == userViewModel.Id).Select(card => new CreditCardViewModel
+            {
+                Id = card.Id,
+                Debit = card.Debit,
+                AvailableCredit = card.AvailableCredit,
+                Limit = card.Limit,
+                UserId = card.UserId
+            }).ToList();
         }
 
     }

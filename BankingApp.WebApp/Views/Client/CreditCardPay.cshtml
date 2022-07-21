@@ -1,7 +1,7 @@
 ﻿@using BankingApp.Core.Application.ViewModels.Operation;
-@model PaymentViewModel
+@model CreditPaymentViewModel
 @{
-    ViewData["Title"] = "Pago expreso";
+    ViewData["Title"] = "Pago de tarjetas";
 }
 
 <div class="container-fluid">
@@ -10,7 +10,7 @@
         <div class="col-8 offset-2">
             <div class="card">
                 <div class="card-header bg-dark text-light">
-                    <h4 class="text-lg-center">Pago expreso</h4>
+                    <h4 class="text-lg-center">Pago de tarjeta de créditos</h4>
                 </div>
                 <div class="card-body">
 
@@ -21,7 +21,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     }
-                    <form method="post" asp-controller="Client" asp-action="ExpressPay">
+                    <form method="post" asp-controller="Client" asp-action="CreditCardPay">
 
                         <div class="mb-3">
                             <label asp-for="OriginAccount" class="form-label">Cuenta a debitar: </label>
@@ -33,15 +33,18 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Amount" class="form-label">Monto a pagar: </label>
-                            <input asp-for="Amount" class="form-control" />
-                            <span asp-validation-for="Amount" class="text-danger text-lg-center"></span>
+                            <label asp-for="DestinyCard" class="form-label">Cuenta a debitar: </label>
+                            <select asp-for="DestinyCard" asp-items="@(new SelectList(Model.CardsOwn,"Id","Id"))" class="form-select">
+                                <option value="0">Seleccione una opcion</option>
+
+                            </select>
+                            <span asp-validation-for="DestinyCard" class="text-danger text-lg-center"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="DestinyAccount" class="form-label">Cuenta a depositar: </label>
-                            <input asp-for="DestinyAccount" class="form-control" />
-                            <span asp-validation-for="DestinyAccount" class="text-danger text-lg-center"></span>
+                            <label asp-for="Amount" class="form-label">Monto a pagar: </label>
+                            <input asp-for="Amount" class="form-control" />
+                            <span asp-validation-for="Amount" class="text-danger text-lg-center"></span>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Pagar</button>
@@ -52,5 +55,4 @@
         </div>
     </div>
 </div>
-
 
