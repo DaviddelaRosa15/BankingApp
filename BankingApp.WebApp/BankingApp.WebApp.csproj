@@ -40,7 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Client\" />
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
