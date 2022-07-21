@@ -1,0 +1,56 @@
+﻿@using BankingApp.Core.Application.ViewModels.Operation;
+@model PaymentViewModel
+@{
+    ViewData["Title"] = "Pago Beneficiario";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-8 offset-2">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h4>Pago Beneficiario</h4>
+                </div>
+                <div class="card-body">
+
+                    @if (Model.HasError)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <p>@Model.Error</p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    <form method="post" asp-controller="Client" asp-action="BeneficiaryPay">
+
+                        <div class="mb-3">
+                            <label asp-for="OriginAccount" class="form-label">Cuenta a debitar: </label>
+                            <select asp-for="OriginAccount" asp-items="@(new SelectList(Model.AccountsOwn,"OriginAccount","OriginAccount"))" class="form-select">
+                                <option value="0">Seleccione una opcion</option>
+
+                            </select>
+                            <span asp-validation-for="OriginAccount" class="text-danger text-lg-center"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Amount" class="form-label">Monto a pagar: </label>
+                            <input asp-for="Amount" class="form-control" />
+                            <span asp-validation-for="Amount" class="text-danger text-lg-center"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="DestinyAccount" class="form-label">Cuenta a depositar: </label>
+                            <input asp-for="DestinyAccount" class="form-control" />
+                            <span asp-validation-for="DestinyAccount" class="text-danger text-lg-center"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Pagar</button>
+                        <a asp-controller="Client" asp-action="Index" class="btn btn-warning">Volver a inicio</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
