@@ -17,22 +17,22 @@ namespace BankingApp.Core.Application.Services
         private readonly ISavingAccountService _savingService;
         private readonly ICreditCardService _cardService;
         private readonly ITransactionService _transactionService;
-        private readonly IAccountService _accountService;
+        private readonly IUserService _userService;
         private readonly ILoanService _loanService;
 
         public OperationService(ISavingAccountService savingService, ICreditCardService cardService,
-            ITransactionService transactionService, IAccountService accountService, ILoanService loanService)
+            ITransactionService transactionService, IUserService userService, ILoanService loanService)
         {
             _savingService = savingService;
             _cardService = cardService;
             _transactionService = transactionService;
-            _accountService = accountService;
+            _userService = userService;
             _loanService = loanService;
         }
 
 
-        //Método para pago expreso y de beneficiario
-        public async Task<ResponsePaymentViewModel> ExpressPay(PaymentViewModel vm)
+        //Métodos para pago expreso y de beneficiario
+        public async Task<ResponsePaymentViewModel> PayValidation(PaymentViewModel vm)
         {
             ResponsePaymentViewModel response = new()
             {
@@ -62,29 +62,34 @@ namespace BankingApp.Core.Application.Services
                 return response;
             }
 
-            accountOrigin.Balance -= vm.Amount;
-            await _savingService.Update(accountOrigin, accountOrigin.SavingAccountId);
+            AuthenticationResponse user = await _userService.GetUserById(accountDestiny.UserId);
+            response.FullNameOwner = user.FirstName + " " + user.LastName;
+            response.OriginAccount = accountOrigin;
+            response.DestinyAccount = accountDestiny;
+            response.Amount = vm.Amount;
 
-            accountDestiny.Balance += vm.Amount;
-            await _savingService.Update(accountDestiny, accountDestiny.SavingAccountId);
+            return response;
+        }
+
+        public async Task Pay(ResponsePaymentViewModel vm)
+        {
+            vm.OriginAccount.Balance -= vm.Amount;
+            await _savingService.Update(vm.OriginAccount, vm.OriginAccount.SavingAccountId);
+
+            vm.DestinyAccount.Balance += vm.Amount;
+            await _savingService.Update(vm.DestinyAccount, vm.DestinyAccount.SavingAccountId);
 
             SaveViewModelTransaction transaction = new()
             {
-                OriginAccount = accountOrigin.SavingAccountId,
-                DestinyAccount = accountDestiny.SavingAccountId,
+                OriginAccount = vm.OriginAccount.SavingAccountId,
+                DestinyAccount = vm.DestinyAccount.SavingAccountId,
                 Amount = vm.Amount,
                 TransactionType = "Transaction"
             };
 
             await _transactionService.Add(transaction);
 
-            AuthenticationResponse user = await _accountService.GetUserById(accountDestiny.UserId);
-            response.FullNameOwner = user.FirstName + " " + user.LastName;
-            response.DestinyAccount = accountDestiny.SavingAccountId;
-
-            return response;
         }
-
         //Método para pago de tarjeta de crédito
         public async Task<CreditPaymentViewModel> CreditCardPay(CreditPaymentViewModel vm)
         {
@@ -102,7 +107,7 @@ namespace BankingApp.Core.Application.Services
             }
 
             var cardDestiny = await _cardService.GetByIdSaveViewModel(vm.DestinyCard);
-            
+
             if (cardDestiny.Debit == 0)
             {
                 response.HasError = true;

@@ -57,19 +57,7 @@ namespace BankingApp.Core.Application.Services
 
         public async Task<AuthenticationResponse> GetUserById(string id)
         {
-            AuthenticationResponse userResponse = new();
-
-            userResponse = await _accountService.GetUserById(id);
-            
-            if(string.IsNullOrEmpty(userResponse.FirstName) || userResponse == null || !userResponse.IsVerified)
-            {
-                userResponse.HasError = true;
-                userResponse.Error = "This user does not exist or is not with us.";
-
-                return userResponse;
-            }
-
-            return userResponse;
+            return await _accountService.GetUserById(id);
         }
 
 

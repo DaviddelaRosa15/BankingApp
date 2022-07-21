@@ -17,16 +17,12 @@ namespace BankingApp.Core.Application.Services
     public class CreditCardService : GenericService<SaveCreditCardViewModel, CreditCardViewModel, CreditCard>, ICreditCardService
     {
         private readonly ICreditCardRepository _creditCardRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
-        private readonly AuthenticationResponse userViewModel;
 
-        public CreditCardService(ICreditCardRepository creditCardRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(creditCardRepository, mapper)
+        public CreditCardService(ICreditCardRepository creditCardRepository, IMapper mapper) : base(creditCardRepository, mapper)
         {
             _creditCardRepository = creditCardRepository;
-            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
-            this.userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
 
     }

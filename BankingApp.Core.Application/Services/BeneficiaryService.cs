@@ -19,16 +19,12 @@ namespace BankingApp.Core.Application.Services
 
         private readonly IBeneficiaryRepository _beneficiaryRepository;
         private readonly IMapper _mapper;
-        private readonly AuthenticationResponse _userViewModel;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BeneficiaryService(IBeneficiaryRepository beneficiaryRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor, AuthenticationResponse userViewModel)
+        public BeneficiaryService(IBeneficiaryRepository beneficiaryRepository, IMapper mapper)
         : base(beneficiaryRepository, mapper)
         {
             _beneficiaryRepository = beneficiaryRepository;
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
-            this._userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
 
         public async Task<List<BeneficiaryViewModel>> GetAllViewModelWithInclude()

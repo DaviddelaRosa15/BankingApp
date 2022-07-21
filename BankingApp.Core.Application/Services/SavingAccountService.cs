@@ -14,20 +14,20 @@ using System.Threading.Tasks;
 
 namespace BankingApp.Core.Application.Services
 {
-    public class SavingAccountService : GenericService<SaveVM_SavingAccount,SavingAccountViewModel,SavingAccount>, ISavingAccountService
+    public class SavingAccountService : GenericService<SaveVM_SavingAccount, SavingAccountViewModel, SavingAccount>, ISavingAccountService
     {
         private readonly ISavingAccountRepository _accountRepository;
         private readonly IMapper _mapper;
-        private readonly AuthenticationResponse _userViewModel;
+        private readonly AuthenticationResponse userViewModel;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SavingAccountService(ISavingAccountRepository accountRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor, AuthenticationResponse userViewModel)
-        :base(accountRepository, mapper)
+        public SavingAccountService(ISavingAccountRepository accountRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        : base(accountRepository, mapper)
         {
             _accountRepository = accountRepository;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
-            this._userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
+            userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
 
         public async Task<SaveVM_SavingAccount> GetPrincipalByUserId(string id)
@@ -36,7 +36,8 @@ namespace BankingApp.Core.Application.Services
 
             SaveVM_SavingAccount save = new();
 
-            foreach(var item in accountList.Where(a => a.UserId == id && a.IsPrincipal == true)){
+            foreach (var item in accountList.Where(a => a.UserId == id && a.IsPrincipal == true))
+            {
                 save.SavingAccountId = item.Id;
                 save.Balance = item.Balance;
                 save.UserId = item.UserId;
@@ -46,5 +47,17 @@ namespace BankingApp.Core.Application.Services
             return save;
         }
 
+        public async Task<List<SavingAccountViewModel>> GetAllViewModelWithInclude()
+        {
+            var accountList = await _accountRepository.GetAllWithIncludeAsync(new List<string> { });
+
+            return accountList.Where(x => x.UserId == userViewModel.Id).Select(account => new SavingAccountViewModel
+            {
+                SavingAccountId = account.Id,
+                Balance = account.Balance,
+                UserId = account.UserId,
+                IsPrincipal = account.IsPrincipal
+            }).ToList();
+        }
     }
 }

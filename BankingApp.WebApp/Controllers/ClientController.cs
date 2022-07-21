@@ -1,4 +1,4 @@
-﻿using BankingApp.Core.Application.Dtos.Account;
+using BankingApp.Core.Application.Dtos.Account;
 using BankingApp.Core.Application.Enums;
 using BankingApp.Core.Application.Helpers;
 using BankingApp.Core.Application.Interfaces.Services;
@@ -31,6 +31,7 @@ namespace BankingApp.WebApp.Controllers
         private readonly ILoanService _loanService;
         private readonly ISavingAccountService _savingAccountService;
         private readonly IBeneficiaryService _beneficiaryService;
+        
         public ClientController(IUserService userService, IOperationService operationService, IHttpContextAccessor httpContextAccessor,
             ICreditCardService creditCardService, ILoanService loanService, ISavingAccountService savingAccountService, IBeneficiaryService beneficiaryService)
         {
@@ -42,6 +43,7 @@ namespace BankingApp.WebApp.Controllers
             this._loanService = loanService;
             this._savingAccountService = savingAccountService;
             this._beneficiaryService = beneficiaryService;
+
         }
 
         public async Task<IActionResult> Index()
@@ -126,7 +128,40 @@ namespace BankingApp.WebApp.Controllers
         }
 
 
+        public async Task<IActionResult> ExpressPay()
+        {
+            PaymentViewModel model = new();
+            model.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ExpressPay(PaymentViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                vm.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
+                return View(vm);
+            }
+
+            ResponsePaymentViewModel model = await _operationService.PayValidation(vm);
 
 
+            if (model.HasError)
+            {
+                vm.HasError = true;
+                vm.Error = model.Error;
+                vm.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
+                return View(vm);
+            }
+
+            return View("ConfirmExpressPay", model);
+        }
+
+        public async Task<IActionResult> MakeExpressPay(ResponsePaymentViewModel vm)
+        {
+            await _operationService.Pay(vm);
+            return RedirectToRoute(new { controller = "Client", action = "Index"});
+        }
     }
 }
