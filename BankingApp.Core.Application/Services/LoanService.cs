@@ -17,18 +17,14 @@ namespace BankingApp.Core.Application.Services
     public class LoanService : GenericService<SaveLoanViewModel, LoanViewModel, Loan>, ILoanService
     {
         private readonly ILoanRepository _loanRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
-        private readonly AuthenticationResponse _userViewModel;
         private readonly ISavingAccountService _savingService;
 
         public LoanService(ILoanRepository loanRepository, IMapper mapper,
-            IHttpContextAccessor httpContextAccessor, ISavingAccountService savingService) : base(loanRepository, mapper)
+            ISavingAccountService savingService) : base(loanRepository, mapper)
         {
             _loanRepository = loanRepository;
-            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
-            this._userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
             _savingService = savingService;
         }
 

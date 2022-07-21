@@ -17,17 +17,13 @@ namespace BankingApp.Core.Application.Services
     public class TransactionService : GenericService<SaveViewModelTransaction, TransactionViewModel, Transaction>, ITransactionService
     {
         private readonly ITransactionRepository _transactionRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
-        private readonly AuthenticationResponse _userViewModel;
 
-        public TransactionService(ITransactionRepository transactionRepository,IMapper mapper, IHttpContextAccessor httpContextAccessor, AuthenticationResponse userViewModel)
-        :base(transactionRepository, mapper)
+        public TransactionService(ITransactionRepository transactionRepository, IMapper mapper)
+        : base(transactionRepository, mapper)
         {
-            this._transactionRepository = transactionRepository;
-            this._httpContextAccessor = httpContextAccessor;
-            this._mapper = mapper;
-            this._userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
+            _transactionRepository = transactionRepository;
+            _mapper = mapper;
         }
 
         //public override async Task<SaveViewModelTransaction> Add(SaveViewModelTransaction vm)

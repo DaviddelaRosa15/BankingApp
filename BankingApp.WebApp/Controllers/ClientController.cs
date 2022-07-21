@@ -16,10 +16,12 @@ namespace BankingApp.WebApp.Controllers
 
         private readonly IUserService _userService;
         private readonly IOperationService _operationService;
-        public ClientController(IUserService userService, IOperationService operationService)
+        private readonly ISavingAccountService _savingService;
+        public ClientController(IUserService userService, IOperationService operationService, ISavingAccountService savingService)
         {
-            this._userService = userService;
-            this._operationService = operationService;
+            _userService = userService;
+            _operationService = operationService;
+            _savingService = savingService;
         }
 
         public IActionResult Index()
@@ -27,8 +29,39 @@ namespace BankingApp.WebApp.Controllers
             return View();
         }
 
-       
+        public async Task<IActionResult> ExpressPay()
+        {
+            PaymentViewModel model = new();
+            model.AccountsOwn = await _savingService.GetAllViewModelWithInclude();
+            return View(model);
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> ExpressPay(PaymentViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                vm.AccountsOwn = await _savingService.GetAllViewModelWithInclude();
+                return View(vm);
+            }
 
+            ResponsePaymentViewModel model = await _operationService.PayValidation(vm);
+
+            if (model.HasError)
+            {
+                vm.HasError = true;
+                vm.Error = model.Error;
+                vm.AccountsOwn = await _savingService.GetAllViewModelWithInclude();
+                return View(vm);
+            }
+
+            return View("ConfirmExpressPay", model);
+        }
+
+        public async Task<IActionResult> MakeExpressPay(ResponsePaymentViewModel vm)
+        {
+            await _operationService.Pay(vm);
+            return RedirectToRoute(new { controller = "Client", action = "Index"});
+        }
     }
 }

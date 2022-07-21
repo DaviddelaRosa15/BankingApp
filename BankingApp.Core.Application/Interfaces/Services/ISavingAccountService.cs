@@ -11,5 +11,6 @@ namespace BankingApp.Core.Application.Interfaces.Services
     public interface ISavingAccountService : IGenericService<SaveVM_SavingAccount,SavingAccountViewModel,SavingAccount>
     {
         Task<SaveVM_SavingAccount> GetPrincipalByUserId(string id);
+        Task<List<SavingAccountViewModel>> GetAllViewModelWithInclude();
     }
 }

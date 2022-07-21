@@ -5,7 +5,7 @@
 @inject IHttpContextAccessor httpContextAccessor
 @{
     var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
-    var isAdmin = User != null ? User.Roles.Any(r => r == "Admin") : false;
+    var isAdmin = User != null ? User.Roles.Any(r => r == "Administrator") : false;
     var isClient = User != null ? User.Roles.Any(r => r == "Client") : false;
 }
 <!DOCTYPE html>
@@ -37,11 +37,11 @@
                                     <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Client" asp-action="Index">Home</a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle text-white fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Pagos
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Index">Expreso</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="ExpressPay">Expreso</a></li>
                                         <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Index">Beneficiarios</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Index">Tarjeta de crédito</a></li>
@@ -71,12 +71,6 @@
 
                         <li class="nav-item align-content-end">
                             <a class="nav-link text-white fw-bold" asp-area="" asp-controller="User" asp-action="LogOut">Cerrar session (@(User.UserName))</a>
-                        </li>
-                        }
-                        else
-                        {
-                        <li class="nav-item align-content-end">
-                            <a class="nav-link text-white fw-bold" asp-area="" asp-controller="User" asp-action="Register">Registrate!</a>
                         </li>
                         }
                     </ul>
