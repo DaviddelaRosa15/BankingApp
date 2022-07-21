@@ -18,7 +18,7 @@ namespace BankingApp.WebApp
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            using(var scope = host.Services.CreateScope())
+            using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
 
@@ -31,7 +31,7 @@ namespace BankingApp.WebApp
                     await DefaultAdministratorUser.SeedAsync(userManager, roleManager);
                     await DefaultClientUser.SeedAsync(userManager, roleManager);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }
