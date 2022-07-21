@@ -13,13 +13,13 @@
             </div>
             <div class="card-body">
 
-                <form method="post" asp-controller="Client" asp-action="MakeExpressPay">
+                <form method="post" asp-controller="Client" asp-action="ProcessPayment">
 
                     <input type="hidden" asp-for="OriginAccount" />
                     <input type="hidden" asp-for="DestinyAccount" />
                     <input type="hidden" asp-for="Amount" />
 
-                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <button type="submit" class="btn btn-success">Realizar Pago</button>
                     <a asp-controller="Client" asp-action="Index" class="btn btn-warning">Cancelar</a>
 
                 </form>
