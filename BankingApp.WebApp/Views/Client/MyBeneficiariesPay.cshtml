@@ -1,0 +1,90 @@
+﻿@using BankingApp.Core.Application.ViewModels.Beneficiary;
+@model List<BeneficiaryViewModel>
+@{
+    ViewData["Title"] = "Beneficiaries Payments";
+}
+
+
+
+<div class="row bg-info container-fluid">
+
+    <div class="col-4 text-white">
+
+        <h4 class="h4">
+            Beneficiaries Payments 💸💸💸
+        </h4>
+
+    </div>
+
+</div>
+
+
+
+<div class="container">
+
+    <div class="row text-start mb-4">
+
+        <div class="col-12">
+            <h2> My Beneficiaries:</h2>
+        </div>
+
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+        @{
+
+            if (Model.Count == 0 || Model == null)
+            {
+                <h3 class="text-danger"> There are not beneficiary yet, add a new one! </h3>
+            }
+            else
+            {
+
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Account</th>
+                            <th scope="col">FirstName</th>
+                            <th scope="col">LastName</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{
+                            foreach (BeneficiaryViewModel beneficiary in Model)
+                            {
+                                <tr>
+                                    
+                                    <td>@beneficiary.SavingAccountId</td>
+                                    <td>@beneficiary.BeneficiaryName</td>
+                                    <td>@beneficiary.BeneficiaryLastName</td>
+
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <a asp-controller="Client" asp-action="BeneficiaryPay" asp-route-id="@beneficiary.SavingAccountId" class="btn btn-close-white">Depositar 💸</a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+
+
+            }
+
+        }
+
+
+
+
+    </div>
+
+
+
+
+</div>

@@ -55,7 +55,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">My Beneficiaries:</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -104,19 +104,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>0232242421</td>
-                            <td>Otto</td>
-                            <td>Porter Jr</td>
+                        
+                        @{ 
+                            foreach (BeneficiaryViewModel beneficiary in Model) {
+                                <tr> Si se requiere algo mas estetico, esto podrian ser un formulario y enviar la data por POST. 
+                                    <td>@beneficiary.SavingAccountId</td>
+                                    <td>@beneficiary.BeneficiaryName</td>
+                                    <td>@beneficiary.BeneficiaryLastName</td>
 
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-danger">Unlink</button>
-                                    <button type="button" class="btn btn-close-white">💸</button>
-                                </div>
-                            </td>
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <a  asp-controller="Client" asp-action="BeneficiaryDelete" asp-route-id="@beneficiary.Id" class="btn btn-danger">🗑️</a> @*Confirmacion de cuenta antes de borrarla*@
+                                            <a asp-controller="Client" asp-action="PayBeneficiary" asp-route-id="@beneficiary.SavingAccountId" class="btn btn-close-white">💸</a>
+                                        </div>
+                                    </td>
 
-                        </tr>
+                                </tr>
+                            }
+                        }
 
                     </tbody>
                 </table>

@@ -1,0 +1,44 @@
+﻿@using BankingApp.Core.Application.ViewModels.Beneficiary;
+@model BeneficiaryViewModel
+@{
+    ViewData["Title"] = "Confirmar eliminacion de beneficiario.";
+}
+
+<div class="row">
+
+    <div class="col-6 offset-3">
+        <div class="card">
+            
+            @{
+                if (!Model.HasError) { 
+                    <div class="card-header bg-danger text-light">
+                        <h4>¿Está seguro que quiere eliminar a @Model.BeneficiaryName @Model.BeneficiaryLastName con cuenta @Model.SavingAccountId de sus beneficiarios?</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <form method="post" asp-controller="Client" asp-action="BeneficiaryDelete">
+
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="SavingAccountId" />
+                            <input type="hidden" asp-for="UserId" />
+
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <a asp-controller="Client" asp-action="MyBeneficiaries" class="btn btn-warning">Cancelar</a>
+
+                        </form>
+                    </div>
+                }else{
+                    
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error:</strong> @Model.Error
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+</div>
