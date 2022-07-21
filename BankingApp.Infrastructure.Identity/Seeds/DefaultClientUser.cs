@@ -13,7 +13,6 @@ namespace BankingApp.Infrastructure.Identity.Seeds
 {
     public static class DefaultClientUser
     {
-        private static readonly ISavingAccountService _savingAccountService;
         public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ISavingAccountService savingAccountService)
         {
             ApplicationUser defaultUser = new();
@@ -31,7 +30,7 @@ namespace BankingApp.Infrastructure.Identity.Seeds
                 {
                     await userManager.CreateAsync(defaultUser, "123Pa$$word!");
                     await userManager.AddToRoleAsync(defaultUser, Roles.Client.ToString());
-                    await _savingAccountService.Add(new SaveVM_SavingAccount() { 
+                    await savingAccountService.Add(new SaveVM_SavingAccount() { 
                         Balance = 0.00,
                         IsPrincipal = true,
                         UserId = defaultUser.Id

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BankingApp.Core.Application.Interfaces.Services;
 
 namespace BankingApp.WebApp
 {
@@ -26,10 +27,11 @@ namespace BankingApp.WebApp
                 {
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    var accountService = services.GetRequiredService<ISavingAccountService>();
 
                     await DefaultRoles.SeedAsync(userManager, roleManager);
                     await DefaultAdministratorUser.SeedAsync(userManager, roleManager);
-                    await DefaultClientUser.SeedAsync(userManager, roleManager);
+                    await DefaultClientUser.SeedAsync(userManager, roleManager, accountService);
                 }
                 catch (Exception ex)
                 {
