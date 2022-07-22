@@ -49,7 +49,7 @@ namespace BankingApp.Core.Application.Services
 
         public async Task<List<SavingAccountViewModel>> GetAllViewModelWithInclude()
         {
-            var accountList = await _accountRepository.GetAllWithIncludeAsync(new List<string> { });
+            var accountList = await _accountRepository.GetAllWithIncludeAsync(new List<string>(){ "beneficiaries" });
 
             return accountList.Where(x => x.UserId == userViewModel.Id).Select(account => new SavingAccountViewModel
             {

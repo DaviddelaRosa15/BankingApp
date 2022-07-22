@@ -27,11 +27,10 @@ namespace BankingApp.WebApp
                 {
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    //var accountService = services.GetRequiredService<ISavingAccountService>();
-
+                    
                     await DefaultRoles.SeedAsync(userManager, roleManager);
                     await DefaultAdministratorUser.SeedAsync(userManager, roleManager);
-                    await DefaultClientUser.SeedAsync(userManager, roleManager/*, accountService*/);
+                    await DefaultClientUser.SeedAsync(userManager, roleManager);
                 }
                 catch (Exception ex)
                 {

@@ -65,15 +65,6 @@ namespace BankingApp.WebApp.Controllers
         public async Task<IActionResult> MyBeneficiaries()
         {
             List<BeneficiaryViewModel> beneficiaries = await _beneficiaryService.GetAllViewModelWithInclude();
-
-            beneficiaries = beneficiaries.Select(ben => new BeneficiaryViewModel()
-            {
-                BeneficiaryName = _userService.GetUserById(ben.SavingAccount.UserId).Result.FirstName,
-                BeneficiaryLastName = _userService.GetUserById(ben.SavingAccount.UserId).Result.LastName,
-                Id = ben.Id,
-                SavingAccountId = ben.SavingAccountId
-            }).ToList();
-
             return View(viewName: "MyBeneficiary", model: beneficiaries);
         }
 
@@ -171,14 +162,6 @@ namespace BankingApp.WebApp.Controllers
         public async Task<IActionResult> MyBeneficiariesPay()
         {
             List<BeneficiaryViewModel> beneficiaries = await _beneficiaryService.GetAllViewModelWithInclude();
-
-            beneficiaries = beneficiaries.Select(ben => new BeneficiaryViewModel()
-            {
-                BeneficiaryName = _userService.GetUserById(ben.SavingAccount.UserId).Result.FirstName,
-                BeneficiaryLastName = _userService.GetUserById(ben.SavingAccount.UserId).Result.LastName,
-                Id = ben.Id,
-                SavingAccountId = ben.SavingAccountId
-            }).ToList();
 
             return View(viewName: "MyBeneficiariesPay", model: beneficiaries);
         }

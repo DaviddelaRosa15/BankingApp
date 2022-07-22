@@ -96,6 +96,7 @@ namespace BankingApp.Infrastructure.Identity.Services
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
+                CardIdentification = request.CardIdentification,
                 UserName = request.UserName
             };
 
@@ -179,6 +180,7 @@ namespace BankingApp.Infrastructure.Identity.Services
                 UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                CardIdentification = user.CardIdentification,
                 Email = user.Email
             };
             return response;

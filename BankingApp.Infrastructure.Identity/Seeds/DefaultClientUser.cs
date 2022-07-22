@@ -20,7 +20,7 @@ namespace BankingApp.Infrastructure.Identity.Seeds
             defaultUser.Email = "default_user@email.com";
             defaultUser.FirstName = "John";
             defaultUser.LastName = "Doe";
-            defaultUser.CardIdentification = 40211711281;
+            defaultUser.CardIdentification = 40211711;
             defaultUser.EmailConfirmed = true;
             defaultUser.PhoneNumberConfirmed = true;
 
