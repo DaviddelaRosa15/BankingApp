@@ -13,13 +13,14 @@ namespace BankingApp.Infrastructure.Identity.Seeds
 {
     public static class DefaultClientUser
     {
-        public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ISavingAccountService savingAccountService)
+        public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager/*, ISavingAccountService savingAccountService*/)
         {
             ApplicationUser defaultUser = new();
             defaultUser.UserName = "defaultUser";
             defaultUser.Email = "default_user@email.com";
             defaultUser.FirstName = "John";
             defaultUser.LastName = "Doe";
+            defaultUser.CardIdentification = 40211711281;
             defaultUser.EmailConfirmed = true;
             defaultUser.PhoneNumberConfirmed = true;
 
@@ -30,11 +31,6 @@ namespace BankingApp.Infrastructure.Identity.Seeds
                 {
                     await userManager.CreateAsync(defaultUser, "123Pa$$word!");
                     await userManager.AddToRoleAsync(defaultUser, Roles.Client.ToString());
-                    await savingAccountService.Add(new SaveVM_SavingAccount() { 
-                        Balance = 0.00,
-                        IsPrincipal = true,
-                        UserId = defaultUser.Id
-                    });
                 }
             }
          

@@ -29,7 +29,7 @@ namespace BankingApp.Infrastructure.Persistence.Contexts
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.Id = int.Parse(DateTime.UtcNow.Ticks.ToString().Substring(9));
+                        entry.Entity.Id = int.Parse(DateTime.UtcNow.Ticks.ToString().Substring(8, 9));
                         entry.Entity.Created = DateTime.Now;
                         entry.Entity.CreatedBy = "DefaultAppUser";
                         break;

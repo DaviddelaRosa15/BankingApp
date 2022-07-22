@@ -62,7 +62,7 @@
                 </div>
                 <div class="modal-body">
                     
-                    <form method="post" asp-controller="Client" asp-action="Beneficiary">
+                    <form method="post" asp-controller="Client" asp-action="MyBeneficiaries">
                         
                        <div class="form-group">
                            <label for="exampleInputEmail1">Beneficiary Account</label>
@@ -115,7 +115,6 @@
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
                                             <a  asp-controller="Client" asp-action="BeneficiaryDelete" asp-route-id="@beneficiary.Id" class="btn btn-danger">🗑️</a> @*Confirmacion de cuenta antes de borrarla*@
-                                            <a asp-controller="Client" asp-action="PayBeneficiary" asp-route-id="@beneficiary.SavingAccountId" class="btn btn-close-white">💸</a>
                                         </div>
                                     </td>
 

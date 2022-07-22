@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿    @using Microsoft.AspNetCore.Http
 @using BankingApp.Core.Application.Dtos.Account
 @using BankingApp.Core.Application.Helpers;
 @using BankingApp.Core.Application.ViewModels.User
@@ -42,14 +42,14 @@
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="ExpressPay">Expreso</a></li>
-                                        <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Index">Beneficiarios</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="MyBeneficiariesPay">Beneficiarios</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="CreditCardPay">Tarjeta de crédito</a></li>
                                         <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Index">Préstamo</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Client" asp-action="Index">Beneficiario</a>
+                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Client" asp-action="MyBeneficiaries">Beneficiario</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Client" asp-action="Index">Avance de efectivo</a>

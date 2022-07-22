@@ -26,7 +26,7 @@ namespace BankingApp.Core.Application.Services
             _creditCardRepository = creditCardRepository;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
-            userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
+            userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
 
         public async Task<List<CreditCardViewModel>> GetAllViewModelWithInclude()

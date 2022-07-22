@@ -27,7 +27,7 @@ namespace BankingApp.Core.Application.Services
             _accountRepository = accountRepository;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
-            userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
+            userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
 
         public async Task<SaveVM_SavingAccount> GetPrincipalByUserId(string id)

@@ -25,7 +25,7 @@
 
                         <div class="mb-3">
                             <label asp-for="OriginAccount" class="form-label">Cuenta a debitar: </label>
-                            <select asp-for="OriginAccount" asp-items="@(new SelectList(Model.AccountsOwn,"Id","Id"))" class="form-select">
+                            <select asp-for="OriginAccount" asp-items="@(new SelectList(Model.AccountsOwn,"SavingAccountId","SavingAccountId"))" class="form-select">
                                 <option value="0">Seleccione una opcion</option>
 
                             </select>

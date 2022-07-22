@@ -18,6 +18,7 @@ namespace BankingApp.Infrastructure.Identity.Seeds
             defaultUserAdmin.Email = "adminuser@email.com";
             defaultUserAdmin.FirstName = "Juan";
             defaultUserAdmin.LastName = "Box";
+            defaultUserAdmin.CardIdentification = 40219111281;
             defaultUserAdmin.EmailConfirmed = true;
             defaultUserAdmin.PhoneNumberConfirmed = true;
 

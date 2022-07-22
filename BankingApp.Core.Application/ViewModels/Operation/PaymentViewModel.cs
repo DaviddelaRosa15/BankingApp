@@ -12,8 +12,9 @@ namespace BankingApp.Core.Application.ViewModels.Operation
     {
         [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar la cuenta a la que se le va a debitar el monto")]
         public int OriginAccount { get; set; }
-
+        
         [Required(ErrorMessage = "Debe colocar la cuenta a la que se va a pagar")]
+        [RegularExpression("^[0-9]{9}$", ErrorMessage = "Debe colocar una cuenta válida")]
         [DataType(DataType.Text)]
         public int DestinyAccount { get; set; }
         public List<SavingAccountViewModel> AccountsOwn { get; set; }
