@@ -1,0 +1,55 @@
+﻿@using BankingApp.Core.Application.Interfaces.Services
+@using BankingApp.Core.Application.ViewModels.Operation;
+@model LoanPaymentViewModel
+@{
+    ViewData["Title"] = "Pago de prestamos";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-8 offset-2">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h4 class="text-lg-center">Pago de Prestamo @Model.DestinyLoan</h4>
+                </div>
+                <div class="card-body">
+
+                    @if (Model.HasError)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <p>@Model.Error</p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    <form method="post" asp-controller="Client" asp-action="MakeLoanPay">
+
+                        <div class="mb-3">
+                            <label asp-for="OriginAccount" class="form-label">Cuenta a debitar: </label>
+                            <select asp-for="OriginAccount" asp-items="@(new SelectList(Model.AccountsOwn,"SavingAccountId","SavingAccountId"))" class="form-select">
+                                <option value="0">Seleccione una opcion</option>
+
+                            </select>
+                            <span asp-validation-for="OriginAccount" class="text-danger text-lg-center"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="DestinyLoan" class="form-label">Cuenta a debitar: </label>
+                            <input asp-for="DestinyLoan" class="form-control"  readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Share" class="form-label">Monto a pagar: </label>
+                            <input asp-for="Share" class="form-control"readonly />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Pagar</button>
+                        <a asp-controller="Client" asp-action="Index" class="btn btn-warning">Volver a inicio</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

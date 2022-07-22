@@ -1,4 +1,5 @@
-﻿using BankingApp.Core.Application.Dtos.Account;
+﻿using AutoMapper;
+using BankingApp.Core.Application.Dtos.Account;
 using BankingApp.Core.Application.Enums;
 using BankingApp.Core.Application.Helpers;
 using BankingApp.Core.Application.Interfaces.Services;
@@ -30,9 +31,11 @@ namespace BankingApp.WebApp.Controllers
         private readonly ILoanService _loanService;
         private readonly ISavingAccountService _savingAccountService;
         private readonly IBeneficiaryService _beneficiaryService;
+        private readonly IMapper _mapper;
 
         public ClientController(IUserService userService, IOperationService operationService, IHttpContextAccessor httpContextAccessor,
-            ICreditCardService creditCardService, ILoanService loanService, ISavingAccountService savingAccountService, IBeneficiaryService beneficiaryService)
+            ICreditCardService creditCardService, ILoanService loanService, ISavingAccountService savingAccountService,
+            IBeneficiaryService beneficiaryService, IMapper mapper)
         {
             _userService = userService;
             _operationService = operationService;
@@ -42,6 +45,7 @@ namespace BankingApp.WebApp.Controllers
             _loanService = loanService;
             _savingAccountService = savingAccountService;
             _beneficiaryService = beneficiaryService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -277,6 +281,49 @@ namespace BankingApp.WebApp.Controllers
                 vm.Error = model.Error;
                 vm.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
                 vm.CardsOwn = await _creditCardService.GetAllViewModelWithInclude();
+                return View(vm);
+            }
+
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
+        }
+
+        #endregion
+
+        #region Pago de prestamos
+        public async Task<IActionResult> LoanPay()
+        {
+            var loans = await _loanService.GetAllViewModelWithInclude();
+
+            return View(loans);
+        }
+        public async Task<IActionResult> MakeLoanPay(int loanId)
+        {
+            var loan = await _loanService.GetByIdSaveViewModel(loanId);
+            LoanPaymentViewModel model = new()
+            {
+                AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude(),
+                Share = loan.Share,
+                DestinyLoan = loan.Id
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MakeLoanPay(LoanPaymentViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                vm.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
+                return View(vm);
+            }
+
+            LoanPaymentViewModel model = await _operationService.LoanPay(vm);
+
+            if (model.HasError)
+            {
+                vm.HasError = true;
+                vm.Error = model.Error;
+                vm.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
                 return View(vm);
             }
 

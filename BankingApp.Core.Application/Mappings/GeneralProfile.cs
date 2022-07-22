@@ -3,6 +3,7 @@ using BankingApp.Core.Application.Dtos.Account;
 using BankingApp.Core.Application.ViewModels.Beneficiary;
 using BankingApp.Core.Application.ViewModels.CreditCard;
 using BankingApp.Core.Application.ViewModels.Loan;
+using BankingApp.Core.Application.ViewModels.Operation;
 using BankingApp.Core.Application.ViewModels.SavingAccount;
 using BankingApp.Core.Application.ViewModels.Transactions;
 using BankingApp.Core.Application.ViewModels.User;

@@ -20,13 +20,17 @@ namespace BankingApp.Core.Application.Services
         private readonly IBeneficiaryRepository _beneficiaryRepository;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+        private readonly AuthenticationResponse userViewModel;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BeneficiaryService(IBeneficiaryRepository beneficiaryRepository, IMapper mapper, IUserService userService)
+        public BeneficiaryService(IBeneficiaryRepository beneficiaryRepository, IMapper mapper, IUserService userService, IHttpContextAccessor httpContextAccessor)
         : base(beneficiaryRepository, mapper)
         {
             _beneficiaryRepository = beneficiaryRepository;
             _mapper = mapper;
             _userService = userService;
+            _httpContextAccessor = httpContextAccessor;
+            userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
 
         public async Task<List<BeneficiaryViewModel>> GetAllViewModelWithInclude()
@@ -34,13 +38,13 @@ namespace BankingApp.Core.Application.Services
 
             List<Beneficiary> result = await _beneficiaryRepository.GetAllWithIncludeAsync(new List<string>() { "SavingAccount" });
             
-            return result.Select(ben => new BeneficiaryViewModel()
+            return result.Where(x => x.UserId == userViewModel.Id).Select(ben => new BeneficiaryViewModel()
             {
                 BeneficiaryName = _userService.GetUserById(ben.SavingAccount.UserId).Result.FirstName,
                 BeneficiaryLastName = _userService.GetUserById(ben.SavingAccount.UserId).Result.LastName,
                 Id = ben.Id,
                 SavingAccountId = ben.SavingAccountId
-            }).ToList(); ;
+            }).ToList();
 
         }
 

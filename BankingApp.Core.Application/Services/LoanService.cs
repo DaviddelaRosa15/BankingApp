@@ -19,13 +19,17 @@ namespace BankingApp.Core.Application.Services
         private readonly ILoanRepository _loanRepository;
         private readonly IMapper _mapper;
         private readonly ISavingAccountService _savingService;
+        private readonly AuthenticationResponse userViewModel;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public LoanService(ILoanRepository loanRepository, IMapper mapper,
-            ISavingAccountService savingService) : base(loanRepository, mapper)
+            ISavingAccountService savingService, IHttpContextAccessor httpContextAccessor) : base(loanRepository, mapper)
         {
             _loanRepository = loanRepository;
             _mapper = mapper;
             _savingService = savingService;
+            _httpContextAccessor = httpContextAccessor;
+            userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
 
         public override async Task<SaveLoanViewModel> Add(SaveLoanViewModel vm)
@@ -40,5 +44,21 @@ namespace BankingApp.Core.Application.Services
             return loanVm;
         }
 
+        public async Task<List<LoanViewModel>> GetAllViewModelWithInclude()
+        {
+
+            var result = await _loanRepository.GetAllWithIncludeAsync(new List<string>() {});
+
+            return result.Where(x => x.UserId == userViewModel.Id).Select(loan => new LoanViewModel()
+            {
+                Id = loan.Id,
+                LoanAmount = loan.LoanAmount,
+                AmountPaid = loan.AmountPaid,
+                Share = loan.Share,
+                IsPaid = loan.IsPaid
+                
+            }).ToList();
+
+        }
     }
 }
