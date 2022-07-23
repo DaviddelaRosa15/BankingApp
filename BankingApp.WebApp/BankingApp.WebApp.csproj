@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\Images\**" />
+    <Content Remove="wwwroot\Images\**" />
+    <EmbeddedResource Remove="wwwroot\Images\**" />
+    <None Remove="wwwroot\Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
@@ -37,10 +44,6 @@
     <ProjectReference Include="..\BankingApp.Infrastructure.Identity\BankingApp.Infrastructure.Identity.csproj" />
     <ProjectReference Include="..\BankingApp.Infrastructure.Persistence\BankingApp.Infrastructure.Persistence.csproj" />
     <ProjectReference Include="..\BankingApp.Infrastructure.Shared\BankingApp.Infrastructure.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
 </Project>
