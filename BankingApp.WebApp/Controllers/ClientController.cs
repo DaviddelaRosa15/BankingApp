@@ -52,45 +52,37 @@ namespace BankingApp.WebApp.Controllers
         {
             ClientProductsViewModel clientProducts = new ClientProductsViewModel();
 
-            clientProducts.SavingAccounts = await _savingAccountService.GetAllViewModel();
-            clientProducts.SavingAccounts = clientProducts.SavingAccounts.Where(saving => saving.UserId == _loggedUser.Id).ToList();
-
-            clientProducts.CreditCards = await _creditCardService.GetAllViewModel();
-            clientProducts.CreditCards = clientProducts.CreditCards.Where(credit => credit.UserId == _loggedUser.Id).ToList();
-
-            clientProducts.Loans = await _loanService.GetAllViewModel();
-            clientProducts.Loans = clientProducts.Loans.Where(credit => credit.UserId == _loggedUser.Id).ToList();
-
+            clientProducts.SavingAccounts = await _savingAccountService.GetAllViewModelWithInclude();
+            clientProducts.CreditCards = await _creditCardService.GetAllViewModelWithInclude();
+            clientProducts.Loans = await _loanService.GetAllViewModelWithInclude();
             return View(viewName: "Index", model: clientProducts);
         }
 
         #region Mantenimiento de beneficiarios
-        //Estos 4 primeros son del mantenimiento de usuario.
+        
         public async Task<IActionResult> MyBeneficiaries()
         {
+            ViewBag.beneficiaryStatus = new BeneficiaryViewModel() { HasError = false };
             List<BeneficiaryViewModel> beneficiaries = await _beneficiaryService.GetAllViewModelWithInclude();
             return View(viewName: "MyBeneficiary", model: beneficiaries);
         }
 
         [HttpPost]
-        public async Task<IActionResult> MyBeneficiaries(string SavingAccountId)
+        public async Task<IActionResult> MyBeneficiaries(string SavingAccountId = "")
         {
 
-            if (!ValidationHelper.IsValidProductID(SavingAccountId))
+            if (!ValidationHelper.IsValidProductID(SavingAccountId) || string.IsNullOrEmpty(SavingAccountId) || SavingAccountId == null)
             {
 
                 ViewBag.beneficiaryStatus = new BeneficiaryViewModel()
                 {
                     HasError = true,
-                    Error = "Please enter a valid account identifier."
+                    Error = "Por favor, introduzca una cuenta valida."
                 }; //En caso de que esto no funcione hacer el inverso, enviar el list por un viewBag.
 
-                return RedirectToAction(controllerName: "Client", actionName: "MyBeneficiary");
-
-                //return View(viewName: "Beneficiary", model: new BeneficiaryViewModel() {
-                //    HasError = true,
-                //    Error = "Please enter a valid account identifier."
-                //});
+                List<BeneficiaryViewModel> beneficiaries = await _beneficiaryService.GetAllViewModelWithInclude();
+                return View(viewName: "MyBeneficiary", model: beneficiaries);
+             
             }
 
             var beneficiary = await _beneficiaryService.GetByIdSaveViewModel(int.Parse(SavingAccountId));
@@ -103,13 +95,8 @@ namespace BankingApp.WebApp.Controllers
                     Error = $"This account {SavingAccountId} does not exist..."
                 };
 
-                return RedirectToAction(controllerName: "Client", actionName: "Beneficiary");
-
-                //return View(viewName: "Beneficiary", model: new BeneficiaryViewModel()
-                //{
-                //    HasError = true,
-                //    Error = $"This account {SavingAccountId} does not exist..."
-                //});
+                List<BeneficiaryViewModel> beneficiaries = await _beneficiaryService.GetAllViewModelWithInclude();
+                return View(viewName: "MyBeneficiary", model: beneficiaries);
             }
 
             await _beneficiaryService.Add(new SaveViewModelBeneficiary()
@@ -118,16 +105,15 @@ namespace BankingApp.WebApp.Controllers
                 UserId = _loggedUser.Id
             });
 
-            return RedirectToAction(controllerName: "Client", actionName: "MyBeneficiaries");
+            return RedirectToAction(controllerName: "Client", actionName: "MyBeneficiary");
         }
 
         [HttpGet]
-        public async Task<IActionResult> BeneficiaryDelete(string id)
+        public async Task<IActionResult> BeneficiaryDelete(string id = "")
         {
             List<BeneficiaryViewModel> beneficiaries = await _beneficiaryService.GetAllViewModelWithInclude();
-            BeneficiaryViewModel beneficiary;
-
-            if (!ValidationHelper.IsValidProductID(id))
+            
+            if (!ValidationHelper.IsValidProductID(id) || string.IsNullOrEmpty(id) || id == null)
             {
                 return View(viewName: "ConfirmBeneficiaryDelete", model: new BeneficiaryViewModel()
                 {
@@ -138,13 +124,7 @@ namespace BankingApp.WebApp.Controllers
 
             int identifier = int.Parse(id);
 
-            beneficiary = beneficiaries.FirstOrDefault(benf => benf.Id == identifier && benf.UserId == _loggedUser.Id);
-
-            beneficiary.BeneficiaryName = _userService.GetUserById(beneficiary.SavingAccount.UserId)
-                                          .Result.FirstName;
-
-            beneficiary.BeneficiaryLastName = _userService.GetUserById(beneficiary.SavingAccount.UserId)
-                                              .Result.LastName;
+            BeneficiaryViewModel beneficiary = beneficiaries.FirstOrDefault(benf => benf.Id == identifier);
 
             return View(viewName: "ConfirmBeneficiaryDelete", model: beneficiary);
 
@@ -162,7 +142,7 @@ namespace BankingApp.WebApp.Controllers
         #region Pago de beneficiarios
 
         [HttpGet]
-        //Muestra los beneficiarios a los que se les quiere pagar.
+        //Route where we are gonna again show all our beneficieries to make a pay.
         public async Task<IActionResult> MyBeneficiariesPay()
         {
             List<BeneficiaryViewModel> beneficiaries = await _beneficiaryService.GetAllViewModelWithInclude();
@@ -170,23 +150,24 @@ namespace BankingApp.WebApp.Controllers
             return View(viewName: "MyBeneficiariesPay", model: beneficiaries);
         }
 
+        //Intermediario para selecionar las cuenta y enviar el pago.
         [HttpGet]
-        public async Task<IActionResult> BeneficiaryPay(string SavingAccountId)
+        public async Task<IActionResult> BeneficiaryPay(string SavingAccountId = "")
         {
             //Pago para el benecifiario.
             PaymentViewModel model = new();
+            model.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
 
-            if (ValidationHelper.IsValidProductID(SavingAccountId))
+            if (ValidationHelper.IsValidProductID(SavingAccountId) && !string.IsNullOrEmpty(SavingAccountId) && SavingAccountId != null)
             {
                 model.DestinyAccount = int.Parse(SavingAccountId);
-                model.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
-                return View(model);
+                return View(viewName: "BeneficiaryPay", model);
             }
             else
             {
                 model.HasError = true;
-                model.Error = "Ha habido un error a la hora de confirmar su beneficiario, si esto persiste contacte inmediatamente al administrado.";
-                return View(viewName: "MyBeneficiariesPay", model);
+                model.Error = "Cuenta Invalida, ha habido un error a la hora de confirmar su beneficiario, si esto persiste contacte inmediatamente al administrado.";
+                return View(viewName: "BeneficiaryPay", model);
             }
 
         }
@@ -197,11 +178,10 @@ namespace BankingApp.WebApp.Controllers
             if (!ModelState.IsValid)
             {
                 paymentView.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
-                return View(paymentView);
+                return View("BeneficiaryPay", paymentView);
             }
 
             ResponsePaymentViewModel model = await _operationService.PayValidation(paymentView);
-
 
             if (model.HasError)
             {
@@ -247,14 +227,15 @@ namespace BankingApp.WebApp.Controllers
             return View("ConfirmPay", model);
         }
 
-        //Esto podria tener un nombre generico para "ExpressPay y BeneficiaryPay"
+        #endregion
+
+        #region "ExpressPay y BeneficiaryPay"
         [HttpPost]
         public async Task<IActionResult> ProcessPayment(ResponsePaymentViewModel vm)
         {
             await _operationService.Pay(vm);
             return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
-
         #endregion
 
         #region Pago de tarjeta de créditos
