@@ -33,18 +33,18 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Amount" class="form-label">Monto a pagar: </label>
-                            <input asp-for="Amount" class="form-control" />
-                            <span asp-validation-for="Amount" class="text-danger text-lg-center"></span>
-                        </div>
-
-                        <div class="mb-3">
                             <label asp-for="DestinyAccount" class="form-label">Cuenta a depositar: </label>
                             <input asp-for="DestinyAccount" class="form-control" />
                             <span asp-validation-for="DestinyAccount" class="text-danger text-lg-center"></span>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Pagar</button>
+                        <div class="mb-3">
+                            <label asp-for="Amount" class="form-label">Monto a pagar: </label>
+                            <input asp-for="Amount" class="form-control" />
+                            <span asp-validation-for="Amount" class="text-danger text-lg-center"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Pagar</button>
                         <a asp-controller="Client" asp-action="Index" class="btn btn-warning">Volver a inicio</a>
                     </form>
                 </div>

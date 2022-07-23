@@ -1,7 +1,7 @@
 ﻿@using BankingApp.Core.Application.ViewModels.Operation;
-@model CreditPaymentViewModel
+@model AccountTransferViewModel
 @{
-    ViewData["Title"] = "Pago de tarjetas";
+    ViewData["Title"] = "Transferencia";
 }
 
 <div class="container-fluid">
@@ -10,7 +10,7 @@
         <div class="col-8 offset-2">
             <div class="card">
                 <div class="card-header bg-dark text-light">
-                    <h4 class="text-lg-center">Pago de tarjeta de crédito @Model.DestinyCard</h4>
+                    <h4 class="text-lg-center">Transferencias entre sus cuentas</h4>
                 </div>
                 <div class="card-body">
 
@@ -21,7 +21,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     }
-                    <form method="post" asp-controller="Client" asp-action="CreditCardPay">
+                    <form method="post" asp-controller="Client" asp-action="AccountTransfer">
 
                         <div class="mb-3">
                             <label asp-for="OriginAccount" class="form-label">Cuenta a debitar: </label>
@@ -33,8 +33,12 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="DestinyCard" class="form-label">Tarjeta a pagar: </label>
-                            <input asp-for="DestinyCard" class="form-control" readonly />
+                            <label asp-for="DestinyAccount" class="form-label">Cuenta a debitar: </label>
+                            <select asp-for="DestinyAccount" asp-items="@(new SelectList(Model.AccountsOwn,"SavingAccountId","SavingAccountId"))" class="form-select">
+                                <option value="0">Seleccione una opcion</option>
+
+                            </select>
+                            <span asp-validation-for="DestinyAccount" class="text-danger text-lg-center"></span>
                         </div>
 
                         <div class="mb-3">
@@ -43,7 +47,7 @@
                             <span asp-validation-for="Amount" class="text-danger text-lg-center"></span>
                         </div>
 
-                        <button type="submit" class="btn btn-success">Pagar</button>
+                        <button type="submit" class="btn btn-success">Depositar</button>
                         <a asp-controller="Client" asp-action="Index" class="btn btn-warning">Volver a inicio</a>
                     </form>
                 </div>
@@ -51,4 +55,5 @@
         </div>
     </div>
 </div>
+
 

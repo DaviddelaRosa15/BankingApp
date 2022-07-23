@@ -159,7 +159,7 @@ namespace BankingApp.WebApp.Controllers
 
         #endregion
 
-        #region Pago de beneficiarios y expresos
+        #region Pago de beneficiarios
 
         [HttpGet]
         //Muestra los beneficiarios a los que se les quiere pagar.
@@ -214,6 +214,9 @@ namespace BankingApp.WebApp.Controllers
             return View("ConfirmPay", model);
         }
 
+        #endregion
+
+        #region Pago expreso
         public async Task<IActionResult> ExpressPay()
         {
             PaymentViewModel model = new();
@@ -337,6 +340,38 @@ namespace BankingApp.WebApp.Controllers
             return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
 
+        #endregion
+
+        #region Transferencia entre cuentas
+        public async Task<IActionResult> AccountTransfer()
+        {
+            AccountTransferViewModel model = new();
+            model.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AccountTransfer(AccountTransferViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                vm.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
+                return View(vm);
+            }
+
+            AccountTransferViewModel model = await _operationService.AccountTransfer(vm);
+
+
+            if (model.HasError)
+            {
+                vm.HasError = true;
+                vm.Error = model.Error;
+                vm.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
+                return View(vm);
+            }
+
+            return RedirectToRoute(new {controller = "Client", action = "Index"});
+        }
         #endregion
     }
 }
