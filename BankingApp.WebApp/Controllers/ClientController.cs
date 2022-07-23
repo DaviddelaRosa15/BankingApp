@@ -257,19 +257,27 @@ namespace BankingApp.WebApp.Controllers
         #region Pago de tarjeta de créditos
         public async Task<IActionResult> CreditCardPay()
         {
-            CreditPaymentViewModel model = new();
-            model.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
-            model.CardsOwn = await _creditCardService.GetAllViewModel();
+            var cards = await _creditCardService.GetAllViewModelWithInclude();
+            return View(cards);
+        }
+
+        public async Task<IActionResult> MakeCreditCardPay(int cardId)
+        {
+            var card = await _creditCardService.GetByIdSaveViewModel(cardId);
+            CreditPaymentViewModel model = new()
+            {
+                AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude(),
+                DestinyCard = card.Id
+            };
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreditCardPay(CreditPaymentViewModel vm)
+        public async Task<IActionResult> MakeCreditCardPay(CreditPaymentViewModel vm)
         {
             if (!ModelState.IsValid)
             {
                 vm.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
-                vm.CardsOwn = await _creditCardService.GetAllViewModelWithInclude();
                 return View(vm);
             }
 
@@ -280,7 +288,6 @@ namespace BankingApp.WebApp.Controllers
                 vm.HasError = true;
                 vm.Error = model.Error;
                 vm.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
-                vm.CardsOwn = await _creditCardService.GetAllViewModelWithInclude();
                 return View(vm);
             }
 

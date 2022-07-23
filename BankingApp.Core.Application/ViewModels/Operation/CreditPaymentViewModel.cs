@@ -13,11 +13,8 @@ namespace BankingApp.Core.Application.ViewModels.Operation
     {
         [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar la cuenta a la que se le va a debitar el monto")]
         public int OriginAccount { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar la tarjeta a la que se le va a pagar el monto")]
         public int DestinyCard { get; set; }
         public List<SavingAccountViewModel> AccountsOwn { get; set; }
-        public List<CreditCardViewModel> CardsOwn { get; set; }
 
         [Required(ErrorMessage = "Debe colocar el monto a pagar")]
         [DataType(DataType.Currency)]
