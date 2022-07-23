@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - BankingApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <!-- CSS only -->
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -61,17 +62,17 @@
 
                             if (isAdmin)
                             {
-                            <li class="nav-item">
-                                <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Administrar Usuarios</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Administrar Usuarios</a>
+                                </li>
                             }
 
-                        <li class="nav-item align-content-end">
-                            <a class="nav-link text-white fw-bold" asp-area="" asp-controller="User" asp-action="LogOut">Cerrar session (@(User.UserName))</a>
-                        </li>
+                            <li class="nav-item align-content-end">
+                                <a class="nav-link text-white fw-bold" asp-area="" asp-controller="User" asp-action="LogOut">Cerrar session (@(User.UserName))</a>
+                            </li>
                         }
                     </ul>
                 </div>
@@ -91,6 +92,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript Bundle with Popper -->
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

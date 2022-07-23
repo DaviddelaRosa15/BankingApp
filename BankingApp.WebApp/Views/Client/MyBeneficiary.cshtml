@@ -9,7 +9,7 @@
     if (ViewBag.beneficiaryStatus.HasError && ViewBag.beneficiaryStatus != null)
     {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Error:</strong> @ViewBag.beneficiaryStatus.
+            <strong>Error:</strong> @ViewBag.beneficiaryStatus
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -18,12 +18,12 @@
 }
 
 
-<div class="row bg-info container-fluid">
+<div class="row bg-info container-fluid mb-3">
 
-    <div class="col-4 text-white">
+    <div class="col-4 text-white p-5">
 
         <h4 class="h4">
-            Beneficiaries 👋
+            Beneficiarios 👋
         </h4>
 
     </div>
@@ -37,13 +37,13 @@
     <div class="row text-center mb-4">
 
         <div class="col-3">
-            <h2> My Beneficiaries:</h2>
+            <h2> Mis Beneficiarios:</h2>
         </div>
 
         <div class="col-3 offset-6">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                New Beneficiary
+            <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#exampleModal" id="elboton">
+                Nuevo Beneficiario - SOlucionar el modal
             </button>  
         </div>
 
@@ -51,7 +51,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -61,21 +61,21 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    
+
                     <form method="post" asp-controller="Client" asp-action="MyBeneficiaries">
-                        
-                       <div class="form-group">
-                           <label for="exampleInputEmail1">Beneficiary Account</label>
-                           <input type="text"  name="SavingAccountId" class="form-control" aria-describedby="Account" placeholder="Account Number" required>
-                       </div>
-                          
-                       <button type="submit" class="btn btn-primary">Add</button>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Cuenta de Beneficiario</label>
+                            <input type="text" name="SavingAccountId" class="form-control" aria-describedby="Account" placeholder="Account Number" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Anadir</button>
                     </form>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@
 
             if (Model.Count == 0 || Model == null)
             {
-                <h3 class="text-danger"> There are not beneficiary yet, add a new one! </h3>
+                <h3 class="text-danger"> No tiene beneficiarios registrado, anada uno! </h3>
             }
             else
             {
@@ -97,17 +97,17 @@
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Account</th>
-                            <th scope="col">FirstName</th>
-                            <th scope="col">LastName</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col">Numero de cuenta</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         
                         @{ 
                             foreach (BeneficiaryViewModel beneficiary in Model) {
-                                <tr> Si se requiere algo mas estetico, esto podrian ser un formulario y enviar la data por POST. 
+                                <tr> 
                                     <td>@beneficiary.SavingAccountId</td>
                                     <td>@beneficiary.BeneficiaryName</td>
                                     <td>@beneficiary.BeneficiaryLastName</td>

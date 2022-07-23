@@ -10,7 +10,7 @@
         <div class="col-8 offset-2">
             <div class="card">
                 <div class="card-header bg-dark text-light">
-                    <h4>Pago Beneficiario</h4>
+                    <h4>Pagos de Beneficiario</h4>
                 </div>
                 <div class="card-body">
 
@@ -26,8 +26,8 @@
 
                         <div class="mb-3">
                             <label asp-for="OriginAccount" class="form-label">Cuenta a debitar: </label>
-                            <select asp-for="OriginAccount" asp-items="@(new SelectList(Model.AccountsOwn,"OriginAccount","OriginAccount"))" class="form-select">
-                                <option value="0">Seleccione una opcion</option>
+                            <select asp-for="OriginAccount" asp-items="@(new SelectList(Model.AccountsOwn,"SavingAccountId","SavingAccountId"))" class="form-select">
+                                <option value="0">Seleccione una de sus cuentas</option>
 
                             </select>
                             <span asp-validation-for="OriginAccount" class="text-danger text-lg-center"></span>
@@ -41,11 +41,11 @@
 
                         <div class="mb-3">
                             <label asp-for="DestinyAccount" class="form-label">Cuenta a depositar: </label>
-                            <input asp-for="DestinyAccount" class="form-control" />
+                            <input asp-for="DestinyAccount" class="form-control" readonly />
                             <span asp-validation-for="DestinyAccount" class="text-danger text-lg-center"></span>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Pagar</button>
+                        <button type="submit" class="btn btn-primary">Realizar Pago</button>
                         <a asp-controller="Client" asp-action="Index" class="btn btn-warning">Volver a inicio</a>
                     </form>
                 </div>
