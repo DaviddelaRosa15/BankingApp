@@ -9,9 +9,17 @@
 }
 
 
-<div class="row bg-info container-fluid">
+<div class="row bg-success p-5 rounded">
 
     <div class="col-4 text-white">
+
+        <h4 class="h4">
+           ⏱ @DateTime.UtcNow.TimeOfDay.ToString()
+        </h4>
+        <h6>@DateTime.UtcNow.DayOfWeek.ToString()</h6>
+    </div>
+
+    <div class="col-8 text-white">
 
         <h4 class="h4">
             Mr/Ms. User Name
@@ -25,20 +33,20 @@
 
     <div class="col-4">
         @* Aqui un menu vertical *@
-        <h4>Need Help?</h4>
+        <h4 class="mt-3">¿Necesita ayuda?</h4>
         <hr />
 
         <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                Cras justo odio
+                Información de nuestra oficinas.
                 <span class="badge badge-primary badge-pill">14</span>
             </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                Dapibus ac facilisis in
+            <li class="list-group-item d-flex d-flex justify-content-between align-items-center">
+                Servicios al Cliente Online
                 <span class="badge badge-primary badge-pill">2</span>
             </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                Morbi leo risus
+            <li class="list-group-item d-flex d-flex justify-content-between align-items-center">
+                Asistencia Electrónica
                 <span class="badge badge-primary badge-pill">1</span>
             </li>
         </ul>
@@ -49,13 +57,13 @@
 
         <div class="col-12">
             @* Collapse Container *@
-            <p class="d-flex justify-content-around p-3">
+            <div class="d-flex justify-content-between p-3">
                 <h3>My Accounts</h3>
 
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <button class="btn " type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     🔽
                 </button>
-            </p>
+            </div>
             <div class="collapse" id="collapseExample">
                 <div class="card card-body">
                     @* CardBody *@
@@ -92,19 +100,19 @@
 
         <div class="col-12 mt-4">
             @* Collapse Container *@
-            <p class="d-flex justify-content-around p-3">
+            <div class="d-flex justify-content-between p-3">
                 <h3>Credit Cards</h3>
 
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <button class="btn " type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     🔽
                 </button>
-            </p>
+            </div>
             <div class="collapse" id="collapseExample">
                 <div class="card card-body">
                     @* CardBody *@
 
                     @{
-                        if (Model.CreditCards.Count() == 0 || Model.CreditCards == null)
+                        if (Model.CreditCards.Count == 0 || Model.CreditCards == null)
                         {
                             <div class="row"> <h6> Contact with any of our administrator or headsquare and open a new one.</h6> </div>
                         }
@@ -140,13 +148,13 @@
 
         <div class="col-12 mt-4">
             @* Collapse Container *@
-            <p class="d-flex justify-content-around p-3">
+            <div class="d-flex justify-content-between p-3">
                 <h3>Loans</h3>
 
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <button class="btn " type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     🔽
                 </button>
-            </p>
+            </div>
             <div class="collapse" id="collapseExample">
                 <div class="card card-body">
                     @* CardBody *@

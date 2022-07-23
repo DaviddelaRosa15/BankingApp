@@ -6,12 +6,12 @@
 
 
 
-<div class="row bg-info container-fluid">
+<div class="row bg-info container-fluid p-5 mb-3">
 
     <div class="col-4 text-white">
 
         <h4 class="h4">
-            Beneficiaries Payments 💸💸💸
+            Pagos de beneficiarios 💸💸
         </h4>
 
     </div>
@@ -25,7 +25,7 @@
     <div class="row text-start mb-4">
 
         <div class="col-12">
-            <h2> My Beneficiaries:</h2>
+            <h2> Mis Beneficiarios:</h2>
         </div>
 
     </div>
@@ -36,7 +36,7 @@
 
             if (Model.Count == 0 || Model == null)
             {
-                <h3 class="text-danger"> There are not beneficiary yet, add a new one! </h3>
+                <h3 class="text-danger"> Aun no tiene beneficiarios, anada uno visitando <a href="./MyBeneficiaries">este enlace</a>. </h3>
             }
             else
             {
@@ -44,10 +44,10 @@
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Account</th>
-                            <th scope="col">FirstName</th>
-                            <th scope="col">LastName</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col">Numero de cuenta</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
