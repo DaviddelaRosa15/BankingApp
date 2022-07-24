@@ -34,7 +34,11 @@
 
                         <div class="mb-3">
                             <label asp-for="DestinyAccount" class="form-label">Cuenta a transferir: </label>
-                            <input asp-for="DestinyAccount" class="form-control" />
+                            <select asp-for="DestinyAccount" asp-items="@(new SelectList(Model.AccountsOwn,"SavingAccountId","SavingAccountId"))" class="form-select">
+                                <option value="0">Seleccione una de sus cuentas</option>
+
+                            </select>
+                            <span asp-validation-for="DestinyAccount" class="text-danger text-lg-center"></span>
                         </div>
 
                         <div class="mb-3">

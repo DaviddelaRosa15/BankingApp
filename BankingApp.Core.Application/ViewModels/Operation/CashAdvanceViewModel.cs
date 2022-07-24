@@ -1,4 +1,5 @@
 ﻿using BankingApp.Core.Application.ViewModels.CreditCard;
+using BankingApp.Core.Application.ViewModels.SavingAccount;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,14 +11,12 @@ namespace BankingApp.Core.Application.ViewModels.Operation
 {
     public class CashAdvanceViewModel
     {
-        [Required(ErrorMessage = "Debe colocar la cuenta a la que se va a pagar")]
-        [RegularExpression("^[0-9]{9}$", ErrorMessage = "Debe colocar una cuenta válida")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar la tarjeta a la que se le va a debitar el monto")]
         public int OriginCard { get; set; }
         public List<CreditCardViewModel> OriginCreditCards { get; set; }
+        public List<SavingAccountViewModel> AccountsOwn { get; set; }
 
-        [Required(ErrorMessage = "Debe colocar la cuenta a la que se va a pagar")]
-        [RegularExpression("^[0-9]{9}$", ErrorMessage = "Debe colocar una cuenta válida")]
-        [DataType(DataType.Text)]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar la tarjeta a la que se le va a depositar el monto")]
         public int DestinyAccount { get; set; }
 
         [Required(ErrorMessage = "Debe colocar un monto válido, para procesar su pago.")]

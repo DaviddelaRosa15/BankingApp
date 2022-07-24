@@ -229,7 +229,7 @@ namespace BankingApp.WebApp.Controllers
 
         #endregion
 
-        #region "ExpressPay y BeneficiaryPay"
+        #region ExpressPay y BeneficiaryPay
         [HttpPost]
         public async Task<IActionResult> ProcessPayment(ResponsePaymentViewModel vm)
         {
@@ -330,18 +330,19 @@ namespace BankingApp.WebApp.Controllers
             CashAdvanceViewModel cashAdvanceView = new();
 
             cashAdvanceView.OriginCreditCards = await _creditCardService.GetAllViewModelWithInclude();
+            cashAdvanceView.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
             return View(viewName: "CashAdvancePay", model: cashAdvanceView);
         }
 
         [HttpPost]
         public async Task<IActionResult> CashAdvancePay(CashAdvanceViewModel cashAdvanceView)
         {
-            cashAdvanceView.OriginCreditCards = await _creditCardService.GetAllViewModelWithInclude();
-
             if (!ModelState.IsValid)
             {
                 cashAdvanceView.HasError = true;
                 cashAdvanceView.Error = "Verifique bien sus datos.";
+                cashAdvanceView.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
+                cashAdvanceView.OriginCreditCards = await _creditCardService.GetAllViewModelWithInclude();
                 return View(viewName: "CashAdvancePay", model: cashAdvanceView);
             }
 
