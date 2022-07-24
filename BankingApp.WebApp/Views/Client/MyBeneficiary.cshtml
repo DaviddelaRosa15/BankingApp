@@ -5,17 +5,6 @@
 }
 
 
-@{ 
-    if (ViewBag.beneficiaryStatus.HasError && ViewBag.beneficiaryStatus != null)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Error:</strong> @ViewBag.beneficiaryStatus
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    }
-}
 
 
 <div class="row bg-info container-fluid mb-3">
@@ -34,6 +23,18 @@
 
 <div class="container">
 
+    @{
+        if (ViewBag.beneficiaryStatus.HasError && ViewBag.beneficiaryStatus != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error:</strong> @ViewBag.beneficiaryStatus.Error
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                
+                </button>
+            </div>
+        }
+    }
+ 
     <div class="row text-center mb-4">
 
         <div class="col-3">
@@ -42,9 +43,9 @@
 
         <div class="col-3 offset-6">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#exampleModal" id="elboton">
-                Nuevo Beneficiario - SOlucionar el modal
-            </button>  
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Nuevo Beneficiario
+            </button>
         </div>
 
     </div>
@@ -52,13 +53,11 @@
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">My Beneficiaries:</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel">Mis Beneficiarios</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -66,21 +65,22 @@
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Cuenta de Beneficiario</label>
-                            <input type="text" name="SavingAccountId" class="form-control" aria-describedby="Account" placeholder="Account Number" required>
+                            <input type="text" name="SavingAccountId" class="form-control mt-3" aria-describedby="Account" placeholder="Account Number" required>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Anadir</button>
+                        <div class="btn-group d-flex justify-content-center mt-2">
+                            <button type="submit" class="btn btn-primary">Añadir</button>
+                        </div>
                     </form>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
-
+    <!-- END Modal  -->
 
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -104,17 +104,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
-                        @{ 
-                            foreach (BeneficiaryViewModel beneficiary in Model) {
-                                <tr> 
+
+                        @{
+                            foreach (BeneficiaryViewModel beneficiary in Model)
+                            {
+                                <tr>
                                     <td>@beneficiary.SavingAccountId</td>
                                     <td>@beneficiary.BeneficiaryName</td>
                                     <td>@beneficiary.BeneficiaryLastName</td>
 
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a  asp-controller="Client" asp-action="BeneficiaryDelete" asp-route-id="@beneficiary.Id" class="btn btn-danger">🗑️</a> @*Confirmacion de cuenta antes de borrarla*@
+                                            <a asp-controller="Client" asp-action="BeneficiaryDelete" asp-route-id="@beneficiary.Id" class="btn btn-danger">🗑️</a> @*Confirmacion de cuenta antes de borrarla*@
                                         </div>
                                     </td>
 
