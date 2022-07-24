@@ -20,7 +20,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-danger navbar-light border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-info navbar-light border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand text-white fw-bold" asp-area="" asp-controller="@(User!= null ? "Home" : "User")" asp-action="Index">BankingApp</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -53,7 +53,7 @@
                                     <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Client" asp-action="MyBeneficiaries">Beneficiario</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Client" asp-action="Index">Avance de efectivo</a>
+                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Client" asp-action="CashAdvancePay">Avance de efectivo</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Client" asp-action="AccountTransfer">Transferencia</a>
@@ -79,7 +79,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

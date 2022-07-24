@@ -323,6 +323,40 @@ namespace BankingApp.WebApp.Controllers
 
         #endregion
 
+        #region Avance de Efectivo
+        [HttpGet]
+        public async Task<IActionResult> CashAdvancePay()
+        {
+            CashAdvanceViewModel cashAdvanceView = new();
+
+            cashAdvanceView.OriginCreditCards = await _creditCardService.GetAllViewModelWithInclude();
+            return View(viewName: "CashAdvancePay", model: cashAdvanceView);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CashAdvancePay(CashAdvanceViewModel cashAdvanceView)
+        {
+            cashAdvanceView.OriginCreditCards = await _creditCardService.GetAllViewModelWithInclude();
+
+            if (!ModelState.IsValid)
+            {
+                cashAdvanceView.HasError = true;
+                cashAdvanceView.Error = "Verifique bien sus datos.";
+                return View(viewName: "CashAdvancePay", model: cashAdvanceView);
+            }
+
+            var opResult = await _operationService.CashAdvance(cashAdvanceView);
+
+            if (opResult.HasError)
+            {
+                return View(viewName: "CashAdvancePay", model: cashAdvanceView);
+            }
+
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
+
+        }
+        #endregion
+
         #region Transferencia entre cuentas
         public async Task<IActionResult> AccountTransfer()
         {
