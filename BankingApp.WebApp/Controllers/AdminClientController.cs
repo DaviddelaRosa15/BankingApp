@@ -30,7 +30,7 @@ namespace BankingApp.WebApp.Controllers
             return View(await _userService.GetAllUserClientAsync());
         }
 
-        public async Task<IActionResult> Edit(string id,string error = null)
+        public async Task<IActionResult> Edit(string id, string error = null)
         {
             ViewBag.Error = error;
             ViewBag.CreditCardClient = await _cardService.GetAllCreditCardByIdUser(id);
@@ -41,7 +41,7 @@ namespace BankingApp.WebApp.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Edit(SaveUserViewModel svm)
-        {            
+        {
             if (ModelState["Email"].Errors.Any() || ModelState["FirstName"].Errors.Any()
                 || ModelState["LastName"].Errors.Any() || ModelState["CardIdentificantion"].Errors.Any()
                 || ModelState["Username"].Errors.Any())
@@ -74,35 +74,36 @@ namespace BankingApp.WebApp.Controllers
             await _userService.ActiveUser(id);
             return RedirectToRoute(new { controller = "AdminClient", action = "Index" });
         }
-    #region Credit card
-        public async Task<IActionResult> CreatedCard(string id)
-    {
-        ViewBag.Id = id;
-        return View();
-    }
 
-    [HttpPost]
-    public async Task<IActionResult> CreatedCard(SaveCreditCardViewModel svm)
-    {      
-      var status= await _cardService.Add(svm);
-      if (status.HasError)
-      {
-          ViewBag.Id = svm.UserId;
-          svm.HasError = true;
-          svm.Error = status.Error;
-          return View(svm);
-      }
-      return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = svm.UserId });
-    }
-    public async Task<IActionResult> DeleteCreditCard(int id)
-    {
-         var card = await _cardService.Delete(id);
-         if (card.HasError)
-         {
-            return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = card.UserId, error = card.Error });
-         }
-         return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = card.UserId });
-    }
+        #region Credit card
+        public async Task<IActionResult> CreatedCard(string id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatedCard(SaveCreditCardViewModel svm)
+        {
+            var status = await _cardService.Add(svm);
+            if (status.HasError)
+            {
+                ViewBag.Id = svm.UserId;
+                svm.HasError = true;
+                svm.Error = status.Error;
+                return View(svm);
+            }
+            return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = svm.UserId });
+        }
+        public async Task<IActionResult> DeleteCreditCard(int id)
+        {
+            var card = await _cardService.Delete(id);
+            if (card.HasError)
+            {
+                return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = card.UserId, error = card.Error });
+            }
+            return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = card.UserId });
+        }
         #endregion
 
         #region SavingAccount
@@ -114,7 +115,7 @@ namespace BankingApp.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatedSavingAccount(SaveVM_SavingAccount svm)
         {
-            if (svm.Balance < 499 )
+            if (svm.Balance < 499)
             {
                 ViewBag.Id = svm.UserId;
                 svm.HasError = true;
@@ -139,8 +140,8 @@ namespace BankingApp.WebApp.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> CreatedLoan(SaveLoanViewModel svm)
-        {            
-            var stauts= await _loanService.Add(svm);
+        {
+            var stauts = await _loanService.Add(svm);
             if (stauts.HasError)
             {
                 ViewBag.Id = svm.UserId;
