@@ -25,7 +25,7 @@ namespace BankingApp.Core.Application.Services
             int CountProduct = await _creditCardService.CountCreditCard() +
             await _accountService.CountSavingAccout() +
             await _loanService.CountProductLoan();
-            return 23;
+            return CountProduct;
         }
 
 

@@ -59,6 +59,12 @@ namespace BankingApp.Core.Application.Services
         }
         public override async Task<SaveCreditCardViewModel> Add(SaveCreditCardViewModel vm)
         {
+            if (vm.Limit < 500 || vm.Limit > 100000)
+            {
+                vm.HasError = true;
+                vm.Error = "El limite debe estar entre: 500-100000";
+                return vm;
+            }
             vm.AvailableCredit = vm.Limit;
             await base.Add(vm);
             return vm;

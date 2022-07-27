@@ -51,21 +51,15 @@ namespace BankingApp.WebApp.Controllers
                 ViewBag.Loan = await _loanService.GetAllLoanByIdUser(svm.Id);
                 return View(svm);
             }
-            if (svm.Password != svm.ConfirmPassword)
-            {
-                svm.HasError = true;
-                svm.Error = "La contraseña nueva no coinciden";
-                ViewBag.CreditCardClient = await _cardService.GetAllCreditCardByIdUser(svm.Id);
-                ViewBag.SavingAccount = await _savingAccountService.GetAllAccountByIdUser(svm.Id);
-                ViewBag.Loan = await _loanService.GetAllLoanByIdUser(svm.Id);
-                return View(svm);
-            }
             svm.TypeUser = "Cliente";
             SaveUserViewModel updateStatus = await _userService.UpdateUserAsync(svm);
             if (updateStatus.HasError)
             {
                 svm.HasError = updateStatus.HasError;
                 svm.Error = updateStatus.Error;
+                ViewBag.CreditCardClient = await _cardService.GetAllCreditCardByIdUser(svm.Id);
+                ViewBag.SavingAccount = await _savingAccountService.GetAllAccountByIdUser(svm.Id);
+                ViewBag.Loan = await _loanService.GetAllLoanByIdUser(svm.Id);
                 return View(svm);
             }
             return RedirectToRoute(new { controller = "AdminClient", action = "Index" });
@@ -89,15 +83,15 @@ namespace BankingApp.WebApp.Controllers
 
     [HttpPost]
     public async Task<IActionResult> CreatedCard(SaveCreditCardViewModel svm)
-    {
-      if (svm.Limit < 500 || svm.Limit > 100000)
+    {      
+      var status= await _cardService.Add(svm);
+      if (status.HasError)
       {
           ViewBag.Id = svm.UserId;
           svm.HasError = true;
-          svm.Error = "El limite debe estar entre: 500-100000";
+          svm.Error = status.Error;
           return View(svm);
       }
-      await _cardService.Add(svm);
       return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = svm.UserId });
     }
     public async Task<IActionResult> DeleteCreditCard(int id)
@@ -145,17 +139,11 @@ namespace BankingApp.WebApp.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> CreatedLoan(SaveLoanViewModel svm)
-        {
-            if (svm.LoanAmount < 500  || svm.LoanAmount>150000)
-            {
-                ViewBag.Id = svm.UserId;
-                svm.HasError = true;
-                svm.Error = "El monto debe estar entre: 500-15000";
-                return View(svm);
-            }
-           var stauts= await _loanService.Add(svm);
+        {            
+            var stauts= await _loanService.Add(svm);
             if (stauts.HasError)
             {
+                ViewBag.Id = svm.UserId;
                 svm.HasError = true;
                 svm.Error = stauts.Error;
                 return View(svm);

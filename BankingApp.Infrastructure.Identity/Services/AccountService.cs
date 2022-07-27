@@ -123,6 +123,24 @@ namespace BankingApp.Infrastructure.Identity.Services
         {
             ApplicationUser appliUser = await _userManager.FindByIdAsync(svm.Id);
             SaveUserViewModel sv = new();
+            
+            if (svm.Password != svm.ConfirmPassword)
+            {                
+                sv.HasError = true;
+                sv.Error = "La contraseña nueva no coinciden";
+                return sv;
+            }
+            if (svm.Password != null)
+            {
+                if (svm.CurrentPassword == null)
+                {
+                    sv.HasError = true;
+                    sv.Error = "Debe especificar la contraseña actual si desea cambiar la contraseña!";
+                    return sv;
+                }
+            }
+           
+
             var user = await _userManager.Users.ToListAsync();
             if (appliUser.UserName != svm.Username)
             {
@@ -152,7 +170,6 @@ namespace BankingApp.Infrastructure.Identity.Services
                     sv.Error = $"Esta cedula {svm.CardIdentificantion} ya esta en uso";
                     return sv;
                 }
-
             }
             if (appliUser.Email != svm.Email)
             {
@@ -172,11 +189,7 @@ namespace BankingApp.Infrastructure.Identity.Services
                     sv.Error = $"Este email {svm.Email} ya esta en uso";
                     return sv;
                 }
-
-
             }
-
-
             appliUser.FirstName = svm.FirstName;
             appliUser.LastName = svm.LastName;
             appliUser.Email = svm.Email;
@@ -237,8 +250,26 @@ namespace BankingApp.Infrastructure.Identity.Services
 
         public async Task<SaveUserViewModel> CreateUser(SaveUserViewModel svm)
         {
-            var user = await _userManager.Users.ToListAsync();
+
+            
             SaveUserViewModel sv = new();
+            if (svm.TypeUser != "Administrador" && svm.TypeUser != "Cliente")
+            {
+                sv.HasError = true;
+                sv.Error = "Tipo de usuario seleccionado incorrecto";
+                return sv;
+            }
+            if (svm.TypeUser == "Cliente")
+            {
+                if (svm.Amount < 500 || svm.Amount > 100000 || svm.Amount == 0)
+                {
+                    sv.HasError = true;
+                    sv.Error = "El monto debe estar entre: 500-100000";
+                    return sv;
+                }
+
+            }
+            var user = await _userManager.Users.ToListAsync();
             var verifUsername = await _userManager.FindByNameAsync(svm.Username);
             if (verifUsername != null)
             {

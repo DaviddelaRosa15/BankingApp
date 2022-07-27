@@ -37,6 +37,12 @@ namespace BankingApp.Core.Application.Services
         {
             SaveLoanViewModel loanVm = new();
             loanVm.HasError = false;
+            if (vm.LoanAmount < 500 || vm.LoanAmount > 150000)
+            {
+                loanVm.HasError = true;
+                loanVm.Error = "El monto debe estar entre: 500-15000";
+                return loanVm;
+            }
             if (vm.ShareQuantity != 6 && vm.ShareQuantity !=12 && vm.ShareQuantity != 18 && vm.ShareQuantity != 24)
             {
                 loanVm.HasError = true;

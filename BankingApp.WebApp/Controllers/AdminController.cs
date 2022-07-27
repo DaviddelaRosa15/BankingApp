@@ -51,62 +51,31 @@ namespace BankingApp.WebApp.Controllers
             if (!ModelState.IsValid)
             {
                 return View(vm);
-            }
-            if(vm.TypeUser!="Administrador" && vm.TypeUser != "Cliente")
-            {
-                vm.HasError = true;
-                vm.Error = "Tipo de usuario seleccionado incorrecto";
-                return View(vm);
-            }
-            if (vm.TypeUser == "Cliente")
-            {
-                if (vm.Amount < 500 || vm.Amount > 100000 || vm.Amount==0)
-                {
-                    vm.HasError = true;
-                    vm.Error = "El monto debe estar entre: 500-100000";
-                    return View(vm);
-                }
-                
-            }
+            }            
             SaveUserViewModel saveStatus = await _userService.CreateUser(vm);
             if (saveStatus.HasError)
             {
                 vm.HasError = true;
                 vm.Error = saveStatus.Error;
                 return View(vm);
-            }
-                  
-            
+            }                 
             return RedirectToRoute(new { controller = "Admin", action = "Admin" });
         }
-
-
         public IActionResult Create()
-        {
-           
+        {           
             return View(new SaveUserViewModel () );
         }
-
-
         public async Task< IActionResult> EditAdmin(string id)
         {
             return View( await _userService.GetUserByIdAsync(id));
         }
         [HttpPost]
-
-
         public async Task<IActionResult> EditAdmin(SaveUserViewModel svm)
         {
             if (ModelState["Email"].Errors.Any() || ModelState["FirstName"].Errors.Any() 
                 || ModelState["LastName"].Errors.Any() || ModelState["CardIdentificantion"].Errors.Any()
                 || ModelState["Username"].Errors.Any())
             {
-                return View(svm);
-            }
-            if (svm.Password != svm.ConfirmPassword)
-            {
-                svm.HasError = true;
-                svm.Error = "La contraseña nueva no coinciden";
                 return View(svm);
             }
             SaveUserViewModel updateStatus = await _userService.UpdateUserAsync(svm);
