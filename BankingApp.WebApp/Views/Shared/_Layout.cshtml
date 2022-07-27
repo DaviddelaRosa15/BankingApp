@@ -22,7 +22,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-info navbar-light border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand text-white fw-bold" asp-area="" asp-controller="@(User!= null ? "Home" : "User")" asp-action="Index">BankingApp</a>
+                <a class="navbar-brand text-white fw-bold" asp-area="" asp-controller="@(User!= null ? isAdmin?"Admin":"Client": "User")" asp-action="Index">BankingApp</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -63,11 +63,24 @@
                             if (isAdmin)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Admin" asp-action="Index">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Administrar Usuarios</a>
+                                    
                                 </li>
+                                <div class="dropdown">
+                                    <button class="btn btn-info dropdown-toggle text-white fw-bold " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Administración
+                                    </button>
+                                    <ul class="dropdown-menu bg-secondary">
+                                        <li>
+                                            <a class="nav-link text-white fw-bold" asp-area="" asp-controller="AdminClient" asp-action="Index">Usuarios</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Admin" asp-action="Admin">Administradores</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             }
 
                             <li class="nav-item align-content-end">
@@ -92,6 +105,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js?1.1" asp-append-version="true"></script>
     <!-- JavaScript Bundle with Popper -->
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

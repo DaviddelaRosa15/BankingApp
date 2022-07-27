@@ -1,0 +1,266 @@
+﻿@using BankingApp.Core.Application.ViewModels.User;
+@using BankingApp.Core.Application.ViewModels.CreditCard;
+@using BankingApp.Core.Application.ViewModels.SavingAccount;
+@using BankingApp.Core.Application.ViewModels.Loan;
+@model SaveUserViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="card shadow-sm contCardEditAdmiGeneric">
+            <div class="card-header bg-info text-light cont_List_Friend_Title">
+                <h4>Administracion de cliente</h4>
+            </div>
+            @if (ViewBag.Error != null)
+            {
+                <p class="text-danger">@ViewBag.Error</p>
+            }
+            @if (Model.HasError)
+            {
+                <p class="text-danger">@Model.Error</p>
+            }
+            <div class="card-body contCard">
+                <form class="row" id="forms_Add_User" asp-controller="AdminClient" asp-action="Edit">
+                    <div class="mb-3 row">
+                        <label asp-for="FirstName" class="form-label">Nombre</label>
+                        <input type="text" asp-for="FirstName" class="form-control" id="inputPassword">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="LastName" class="form-label">Apellido</label>
+                        <input type="text" asp-for="LastName" class="form-control" id="inputPassword">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="Username" class="form-label">Usuario</label>
+                        <input type="text" asp-for="Username" class="form-control" id="inputPassword">
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="inputPassword" asp-for="CardIdentificantion" class="form-label">Cédula</label>
+                        <input type="text" class="form-control" asp-for="CardIdentificantion" id="inputPassword">
+                        <span asp-validation-for="CardIdentificantion" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="inputPassword" asp-for="Email" class="form-label">Correo</label>
+                        <input type="text" asp-for="Email" class="form-control" id="inputPassword">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="inputPassword" asp-for="CurrentPassword" class="form-label">Contraseña actual</label>
+                        <input asp-for="CurrentPassword" class="form-control">
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="inputPassword" asp-for="Password" class="form-label">Contraseña nueva</label>
+                        <input asp-for="Password" class="form-control">
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="inputPassword" asp-for="ConfirmPassword" class="form-label">Confirmar contraseña</label>
+                        <input asp-for="ConfirmPassword" class="form-control">
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="inputPassword" asp-for="AditionalAmount" class="form-label labeltHidden">Monto adicional</label>
+                        <input type="number" step="any" asp-for="AditionalAmount" class="form-control inputHidden" id="inputPassword">
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-outline-primary mb-3">Guardar</button>
+                        <a class="btn btn-outline-warning mb-3" asp-controller="AdminClient" asp-action="Index">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    @* Area de manager product  *@
+    <div class="card shadow-sm cardListProduct">
+        <div class="card-header bg-info text-light cont_List_Friend_Title">
+            <h4>Cuenta de ahorro</h4>
+        </div>
+        <div class="cont_btn_createGeneric">
+            <a class="btn btn-outline-primary" asp-controller="AdminClient" asp-route-id="@Model.Id" asp-action="CreatedSavingAccount">Agregar cuenta de ahorro</a>
+        </div>
+
+        @if (ViewBag.SavingAccount != null && ViewBag.SavingAccount.Count != 0)
+        {
+            <table class="table table- table-hover ">
+                <thead>
+                    <tr>
+                        <th class="table-secondary">Id</th>
+                        <th class="table-secondary">Balance</th>
+                        <th class="table-secondary">Cuenta</th>
+                        <th class="table-secondary">----</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (SaveVM_SavingAccount SavingAccount in ViewBag.SavingAccount as List<SaveVM_SavingAccount>)
+                    {
+                        <tr>
+                            <td scope="row">@SavingAccount.SavingAccountId</td>
+                            <td scope="row">@SavingAccount.Balance</td>
+                            <td scope="row">@(SavingAccount.IsPrincipal ?"Principal":"Secundarias")</td>
+                            <td class="btn-group">
+                                @if (SavingAccount.IsPrincipal)
+                                {
+
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#desactivar-@SavingAccount.SavingAccountId">Quitar</button>
+
+                                }
+
+                            </td>
+                        </tr>
+                        <!-- Modal to confirm action -->
+                        <div class="modal fade" id="desactivar-@SavingAccount.SavingAccountId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Seguro que desea eliminar la tarejeta de credito?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <a class="btn btn-outline-danger" asp-controller="AdminClient" asp-action="DeleteSavingAccount" asp-route-id="@SavingAccount.SavingAccountId">Sí</a>
+                                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </tbody>
+            </table>
+        }
+
+    </div>
+
+    <div class="card shadow-sm cardListProduct">
+        <div class="card-header bg-info text-light cont_List_Friend_Title">
+            <h4>Préstamos</h4>
+        </div>
+        <div class="cont_btn_createGeneric">
+            <a class="btn btn-outline-primary" asp-controller="AdminClient" asp-route-id="@Model.Id" asp-action="CreatedLoan">Agregar préstamos</a>
+        </div>
+        @if (ViewBag.Loan != null && ViewBag.Loan.Count != 0)
+        {
+            <table class="table table- table-hover ">
+                <thead>
+                    <tr>
+                        <th class="table-secondary">Id</th>
+                        <th class="table-secondary">Monto</th>
+                        <th class="table-secondary">Monto pagado</th>
+                        <th class="table-secondary">Pagado</th>
+                        <th class="table-secondary">----</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (SaveLoanViewModel SavingAccount in ViewBag.Loan as List<SaveLoanViewModel>)
+                    {
+                        <tr>
+                            <td scope="row">@SavingAccount.Id</td>
+                            <td scope="row">@SavingAccount.LoanAmount</td>
+                            <td scope="row">@SavingAccount.AmountPaid</td>
+                            <td scope="row">@(SavingAccount.IsPaid ?"Pagado":"Sin pagar") </td>
+                            <td class="btn-group">
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#desactivar-@SavingAccount.Id">Quitar</button>
+                            </td>
+                        </tr>
+                        <!-- Modal to confirm action -->
+                        <div class="modal fade" id="desactivar-@SavingAccount.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Seguro que desea eliminar la tarejeta de credito?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <a class="btn btn-outline-danger" asp-controller="AdminClient" asp-action="DeleteLoan" asp-route-id="@SavingAccount.Id">Sí</a>
+                                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </tbody>
+            </table>
+        }
+
+
+    </div>
+
+
+    <div class="card shadow-sm cardListProduct">
+        <div class="card-header bg-info text-light cont_List_Friend_Title">
+            <h4>Tarjeta de creditos</h4>
+        </div>
+        <div class="cont_btn_createGeneric">
+            <a class="btn btn-outline-primary" asp-controller="AdminClient" asp-route-id="@Model.Id" asp-action="CreatedCard">Agregar tarjeta de creditos</a>
+        </div>
+        @if (ViewBag.ErrorCreditCard != null)
+        {
+            <p class="text-danger">@ViewBag.ErrorCreditCard</p>
+        }
+        @if (ViewBag.CreditCardClient != null && ViewBag.CreditCardClient.Count != 0)
+        {
+            <table class="table table- table-hover ">
+                <thead>
+                    <tr>
+                        <th class="table-secondary">Id</th>
+                        <th class="table-secondary">Credito disponible</th>
+                        <th class="table-secondary">Debito</th>
+                        <th class="table-secondary">Limite</th>
+                        <th class="table-secondary">----</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (SaveCreditCardViewModel card in ViewBag.CreditCardClient as List<SaveCreditCardViewModel>)
+                    {
+                        <tr>
+                            <td scope="row">@card.Id</td>
+                            <td scope="row">@card.AvailableCredit</td>
+                            <td scope="row">@card.Debit</td>
+                            <td scope="row">@card.Limit</td>
+                            <td class="btn-group">
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#desactivar-@card.Id">Quitar</button>
+                            </td>
+                        </tr>
+                        <!-- Modal to confirm action -->
+                        <div class="modal fade" id="desactivar-@card.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Seguro que desea eliminar la tarejeta de credito?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <a class="btn btn-outline-danger" asp-controller="AdminClient" asp-action="DeleteCreditCard" asp-route-id="@card.Id">Sí</a>
+                                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+
+                </tbody>
+            </table>
+        }
+
+
+    </div>
+</div>

@@ -17,6 +17,7 @@ namespace BankingApp.Core.Application.Services
 
         public UserService(IAccountService accountService, IMapper mapper)
         {
+
             _accountService = accountService;
             _mapper = mapper;
         }
@@ -59,6 +60,37 @@ namespace BankingApp.Core.Application.Services
         {
             return await _accountService.GetUserById(id);
         }
+        public async Task<List<SaveUserViewModel>> GetAllUserAdminAsync()
+        {
+            return await _accountService.GetAllUserAdminAsync();
+        }
+        public async Task<SaveUserViewModel> GetUserByIdAsync(string id)
+        {
+            return await _accountService.GetUserByIdAsync(id);
+        }
+        public async Task<SaveUserViewModel> UpdateUserAsync(SaveUserViewModel svm)
+        {
+            return await _accountService.UpdateUserAsync(svm);
+        }
+
+        public async Task<SaveUserViewModel> CreateUser(SaveUserViewModel svm)
+        {
+            return await _accountService.CreateUser(svm);
+        }
+
+        public async Task DesactiveUser(string id)
+        {
+            await _accountService.DesactiveUser(id);
+        }
+        public async Task ActiveUser(string id)
+        {
+            await _accountService.ActiveUser(id);
+        }
+        public async Task<List<SaveUserViewModel>> GetAllUserClientAsync()
+        {
+            return await _accountService.GetAllUserClientAsync();
+        }
+
 
 
     }

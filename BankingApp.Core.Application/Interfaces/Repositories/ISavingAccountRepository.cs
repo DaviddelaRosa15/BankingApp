@@ -1,4 +1,5 @@
 ﻿using BankingApp.Core.Application.Interfaces.Repositories;
+using BankingApp.Core.Application.ViewModels.SavingAccount;
 using BankingApp.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,6 @@ namespace BankingApp.Core.Application.Interfaces.Repositories
 {
     public interface ISavingAccountRepository : IGenericRepository<SavingAccount>
     {
-   
+        Task<SaveVM_SavingAccount> GetCardByIdUserAsync(string id);
     }
 }

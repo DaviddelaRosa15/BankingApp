@@ -6,13 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\Images\**" />
-    <Content Remove="wwwroot\Images\**" />
-    <EmbeddedResource Remove="wwwroot\Images\**" />
-    <None Remove="wwwroot\Images\**" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Include="Views\AdminClient\CreatedCard.cshtml" />
+    <None Include="Views\AdminClient\CreatedLoan.cshtml" />
+    <None Include="Views\AdminClient\CreatedSavingAccount.cshtml" />
+    <None Include="Views\AdminClient\Edit.cshtml" />
+    <None Include="Views\AdminClient\Index.cshtml" />
+    <None Include="Views\Admin\Admin.cshtml" />
+    <None Include="Views\Admin\Create.cshtml" />
+    <None Include="Views\Admin\EditAdmin.cshtml" />
+    <None Include="Views\Admin\Index.cshtml" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />

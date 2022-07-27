@@ -28,8 +28,8 @@ namespace BankingApp.Infrastructure.Identity.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("CardIdentification")
-                        .HasColumnType("int");
+                    b.Property<string>("CardIdentification")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()

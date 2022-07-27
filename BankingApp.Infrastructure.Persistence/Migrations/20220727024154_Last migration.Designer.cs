@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankingApp.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220720234822_Initial")]
-    partial class Initial
+    [Migration("20220727024154_Last migration")]
+    partial class Lastmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

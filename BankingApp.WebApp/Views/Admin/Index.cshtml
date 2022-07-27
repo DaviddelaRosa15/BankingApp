@@ -1,0 +1,61 @@
+﻿@using BankingApp.Core.Application.ViewModels.Transactions;
+@using BankingApp.Core.Application.ViewModels.Loan;
+@using BankingApp.Core.Application.ViewModels.Client;
+@{
+    CountTransaction transaction = ViewBag.CountTransaction;
+    CountLoan countLoan = ViewBag.CountLoan;
+    CountClient countClient = ViewBag.CountClient;
+    ViewData["Title"] = "Index";
+}
+<div class="row mt-5">
+
+    <div class="card shadow-sm ">
+        <div class="card-header bg-info text-light cont_List_Friend_Title">
+            <h4>Indicadores</h4>
+        </div>
+        <div class="container_Indicadores">
+            <div class="card shadow-sm cont_Card">
+                <div class="card-body ">
+                    <div class="card-header bg-info text-light cont_List_Friend_Title">
+                        <h4>Transaciones</h4>
+                    </div>
+                    <img class="bd-placeholder-img card-img-top img-product-size img_" src="~/Images/transaction_icon_194111.png" />
+                    <h4 class="card-title">Total de transaciones: @(transaction.TransationTotal==0?"0":transaction.TransationTotal)</h4>
+                    <h4 class="card-title">Transaciones de hoy: @(transaction.TransationDaily==0?"0":transaction.TransationDaily)</h4>
+                </div>
+            </div>
+            <div class="card shadow-sm cont_Card">
+                <div class="card-body ">
+                    <div class="card-header bg-info text-light cont_List_Friend_Title">
+                        <h4>Pagos</h4>
+                    </div>
+                    <img class="bd-placeholder-img card-img-top img-product-size img_" src="~/Images/pay.png" />
+                    <h4 class="card-title">Total de pagos realizados: @(countLoan.LoanTotal==0?"0":countLoan.LoanTotal)</h4>
+                    <h4 class="card-title">Pagos realizados hoy: @(countLoan.LoanTotal==0?"0":countLoan.LoanDaily)</h4>
+                </div>
+            </div>
+            <div class="card shadow-sm cont_Card">
+                <div class="card-body ">
+                    <div class="card-header bg-info text-light cont_List_Friend_Title">
+                        <h4>Clientes</h4>
+                    </div>
+                    <img class="bd-placeholder-img card-img-top img-product-size img_" src="~/Images/man_user_client_1630.png" />
+                    <h4 class="card-title">Total de clientes activos: @(countClient.ActiveTotal==0?"0":countClient.ActiveTotal)</h4>
+                    <h4 class="card-title">Total de clientes inactivos:  @(countClient.DesactiveTotal==0?"0":countClient.DesactiveTotal)</h4>
+                </div>
+            </div>
+            <div class="card shadow-sm cont_Card">
+                <div class="card-body ">
+                    <div class="card-header bg-info text-light cont_List_Friend_Title">
+                        <h4>Productos</h4>
+                    </div>
+                    <img class="bd-placeholder-img card-img-top img-product-size img_" src="~/Images/credit-card-payment_116488.png" />
+                    <h4 class="card-title">Total de productos asignados: @ViewBag.CountProductAsigned</h4>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+

@@ -31,6 +31,21 @@ namespace BankingApp.Core.Application.Services
         //    vm.        //We should include a reference of who does this transaction. 
         //    return await base.Add(vm);
         //}
+        public async Task<CountTransaction> CountTransaction()
+        {
+            CountTransaction countTransaction = new();
+            List<Transaction> transactions = await _transactionRepository.GetAllAsync();
+            countTransaction.TransationTotal = transactions.Count;
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction.Created.ToString("dd-MM-yy").Equals(DateTime.Now.ToString("dd-MM-yy")))
+                {
+                    countTransaction.TransationDaily += 1;
+                }
+            }
 
+            return countTransaction;
+
+        }
     }
 }

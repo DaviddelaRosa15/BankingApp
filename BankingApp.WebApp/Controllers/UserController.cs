@@ -5,6 +5,7 @@ using BankingApp.Core.Application.Helpers;
 using BankingApp.Core.Application.Interfaces.Services;
 using BankingApp.Core.Application.Dtos.Account;
 using BankingApp.WebApp.Middlewares;
+using System.Linq;
 
 namespace BankingApp.WebApp.Controllers
 {
@@ -33,10 +34,16 @@ namespace BankingApp.WebApp.Controllers
             }
 
             AuthenticationResponse userVm = await _userService.LoginAsync(vm);
+            bool isAdmin=true;
+            if(!userVm.HasError )
+            {
+                isAdmin= userVm != null ? userVm.Roles.Any(r => r == "Administrator") : false;
+            }                
+
             if (userVm != null && userVm.HasError != true)
             {
                 HttpContext.Session.Set<AuthenticationResponse>("user_session", userVm);
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
+                return RedirectToRoute(new { controller = isAdmin?"Admin":"Client", action = "Index" });
             }
             else
             {

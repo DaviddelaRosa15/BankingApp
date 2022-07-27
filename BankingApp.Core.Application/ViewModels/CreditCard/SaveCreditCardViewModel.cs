@@ -13,5 +13,7 @@ namespace BankingApp.Core.Application.ViewModels.CreditCard
         public double AvailableCredit { get; set; }
         public double Debit { get; set; }
         public double Limit { get; set; }
+        public bool HasError { get; set; }
+        public string Error { get; set; }
     }
 }

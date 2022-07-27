@@ -1,0 +1,180 @@
+﻿@using BankingApp.Core.Application.ViewModels.User;
+@using Microsoft.AspNetCore.Http;
+@using BankingApp.Core.Application.Dtos.Account
+@using BankingApp.Core.Application.Helpers;
+@model List<SaveUserViewModel>
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    ViewData["Title"] = "Index";
+    var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
+    var isAdmin = User != null ? User.Roles.Any(r => r == "Administrator") : false;
+    var isClient = User != null ? User.Roles.Any(r => r == "Client") : false;
+}
+
+<div class="row mt-5" id="ConUserAdmin">
+    <div class="cont_btn_createGeneric">
+        <a class="btn btn-outline-primary btn_createGeneric " asp-controller="Admin" asp-action="Create">Crea nuevo usuario</a>
+    </div>
+
+    @* -----------------------------------> Usuarios administradores activos<------------------------------------- *@
+    <div class="card shadow-sm ">
+        <div class="card-header bg-info text-light cont_List_Friend_Title">
+            <h4>Administradores</h4>
+        </div>
+        <h4 class="text-primary">Activos</h4>
+        <table class="table table- table-hover ">
+            <thead>
+                <tr>
+                    <th class="table-secondary">Nombre</th>
+                    <th class="table-secondary">Apellido</th>
+                    <th class="table-secondary">Usuario</th>
+                    <th class="table-secondary">Cédula</th>
+                    <th class="table-secondary">Correo</th>
+                    <th class="table-secondary">----</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var user in Model)
+                    {
+                        if (user.ConfirEmail)
+                        {
+                            if (User!=null && User.UserName == user.Username && isAdmin)
+                            {
+                                <tr>
+                                    <td scope="row">@user.FirstName</td>
+                                    <td scope="row">@user.LastName</td>
+                                    <td scope="row">@user.Username</td>
+                                    <td scope="row">@user.CardIdentificantion</td>
+                                    <td scope="row">@user.Email</td>
+                                    <td class="btn-group">
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal">Editar</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#desactivar-@user.Id">Desactivar</button>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td scope="row">@user.FirstName</td>
+                                    <td scope="row">@user.LastName</td>
+                                    <td scope="row">@user.Username</td>
+                                    <td scope="row">@user.CardIdentificantion</td>
+                                    <td scope="row">@user.Email</td>
+                                    <td class="btn-group">
+                                        <a class="btn btn-outline-warning" asp-controller="Admin" asp-action="EditAdmin" asp-route-id="@user.Id">Editar</a>
+                                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#desactivar-@user.Id">Desactivar</button>
+                                    </td>
+                                </tr>
+                                <!-- Modal to confirm action -->
+                                <div class="modal fade" id="desactivar-@user.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Seguro que desea desactivar el usuario?</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <a class="btn btn-outline-danger" asp-controller="Admin" asp-action="Desactive" asp-route-id="@user.Id">Sí</a>
+                                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+
+                    }
+                }
+            </tbody>
+        </table>
+
+
+
+
+        @* -----------------------------------> Usuarios administradores inactivos<------------------------------------- *@
+        <h4 class="text-success">Inactivos</h4>
+        <table class="table table- table-hover ">
+            <thead>
+                <tr>
+                    <th class="table-secondary">Nombre</th>
+                    <th class="table-secondary">Apellido</th>
+                    <th class="table-secondary">Usuario</th>
+                    <th class="table-secondary">Cédula</th>
+                    <th class="table-secondary">Correo</th>
+                    <th class="table-secondary">----</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var user in Model)
+                    {
+                        if (!user.ConfirEmail)
+                        {
+                            <tr>
+                                <td scope="row">@user.FirstName</td>
+                                <td scope="row">@user.LastName</td>
+                                <td scope="row">@user.Username</td>
+                                <td scope="row">@user.CardIdentificantion</td>
+                                <td scope="row">@user.Email</td>
+                                <td class="btn-group">
+                                    <a class="btn btn-outline-warning" asp-controller="Admin" asp-action="EditAdmin" asp-route-id="@user.Id">Editar</a>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#desactivar-@user.Id">Activar</button>
+                                </td>
+                            </tr>
+                            <!-- Modal to confirm action -->
+                            <div class="modal fade" id="desactivar-@user.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Seguro que desea desactivar el usuario?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <a class="btn btn-outline-danger" asp-controller="Admin" asp-action="Active" asp-route-id="@user.Id">Sí</a>
+                                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                }
+            </tbody>
+        </table>
+
+
+
+
+
+        <!-- Modal to confirm action -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Seguro que desea desactivar el usuario?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/" method="post">
+                            <input type="hidden" name="name" value="" />
+                            <button type="submit" class="btn btn-outline-primary">Sí</button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">No</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+

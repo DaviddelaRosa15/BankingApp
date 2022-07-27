@@ -15,5 +15,7 @@ namespace BankingApp.Core.Application.ViewModels.Loan
         public double Share { get; set; }
         public int ShareQuantity { get; set; }
         public bool IsPaid { get; set; }
+        public bool HasError { get; set; }
+        public string Error { get; set; }
     }
 }

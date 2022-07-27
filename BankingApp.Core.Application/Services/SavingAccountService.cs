@@ -59,5 +59,41 @@ namespace BankingApp.Core.Application.Services
                 IsPrincipal = account.IsPrincipal
             }).ToList();
         }
+        public async Task<SaveVM_SavingAccount> GetCardByIdUserAsync(string id)
+        {
+            return await _accountRepository.GetCardByIdUserAsync(id);
+        }
+        public override async Task<SaveVM_SavingAccount> Delete(int id)
+        {
+            var accountSaving = await _accountRepository.GetByIdAsync(id);
+            List<SavingAccount> savingAccount = await _accountRepository.GetAllAsync();
+            var acountPrincipal = savingAccount.FirstOrDefault(account => account.IsPrincipal && account.UserId == accountSaving.UserId);
+            if (acountPrincipal != null)
+            {
+                if (accountSaving.Balance > 0)
+                {
+                    acountPrincipal.Balance += accountSaving.Balance;
+                    await _accountRepository.UpdateAsync(acountPrincipal, acountPrincipal.Id);
+                }
+            }
+            
+            SaveVM_SavingAccount account = _mapper.Map<SaveVM_SavingAccount>(accountSaving);
+            await base.Delete(id);
+            account.HasError = false;
+            return account;
+
+        }
+        public async Task<List<SaveVM_SavingAccount>> GetAllAccountByIdUser(string id)
+        {
+            List<SavingAccount> credit = await _accountRepository.GetAllAsync();
+            List<SaveVM_SavingAccount> svm = _mapper.Map<List<SaveVM_SavingAccount>>(credit);
+
+            return svm.Where(svm => svm.UserId == id).ToList();
+        }
+        public async Task<int> CountSavingAccout()
+        {
+            List<SavingAccount> account = await _accountRepository.GetAllAsync();
+            return account.Count();
+        }
     }
 }

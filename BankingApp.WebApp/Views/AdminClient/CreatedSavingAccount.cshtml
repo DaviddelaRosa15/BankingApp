@@ -1,0 +1,43 @@
+﻿
+@using BankingApp.Core.Application.ViewModels.SavingAccount;
+@model SaveVM_SavingAccount
+@{
+    ViewData["Title"] = "Create credit card";
+
+
+}
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="card shadow-sm contCardEditAdmiGeneric">
+            <div class="card-header bg-info text-light cont_List_Friend_Title">
+                <h4>Creacion de cuenta de ahorro</h4>
+            </div>
+            @if (Model != null)
+            {
+                @if (Model.HasError)
+                {
+                    <p class="text-danger">@Model.Error</p>
+                }
+            }
+
+            <div class="card-body contCard">
+                <form class="row" asp-controller="AdminClient" asp-action="CreatedSavingAccount">
+
+                    <div class="mb-3 row">
+                        <label asp-for="Balance" class="form-label">Introduzca el monto</label>
+                        <input type="text" asp-for="Balance" class="form-control">
+                    </div>
+                    <input type="hidden" asp-for="UserId" value="@ViewBag.Id" />
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-outline-primary mb-3">Guardar</button>
+                        <a class="btn btn-outline-warning mb-3" asp-controller="AdminClient" asp-action="Index">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+

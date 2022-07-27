@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BankingApp.Infrastructure.Persistence.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Lastmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

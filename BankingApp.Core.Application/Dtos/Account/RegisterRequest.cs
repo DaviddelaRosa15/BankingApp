@@ -10,7 +10,7 @@ namespace BankingApp.Core.Application.Dtos.Account
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int CardIdentification { get; set; }
+        public string CardIdentification { get; set; }
         public string Email { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }

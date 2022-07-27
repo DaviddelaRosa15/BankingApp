@@ -17,7 +17,8 @@ namespace BankingApp.Core.Application.ViewModels.SavingAccount
         public double Balance { get; set; } = 0.00;
         public string UserId { get; set; }
         public bool IsPrincipal { get; set; } = false;
-
+        public bool HasError { get; set; }
+        public string Error { get; set; }
 
     }
 }

@@ -73,3 +73,37 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+/*Estilo del dashboard*/
+.img_ {
+    width: 300px;
+    height: 300px;
+}
+
+.contImg {
+    display: flex;
+    justify-content: center;
+}
+
+.cont_Card {
+    width: 370px;
+    margin: 10px auto;
+}
+
+.container_Indicadores {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.contCardEditAdmiGeneric {
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.cardListProduct {
+    margin-bottom: 25px;
+}
+
+.cont_btn_createGeneric {
+    margin: 16px;
+}
+/*-------------------------------->---<-----------------------------*/

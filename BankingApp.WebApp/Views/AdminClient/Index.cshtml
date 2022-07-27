@@ -1,0 +1,126 @@
+﻿@using BankingApp.Core.Application.ViewModels.User;
+@model List<SaveUserViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row mt-5">
+    @* -----------------------------------> Usuarios clientes activos<------------------------------------- *@
+    <div class="card shadow-sm ">
+        <div class="card-header bg-info text-light cont_List_Friend_Title">
+            <h4>Clientes</h4>
+        </div>
+        <h4 class="text-primary">Activos</h4>
+        <table class="table table- table-hover ">
+            <thead>
+                <tr>
+                    <th class="table-secondary">Nombre</th>
+                    <th class="table-secondary">Apellido</th>
+                    <th class="table-secondary">Usuario</th>
+                    <th class="table-secondary">Cédula</th>
+                    <th class="table-secondary">Correo</th>
+                    <th class="table-secondary">----</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var user in Model)
+                    {
+                        if (user.ConfirEmail)
+                        {
+                            <tr>
+                                <td scope="row">@user.FirstName</td>
+                                <td scope="row">@user.LastName</td>
+                                <td scope="row">@user.Username</td>
+                                <td scope="row">@user.CardIdentificantion</td>
+                                <td scope="row">@user.Email</td>
+                                <td class="btn-group">
+                                    <a class="btn btn-outline-warning" asp-controller="AdminClient" asp-action="Edit" asp-route-id="@user.Id">Administrar</a>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#desactivar-@user.Id">Desactivar</button>
+                                </td>
+                            </tr>
+                            <!-- Modal to confirm action -->
+                            <div class="modal fade" id="desactivar-@user.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Seguro que desea desactivar el usuario?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <a class="btn btn-outline-danger" asp-controller="AdminClient" asp-action="Desactive" asp-route-id="@user.Id">Sí</a>
+                                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                }
+            </tbody>
+        </table>
+
+
+
+
+        @* -----------------------------------> Usuarios clientes inactivos<------------------------------------- *@
+        <h4 class="text-success">Inactivos</h4>
+        <table class="table table- table-hover ">
+            <thead>
+                <tr>
+                    <th class="table-secondary">Nombre</th>
+                    <th class="table-secondary">Apellido</th>
+                    <th class="table-secondary">Usuario</th>
+                    <th class="table-secondary">Cédula</th>
+                    <th class="table-secondary">Correo</th>
+                    <th class="table-secondary">----</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var user in Model)
+                    {
+                        if (!user.ConfirEmail)
+                        {
+                            <tr>
+                                <td scope="row">@user.FirstName</td>
+                                <td scope="row">@user.LastName</td>
+                                <td scope="row">@user.Username</td>
+                                <td scope="row">@user.CardIdentificantion</td>
+                                <td scope="row">@user.Email</td>
+                                <td class="btn-group">
+                                    <a class="btn btn-outline-warning" asp-controller="AdminClient" asp-action="Edit" asp-route-id="@user.Id">Administrar</a>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#desactivar-@user.Id">Activar</button>
+                                </td>
+                            </tr>
+                            <!-- Modal to confirm action -->
+                            <div class="modal fade" id="desactivar-@user.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Seguro que desea Activar el usuario?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <a class="btn btn-outline-danger" asp-controller="AdminClient" asp-action="Active" asp-route-id="@user.Id">Sí</a>
+                                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
