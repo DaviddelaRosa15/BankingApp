@@ -47,5 +47,23 @@ namespace BankingApp.Core.Application.Services
             return countTransaction;
 
         }
+
+        public async Task<CountPay> CountPay()
+        {
+            CountPay countPay = new();
+            List<Transaction> transactions = await _transactionRepository.GetAllAsync();
+            transactions = transactions.Where(x => x.TransactionType == "Pay").ToList();
+            countPay.PayTotal = transactions.Count();
+
+            foreach (Transaction transaction in transactions)
+            {
+                if (transaction.Created.ToString("dd-MM-yy").Equals(DateTime.Now.ToString("dd-MM-yy")))
+                {
+                    countPay.PayTotal += 1;
+                }
+            }
+
+            return countPay;
+        }
     }
 }

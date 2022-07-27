@@ -11,5 +11,6 @@ namespace BankingApp.Core.Application.Interfaces.Services
     public interface ITransactionService : IGenericService<SaveViewModelTransaction, TransactionViewModel, Transaction>
     {
         Task<CountTransaction> CountTransaction();
+        Task<CountPay> CountPay();
     }
 }

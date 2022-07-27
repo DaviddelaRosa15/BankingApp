@@ -95,21 +95,22 @@ namespace BankingApp.Core.Application.Services
             return saveLoanViewModel;
 
         }
-        public async Task<CountLoan> CountLoan()
-        {
-            CountLoan countLoan = new();
-            List<Loan> loans = await _loanRepository.GetAllAsync();
-            countLoan.LoanTotal = loans.Count;
-            foreach (Loan loan in loans)
-            {
-                if (loan.Created.ToString("dd-MM-yy").Equals(DateTime.Now.ToString("dd-MM-yy")))
-                {
-                    countLoan.LoanDaily += 1;
-                }
-            }
-            return countLoan;
+        //public async Task<CountLoan> CountLoan()
+        //{
+        //    CountLoan countLoan = new();
+        //    List<Loan> loans = await _loanRepository.GetAllAsync();
+        //    countLoan.LoanTotal = loans.Count;
+        //    foreach (Loan loan in loans)
+        //    {
+        //        if (loan.Created.ToString("dd-MM-yy").Equals(DateTime.Now.ToString("dd-MM-yy")))
+        //        {
+        //            countLoan.LoanDaily += 1;
+        //        }
+        //    }
+        //    return countLoan;
 
-        }
+        //}
+
         public async Task<int> CountProductLoan()
         {
             List<Loan> loans = await _loanRepository.GetAllAsync();

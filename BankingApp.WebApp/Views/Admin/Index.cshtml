@@ -1,9 +1,8 @@
 ﻿@using BankingApp.Core.Application.ViewModels.Transactions;
-@using BankingApp.Core.Application.ViewModels.Loan;
 @using BankingApp.Core.Application.ViewModels.Client;
 @{
     CountTransaction transaction = ViewBag.CountTransaction;
-    CountLoan countLoan = ViewBag.CountLoan;
+    CountPay countPay = ViewBag.CountPay;
     CountClient countClient = ViewBag.CountClient;
     ViewData["Title"] = "Index";
 }
@@ -30,8 +29,8 @@
                         <h4>Pagos</h4>
                     </div>
                     <img class="bd-placeholder-img card-img-top img-product-size img_" src="~/Images/pay.png" />
-                    <h4 class="card-title">Total de pagos realizados: @(countLoan.LoanTotal==0?"0":countLoan.LoanTotal)</h4>
-                    <h4 class="card-title">Pagos realizados hoy: @(countLoan.LoanTotal==0?"0":countLoan.LoanDaily)</h4>
+                    <h4 class="card-title">Total de pagos realizados: @(countPay.PayTotal == 0 ? "0" : countPay.PayTotal)</h4>
+                    <h4 class="card-title">Pagos realizados hoy: @(countPay.PayDaily == 0 ? "0" : countPay.PayDaily)</h4>
                 </div>
             </div>
             <div class="card shadow-sm cont_Card">

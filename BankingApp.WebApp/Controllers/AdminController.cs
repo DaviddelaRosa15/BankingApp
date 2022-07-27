@@ -16,17 +16,17 @@ namespace BankingApp.WebApp.Controllers
         private readonly IUserService _userService; 
         private readonly IAccountService _accountService; 
         private readonly ITransactionService _transactionService;
-        private readonly ILoanService _ILoanService;
+        private readonly ILoanService _loanService;
         private readonly ICreditCardService _creditCardService;
         private readonly IProductClient _productClient;
         
         public AdminController(IUserService userService, ITransactionService transactionService, 
-            ILoanService ILoanService, IAccountService accountService, ICreditCardService creditCardService,
+            ILoanService loanService, IAccountService accountService, ICreditCardService creditCardService,
             IProductClient productClient
         )
         {
             _userService = userService;
-            _ILoanService = ILoanService;
+            _loanService = loanService;
             _transactionService = transactionService;
             _accountService = accountService;
             _creditCardService = creditCardService;
@@ -35,7 +35,7 @@ namespace BankingApp.WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.CountTransaction = await _transactionService.CountTransaction();
-            ViewBag.CountLoan = await _ILoanService.CountLoan();
+            ViewBag.CountPay = await _transactionService.CountPay();
             ViewBag.CountClient = await _accountService.CountClient();
             ViewBag.CountProductAsigned = await _productClient.CountProductAsigned();
             return View(await _userService.GetAllUserAdminAsync());
