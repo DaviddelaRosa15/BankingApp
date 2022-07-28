@@ -59,7 +59,7 @@ namespace BankingApp.WebApp.Controllers
         }
 
         #region Mantenimiento de beneficiarios
-        
+
         public async Task<IActionResult> MyBeneficiaries()
         {
             ViewBag.beneficiaryStatus = new BeneficiaryViewModel() { HasError = false };
@@ -82,17 +82,17 @@ namespace BankingApp.WebApp.Controllers
 
                 List<BeneficiaryViewModel> beneficiaries = await _beneficiaryService.GetAllViewModelWithInclude();
                 return View(viewName: "MyBeneficiary", model: beneficiaries);
-             
+
             }
 
-            var beneficiary = await _beneficiaryService.GetByIdSaveViewModel(int.Parse(SavingAccountId));
+            var account = await _savingAccountService.GetByIdSaveViewModel(int.Parse(SavingAccountId));
 
-            if (beneficiary == null)
+            if (account == null)
             {
                 ViewBag.beneficiaryStatus = new BeneficiaryViewModel()
                 {
                     HasError = true,
-                    Error = $"This account {SavingAccountId} does not exist..."
+                    Error = $"Esta cuenta {SavingAccountId} no existe..."
                 };
 
                 List<BeneficiaryViewModel> beneficiaries = await _beneficiaryService.GetAllViewModelWithInclude();
@@ -101,27 +101,17 @@ namespace BankingApp.WebApp.Controllers
 
             await _beneficiaryService.Add(new SaveViewModelBeneficiary()
             {
-                SavingAccountId = beneficiary.Id,
+                SavingAccountId = account.SavingAccountId,
                 UserId = _loggedUser.Id
             });
 
-            return RedirectToAction(controllerName: "Client", actionName: "MyBeneficiary");
+            return RedirectToRoute(new { controller = "Client", action = "MyBeneficiaries" });
         }
 
         [HttpGet]
         public async Task<IActionResult> BeneficiaryDelete(string id = "")
         {
             List<BeneficiaryViewModel> beneficiaries = await _beneficiaryService.GetAllViewModelWithInclude();
-            
-            if (!ValidationHelper.IsValidProductID(id) || string.IsNullOrEmpty(id) || id == null)
-            {
-                return View(viewName: "ConfirmBeneficiaryDelete", model: new BeneficiaryViewModel()
-                {
-                    HasError = true,
-                    Error = "Ha habido un error a la hora de confirmar la eliminaci�n, si esto persiste contacte inmediatamente al administrado."
-                });
-            }
-
             int identifier = int.Parse(id);
 
             BeneficiaryViewModel beneficiary = beneficiaries.FirstOrDefault(benf => benf.Id == identifier);
@@ -134,7 +124,7 @@ namespace BankingApp.WebApp.Controllers
         public async Task<IActionResult> BeneficiaryDelete(BeneficiaryViewModel beneficiary)
         {
             await _beneficiaryService.Delete(beneficiary.Id);
-            return RedirectToAction(controllerName: "Client", actionName: "MyBeneficiary");
+            return RedirectToRoute(new { controller = "Client", action = "MyBeneficiaries" });
         }
 
         #endregion
@@ -386,7 +376,7 @@ namespace BankingApp.WebApp.Controllers
                 return View(vm);
             }
 
-            return RedirectToRoute(new {controller = "Client", action = "Index"});
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
         #endregion
     }
