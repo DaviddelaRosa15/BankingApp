@@ -9,14 +9,14 @@
     <div class="col-6 offset-3">
         <div class="card">
             <div class="card-header bg-danger text-light">
-                <h4>¿Está seguro que quiere hacer el pago a @Model.FullNameOwner en la cuenta @Model.DestinyAccount.SavingAccountId?</h4>
+                <h4>¿Está seguro que quiere hacer el pago a @Model.FullNameOwner en la cuenta @Model.DestinyAccountId?</h4>
             </div>
             <div class="card-body">
 
                 <form method="post" asp-controller="Client" asp-action="ProcessPayment">
 
-                    <input type="hidden" asp-for="OriginAccount" />
-                    <input type="hidden" asp-for="DestinyAccount" />
+                    <input type="hidden" asp-for="OriginAccountId" />
+                    <input type="hidden" asp-for="DestinyAccountId" />
                     <input type="hidden" asp-for="Amount" />
 
                     <button type="submit" class="btn btn-success">Realizar Pago</button>

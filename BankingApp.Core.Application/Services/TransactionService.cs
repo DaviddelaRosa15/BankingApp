@@ -59,7 +59,7 @@ namespace BankingApp.Core.Application.Services
             {
                 if (transaction.Created.ToString("dd-MM-yy").Equals(DateTime.Now.ToString("dd-MM-yy")))
                 {
-                    countPay.PayTotal += 1;
+                    countPay.PayDaily += 1;
                 }
             }
 

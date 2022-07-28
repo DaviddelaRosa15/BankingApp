@@ -17,7 +17,7 @@ namespace BankingApp.Core.Application.ViewModels.Operation
         public List<SavingAccountViewModel> AccountsOwn { get; set; }
 
         [Required(ErrorMessage = "Debe colocar un monto válido, para procesar su pago.")]
-        [RegularExpression("^[0-9]$", ErrorMessage = "Ingrese un monto válido.")]
+        [RegularExpression("(^[0-9]+$)", ErrorMessage = "Solo se permiten números")]
         [Range(1, int.MaxValue, ErrorMessage = "El monto a pagar no puede ser 0")]
         [DataType(DataType.Currency)]
         public double Amount { get; set; }

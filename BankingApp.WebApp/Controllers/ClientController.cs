@@ -142,23 +142,14 @@ namespace BankingApp.WebApp.Controllers
 
         //Intermediario para selecionar las cuenta y enviar el pago.
         [HttpGet]
-        public async Task<IActionResult> BeneficiaryPay(string SavingAccountId = "")
+        public async Task<IActionResult> BeneficiaryPay(int id)
         {
             //Pago para el benecifiario.
             PaymentViewModel model = new();
             model.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
+            model.DestinyAccount = id;
 
-            if (ValidationHelper.IsValidProductID(SavingAccountId) && !string.IsNullOrEmpty(SavingAccountId) && SavingAccountId != null)
-            {
-                model.DestinyAccount = int.Parse(SavingAccountId);
-                return View(viewName: "BeneficiaryPay", model);
-            }
-            else
-            {
-                model.HasError = true;
-                model.Error = "Cuenta Invalida, ha habido un error a la hora de confirmar su beneficiario, si esto persiste contacte inmediatamente al administrado.";
-                return View(viewName: "BeneficiaryPay", model);
-            }
+            return View(viewName: "BeneficiaryPay", model);
 
         }
 
@@ -235,9 +226,9 @@ namespace BankingApp.WebApp.Controllers
             return View(cards);
         }
 
-        public async Task<IActionResult> MakeCreditCardPay(int cardId)
+        public async Task<IActionResult> MakeCreditCardPay(int id)
         {
-            var card = await _creditCardService.GetByIdSaveViewModel(cardId);
+            var card = await _creditCardService.GetByIdSaveViewModel(id);
             CreditPaymentViewModel model = new()
             {
                 AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude(),
@@ -277,9 +268,9 @@ namespace BankingApp.WebApp.Controllers
 
             return View(loans);
         }
-        public async Task<IActionResult> MakeLoanPay(int loanId)
+        public async Task<IActionResult> MakeLoanPay(int id)
         {
-            var loan = await _loanService.GetByIdSaveViewModel(loanId);
+            var loan = await _loanService.GetByIdSaveViewModel(id);
             LoanPaymentViewModel model = new()
             {
                 AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude(),
@@ -329,8 +320,6 @@ namespace BankingApp.WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                cashAdvanceView.HasError = true;
-                cashAdvanceView.Error = "Verifique bien sus datos.";
                 cashAdvanceView.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
                 cashAdvanceView.OriginCreditCards = await _creditCardService.GetAllViewModelWithInclude();
                 return View(viewName: "CashAdvancePay", model: cashAdvanceView);
@@ -340,6 +329,10 @@ namespace BankingApp.WebApp.Controllers
 
             if (opResult.HasError)
             {
+                cashAdvanceView.HasError = true;
+                cashAdvanceView.Error = opResult.Error;
+                cashAdvanceView.AccountsOwn = await _savingAccountService.GetAllViewModelWithInclude();
+                cashAdvanceView.OriginCreditCards = await _creditCardService.GetAllViewModelWithInclude();
                 return View(viewName: "CashAdvancePay", model: cashAdvanceView);
             }
 
@@ -366,7 +359,6 @@ namespace BankingApp.WebApp.Controllers
             }
 
             AccountTransferViewModel model = await _operationService.AccountTransfer(vm);
-
 
             if (model.HasError)
             {

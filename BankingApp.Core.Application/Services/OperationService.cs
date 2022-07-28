@@ -64,8 +64,8 @@ namespace BankingApp.Core.Application.Services
 
             var user = await _userService.GetUserByIdAsync(accountDestiny.UserId);
             response.FullNameOwner = user.FirstName + " " + user.LastName;
-            response.OriginAccount = accountOrigin;
-            response.DestinyAccount = accountDestiny;
+            response.OriginAccountId = accountOrigin.SavingAccountId;
+            response.DestinyAccountId = accountDestiny.SavingAccountId;
             response.Amount = vm.Amount;
 
             return response;
@@ -73,16 +73,19 @@ namespace BankingApp.Core.Application.Services
 
         public async Task Pay(ResponsePaymentViewModel vm)
         {
-            vm.OriginAccount.Balance -= vm.Amount;
-            await _savingService.Update(vm.OriginAccount, vm.OriginAccount.SavingAccountId);
+            var saveOrigin = await _savingService.GetByIdSaveViewModel(vm.OriginAccountId);
+            var saveDestiny = await _savingService.GetByIdSaveViewModel(vm.DestinyAccountId);
 
-            vm.DestinyAccount.Balance += vm.Amount;
-            await _savingService.Update(vm.DestinyAccount, vm.DestinyAccount.SavingAccountId);
+            saveOrigin.Balance -= vm.Amount;
+            await _savingService.Update(saveOrigin, saveOrigin.SavingAccountId);
+
+            saveDestiny.Balance += vm.Amount;
+            await _savingService.Update(saveDestiny, saveDestiny.SavingAccountId);
 
             SaveViewModelTransaction transaction = new()
             {
-                OriginAccount = vm.OriginAccount.SavingAccountId,
-                DestinyAccount = vm.DestinyAccount.SavingAccountId,
+                OriginAccount = saveOrigin.SavingAccountId,
+                DestinyAccount = saveDestiny.SavingAccountId,
                 Amount = vm.Amount,
                 TransactionType = "Transaction"
             };

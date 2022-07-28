@@ -33,7 +33,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="DestinyAccount" class="form-label">Cuenta a debitar: </label>
+                            <label asp-for="DestinyAccount" class="form-label">Cuenta a depositar: </label>
                             <select asp-for="DestinyAccount" asp-items="@(new SelectList(Model.AccountsOwn,"SavingAccountId","SavingAccountId"))" class="form-select">
                                 <option value="0">Seleccione una opcion</option>
 

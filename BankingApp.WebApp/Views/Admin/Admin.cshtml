@@ -5,7 +5,7 @@
 @model List<SaveUserViewModel>
 @inject IHttpContextAccessor httpContextAccessor
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Administrar administradores";
     var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
     var isAdmin = User != null ? User.Roles.Any(r => r == "Administrator") : false;
     var isClient = User != null ? User.Roles.Any(r => r == "Client") : false;
