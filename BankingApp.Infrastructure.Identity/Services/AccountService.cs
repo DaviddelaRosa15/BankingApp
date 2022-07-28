@@ -129,7 +129,7 @@ namespace BankingApp.Infrastructure.Identity.Services
             if (svm.Password != svm.ConfirmPassword)
             {
                 sv.HasError = true;
-                sv.Error = "La contraseña nueva no coinciden";
+                sv.Error = "Las contraseñas nuevas no coinciden";
                 return sv;
             }
             if (svm.Password != null)
@@ -389,7 +389,7 @@ namespace BankingApp.Infrastructure.Identity.Services
             if (user == null)
             {
                 response.HasError = true;
-                response.Error = $"No Accounts registered with {request.Email}";
+                response.Error = $"No existe una cuenta registrada con el email {request.Email}, si el problema persiste haga contacto con nuestro soporte técnico";
                 return response;
             }
 
@@ -397,13 +397,13 @@ namespace BankingApp.Infrastructure.Identity.Services
             if (!result.Succeeded)
             {
                 response.HasError = true;
-                response.Error = $"Invalid credentials for {request.Email}";
+                response.Error = $"Credenciales incorrectas para el email {request.Email}, si el problema persiste haga contacto con nuestro soporte técnico";
                 return response;
             }
             if (!user.EmailConfirmed)
             {
                 response.HasError = true;
-                response.Error = $"Account no confirmed for {request.Email}";
+                response.Error = $"Su cuenta no está activa, haga contacto con nuestro soporte técnico";
                 return response;
             }
 
