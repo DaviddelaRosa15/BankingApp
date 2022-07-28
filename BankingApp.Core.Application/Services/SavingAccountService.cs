@@ -74,7 +74,7 @@ namespace BankingApp.Core.Application.Services
             List<SavingAccount> credit = await _accountRepository.GetAllAsync();
             List<SaveVM_SavingAccount> svm = _mapper.Map<List<SaveVM_SavingAccount>>(credit);
 
-            return svm.Where(svm => svm.UserId == id).ToList();
+            return svm.Where(svm => svm.UserId == id).OrderBy(n => !n.IsPrincipal).ToList();
         }
         public async Task<int> CountSavingAccout()
         {
