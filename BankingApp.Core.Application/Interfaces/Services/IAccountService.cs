@@ -9,12 +9,7 @@ namespace BankingApp.Core.Application.Interfaces.Services
     public interface IAccountService
     {
         Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request);
-        Task<string> ConfirmAccountAsync(string userId, string token);
-        Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordRequest request, string origin);
-        Task<RegisterResponse> RegisterBasicUserAsync(RegisterRequest request, string origin);
-        Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordRequest request);
         Task SignOutAsync();
-        Task<AuthenticationResponse> GetUserById(string id);
         Task<SaveUserViewModel> GetUserByIdAsync(string id);
         Task<SaveUserViewModel> UpdateUserAsync(SaveUserViewModel svm);
         Task<SaveUserViewModel> CreateUser(SaveUserViewModel svm);

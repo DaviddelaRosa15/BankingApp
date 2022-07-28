@@ -40,8 +40,8 @@ namespace BankingApp.Core.Application.Services
             
             return result.Where(x => x.UserId == userViewModel.Id).Select(ben => new BeneficiaryViewModel()
             {
-                BeneficiaryName = _userService.GetUserById(ben.SavingAccount.UserId).Result.FirstName,
-                BeneficiaryLastName = _userService.GetUserById(ben.SavingAccount.UserId).Result.LastName,
+                BeneficiaryName = _userService.GetUserByIdAsync(ben.SavingAccount.UserId).Result.FirstName,
+                BeneficiaryLastName = _userService.GetUserByIdAsync(ben.SavingAccount.UserId).Result.LastName,
                 Id = ben.Id,
                 SavingAccountId = ben.SavingAccountId
             }).ToList();

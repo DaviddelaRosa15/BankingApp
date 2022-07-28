@@ -13,14 +13,14 @@ namespace BankingApp.WebApp.Controllers
     [Authorize(Roles = "Administrator")]
     public class AdminController : Controller
     {
-        private readonly IUserService _userService; 
-        private readonly IAccountService _accountService; 
+        private readonly IUserService _userService;
+        private readonly IAccountService _accountService;
         private readonly ITransactionService _transactionService;
         private readonly ILoanService _loanService;
         private readonly ICreditCardService _creditCardService;
         private readonly IProductClient _productClient;
-        
-        public AdminController(IUserService userService, ITransactionService transactionService, 
+
+        public AdminController(IUserService userService, ITransactionService transactionService,
             ILoanService loanService, IAccountService accountService, ICreditCardService creditCardService,
             IProductClient productClient
         )
@@ -30,7 +30,7 @@ namespace BankingApp.WebApp.Controllers
             _transactionService = transactionService;
             _accountService = accountService;
             _creditCardService = creditCardService;
-            _productClient =productClient;
+            _productClient = productClient;
         }
         public async Task<IActionResult> Index()
         {
@@ -41,38 +41,42 @@ namespace BankingApp.WebApp.Controllers
             return View(await _userService.GetAllUserAdminAsync());
         }
 
-        public async Task< IActionResult> Admin()
+        public async Task<IActionResult> Admin()
         {
             return View(await _userService.GetAllUserAdminAsync());
         }
+
+        public IActionResult Create()
+        {
+            return View(new SaveUserViewModel());
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(SaveUserViewModel vm)
         {
             if (!ModelState.IsValid)
             {
                 return View(vm);
-            }            
+            }
             SaveUserViewModel saveStatus = await _userService.CreateUser(vm);
             if (saveStatus.HasError)
             {
                 vm.HasError = true;
                 vm.Error = saveStatus.Error;
                 return View(vm);
-            }                 
+            }
             return RedirectToRoute(new { controller = "Admin", action = "Admin" });
         }
-        public IActionResult Create()
-        {           
-            return View(new SaveUserViewModel () );
-        }
-        public async Task< IActionResult> EditAdmin(string id)
+
+        public async Task<IActionResult> EditAdmin(string id)
         {
-            return View( await _userService.GetUserByIdAsync(id));
+            return View(await _userService.GetUserByIdAsync(id));
         }
+
         [HttpPost]
         public async Task<IActionResult> EditAdmin(SaveUserViewModel svm)
         {
-            if (ModelState["Email"].Errors.Any() || ModelState["FirstName"].Errors.Any() 
+            if (ModelState["Email"].Errors.Any() || ModelState["FirstName"].Errors.Any()
                 || ModelState["LastName"].Errors.Any() || ModelState["CardIdentificantion"].Errors.Any()
                 || ModelState["Username"].Errors.Any())
             {
@@ -88,11 +92,11 @@ namespace BankingApp.WebApp.Controllers
             return RedirectToRoute(new { controller = "Admin", action = "Admin" });
         }
 
-    public async Task<IActionResult> Desactive(string id)
-    {
+        public async Task<IActionResult> Desactive(string id)
+        {
             await _userService.DesactiveUser(id);
-           return RedirectToRoute(new { controller = "Admin", action = "Admin" });
-    }
+            return RedirectToRoute(new { controller = "Admin", action = "Admin" });
+        }
         public async Task<IActionResult> Active(string id)
         {
             await _userService.ActiveUser(id);

@@ -62,7 +62,7 @@ namespace BankingApp.Core.Application.Services
                 return response;
             }
 
-            AuthenticationResponse user = await _userService.GetUserById(accountDestiny.UserId);
+            var user = await _userService.GetUserByIdAsync(accountDestiny.UserId);
             response.FullNameOwner = user.FirstName + " " + user.LastName;
             response.OriginAccount = accountOrigin;
             response.DestinyAccount = accountDestiny;

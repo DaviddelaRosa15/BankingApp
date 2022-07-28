@@ -32,34 +32,6 @@ namespace BankingApp.Core.Application.Services
         {
             await _accountService.SignOutAsync();
         }
-
-        public async Task<RegisterResponse> RegisterAsync(SaveUserViewModel vm, string origin)
-        {
-            RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(vm);
-            return await _accountService.RegisterBasicUserAsync(registerRequest, origin);
-        }
-
-        public async Task<string> ConfirmEmailAsync(string userId, string token)
-        {
-            return await _accountService.ConfirmAccountAsync(userId, token);
-        }
-
-        public async Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordViewModel vm, string origin)
-        {
-            ForgotPasswordRequest forgotRequest = _mapper.Map<ForgotPasswordRequest>(vm);
-            return await _accountService.ForgotPasswordAsync(forgotRequest, origin);
-        }
-
-        public async Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordViewModel vm)
-        {
-            ResetPasswordRequest resetRequest = _mapper.Map<ResetPasswordRequest>(vm);
-            return await _accountService.ResetPasswordAsync(resetRequest);
-        }
-
-        public async Task<AuthenticationResponse> GetUserById(string id)
-        {
-            return await _accountService.GetUserById(id);
-        }
         public async Task<List<SaveUserViewModel>> GetAllUserAdminAsync()
         {
             return await _accountService.GetAllUserAdminAsync();
@@ -90,8 +62,5 @@ namespace BankingApp.Core.Application.Services
         {
             return await _accountService.GetAllUserClientAsync();
         }
-
-
-
     }
 }
