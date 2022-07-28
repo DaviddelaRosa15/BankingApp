@@ -16,11 +16,11 @@
             </div>
             @if (ViewBag.Error != null)
             {
-                <p class="text-danger">@ViewBag.Error</p>
+                <h6 class="text-danger m-lg-3">@Model.Error</h6>
             }
             @if (Model.HasError)
             {
-                <p class="text-danger">@Model.Error</p>
+                <h6 class="text-danger m-lg-3">@Model.Error</h6>
             }
             <div class="card-body contCard">
                 <form class="row" id="forms_Add_User" asp-controller="AdminClient" asp-action="Edit">
@@ -81,7 +81,7 @@
     @* Area de manager product  *@
     <div class="card shadow-sm cardListProduct">
         <div class="card-header bg-info text-light cont_List_Friend_Title">
-            <h4>Cuenta de ahorro</h4>
+            <h4>Cuentas de ahorro</h4>
         </div>
         <div class="cont_btn_createGeneric">
             <a class="btn btn-outline-primary" asp-controller="AdminClient" asp-route-id="@Model.Id" asp-action="CreatedSavingAccount">Agregar cuenta de ahorro</a>
@@ -123,7 +123,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Seguro que desea eliminar la tarejeta de credito?</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">¿Seguro que desea eliminar la cuenta de ahorro?</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -150,7 +150,7 @@
             <h4>Préstamos</h4>
         </div>
         <div class="cont_btn_createGeneric">
-            <a class="btn btn-outline-primary" asp-controller="AdminClient" asp-route-id="@Model.Id" asp-action="CreatedLoan">Agregar préstamos</a>
+            <a class="btn btn-outline-primary" asp-controller="AdminClient" asp-route-id="@Model.Id" asp-action="CreatedLoan">Agregar préstamo</a>
         </div>
         @if (ViewBag.Loan != null && ViewBag.Loan.Count != 0)
         {
@@ -182,7 +182,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Seguro que desea eliminar la tarejeta de credito?</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">¿Seguro que desea eliminar el prestamo?</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -211,10 +211,10 @@
 
     <div class="card shadow-sm cardListProduct">
         <div class="card-header bg-info text-light cont_List_Friend_Title">
-            <h4>Tarjeta de creditos</h4>
+            <h4>Tarjetas de crédito</h4>
         </div>
         <div class="cont_btn_createGeneric">
-            <a class="btn btn-outline-primary" asp-controller="AdminClient" asp-route-id="@Model.Id" asp-action="CreatedCard">Agregar tarjeta de creditos</a>
+            <a class="btn btn-outline-primary" asp-controller="AdminClient" asp-route-id="@Model.Id" asp-action="CreatedCard">Agregar tarjeta de crédito</a>
         </div>
         @if (ViewBag.ErrorCreditCard != null)
         {

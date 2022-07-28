@@ -95,19 +95,19 @@
                             foreach (SavingAccountViewModel savingAccount in Model.SavingAccounts.OrderBy(data => data.IsPrincipal))
                             {
 
-                                    <div class="row p-4">
+                                <div class="row p-4">
 
-                                        <div class="col-6">
-                                            <h6 class="text-secondary fw-bold">Numero de cuenta</h6>
-                                            <p><small>@savingAccount.SavingAccountId</small></p>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <h6 class="text-secondary fw-bold">Balance disponible</h6>
-                                            <p><small>@savingAccount.Balance</small></p>
-                                        </div>
-
+                                    <div class="col-6">
+                                        <h6 class="text-secondary fw-bold">Número de cuenta</h6>
+                                        <p><small>@savingAccount.SavingAccountId</small></p>
                                     </div>
+
+                                    <div class="col-6">
+                                        <h6 class="text-secondary fw-bold">Balance disponible</h6>
+                                        <p><small>@savingAccount.Balance</small></p>
+                                    </div>
+
+                                </div>
 
                             }
                         }
@@ -133,29 +133,30 @@
                         @{
                             if (Model.CreditCards.Count == 0 || Model.CreditCards == null)
                             {
-                                    <div class="row"> <h6> Contact with any of our administrator or headsquare and open a new one.</h6> </div>
+                                <div class="row"> <h6> Contact with any of our administrator or headsquare and open a new one.</h6> </div>
                             }
 
                             foreach (CreditCardViewModel creditCard in Model.CreditCards)
                             {
 
-                                    <div class="row p-4">
+                                <div class="row p-4">
 
-                                        <div class="col-8">
-                                            <h6 class="text-secondary">Current Account</h6>
-                                            <p><small>@creditCard.Id</small></p>
-                                        </div>
-
-                                        <div class="col-2">
-                                            <h4 class="text-danger">RD -@creditCard.Debit</h4>
-                                        </div>
-
-                                        <div class="col-2">
-                                            <p><small>Avaible</small></p>
-                                            <p><small>@creditCard.AvailableCredit</small></p>
-                                        </div>
-
+                                    <div class="col-4">
+                                        <h6 class="text-secondary fw-bold">Id tarjeta</h6>
+                                        <p><small>@creditCard.Id</small></p>
                                     </div>
+
+                                    <div class="col-4">
+                                        <h6 class="text-secondary fw-bold">Debe</h6>
+                                        <p><small>@creditCard.Debit</small></p>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <h6 class="text-secondary fw-bold">Disponible</h6>
+                                        <p><small>@creditCard.AvailableCredit</small></p>
+                                    </div>
+
+                                </div>
 
                             }
                         }
@@ -182,29 +183,30 @@
 
                             if (Model.Loans.Count() == 0 || Model.Loans == null)
                             {
-                                    <div class="row"> <h6> Contact with any of our administrator or go to our headsquare and start a new one.</h6> </div>
+                                <div class="row"> <h6> Contact with any of our administrator or go to our headsquare and start a new one.</h6> </div>
                             }
 
                             foreach (LoanViewModel loan in Model.Loans.Where(loan => loan.IsPaid == false).ToList())
                             {
 
-                                    <div class="row p-4">
+                                <div class="row p-4">
 
-                                        <div class="col-8">
-                                            <h6 class="text-secondary">Loan ID</h6>
-                                            <p><small>@loan.Id</small></p>
-                                        </div>
-
-                                        <div class="col-2">
-                                            <h4 class="text-danger">RD -@(loan.LoanAmount - loan.AmountPaid)</h4>
-                                        </div>
-
-                                        <div class="col-2">
-                                            <p><small>Assigned amount</small></p>
-                                            <p><small>@loan.LoanAmount</small></p>
-                                        </div>
-
+                                    <div class="col-4">
+                                        <h6 class="text-secondary fw-bold">Id loan</h6>
+                                        <p><small>@loan.Id</small></p>
                                     </div>
+
+                                    <div class="col-4">
+                                        <h6 class="text-secondary fw-bold">Debe</h6>
+                                        <p><small>@(loan.LoanAmount - loan.AmountPaid)</small></p>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <h6 class="text-secondary fw-bold">Monto asignado</h6>
+                                        <p><small>@loan.LoanAmount</small></p>
+                                    </div>
+
+                                </div>
 
                             }
                         }

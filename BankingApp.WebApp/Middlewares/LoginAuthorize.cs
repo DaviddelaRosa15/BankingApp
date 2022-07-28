@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading.Tasks;
 using BankingApp.WebApp.Controllers;
+using System.Linq;
 
 namespace BankingApp.WebApp.Middlewares
 {
@@ -15,10 +16,18 @@ namespace BankingApp.WebApp.Middlewares
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context,ActionExecutionDelegate next)
         {
-            if (_userSession.HasUser())
+            var user = _userSession.HasUser();
+            if ( user != null)
             {
                 var controller = (UserController)context.Controller;
-                context.Result = controller.RedirectToAction("index", "home");
+                if (user.Roles.Any(n => n == "Administrator"))
+                {
+                    context.Result = controller.RedirectToAction("index", "Admin");
+                }
+                else
+                {
+                    context.Result = controller.RedirectToAction("index", "Client");
+                }                
             }
             else
             {

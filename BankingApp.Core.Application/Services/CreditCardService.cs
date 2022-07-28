@@ -33,7 +33,7 @@ namespace BankingApp.Core.Application.Services
         {
             var cardList = await _creditCardRepository.GetAllWithIncludeAsync(new List<string> { });
 
-            return cardList.Where(x => x.UserId == userViewModel.Id).Select(card => new CreditCardViewModel
+            return cardList.Where(x => x.UserId == userViewModel.Id).OrderBy(n => n.Created).Select(card => new CreditCardViewModel
             {
                 Id = card.Id,
                 Debit = card.Debit,

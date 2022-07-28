@@ -12,7 +12,7 @@
             </div>
             @if (Model.HasError)
             {
-                <p class="text-danger">@Model.Error</p>
+                <h6 class="text-danger m-lg-3">@Model.Error</h6>
             }
             <div class="card-body contCard">
                 <form class="row" id="forms_Add_User" method="post" asp-controller="Admin" asp-action="EditAdmin">

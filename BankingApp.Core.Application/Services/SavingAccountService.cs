@@ -61,7 +61,7 @@ namespace BankingApp.Core.Application.Services
         {
             var accountList = await _accountRepository.GetAllWithIncludeAsync(new List<string>() { "beneficiaries" });
 
-            return accountList.Where(x => x.UserId == userViewModel.Id).Select(account => new SavingAccountViewModel
+            return accountList.Where(x => x.UserId == userViewModel.Id).OrderBy(n => n.Created).Select(account => new SavingAccountViewModel
             {
                 SavingAccountId = account.Id,
                 Balance = account.Balance,

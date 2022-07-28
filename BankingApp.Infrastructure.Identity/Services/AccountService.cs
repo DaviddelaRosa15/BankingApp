@@ -197,18 +197,6 @@ namespace BankingApp.Infrastructure.Identity.Services
             appliUser.Email = svm.Email;
             appliUser.CardIdentification = svm.CardIdentificantion;
 
-            if (svm.TypeUser == "Cliente")
-            {
-
-                if (svm.Amount > 0)
-                {
-                    var vm = await _savingAccountService.GetPrincipalByUserId(svm.Id);
-                    vm.Balance += svm.AditionalAmount;
-                    await _savingAccountService.Update(vm, vm.SavingAccountId);
-                }
-
-            }
-
             if (svm.Password != null)
             {
                 var statusUpdate = await _userManager.ChangePasswordAsync(appliUser, svm.CurrentPassword, svm.Password);
@@ -246,7 +234,20 @@ namespace BankingApp.Infrastructure.Identity.Services
                     sv.Error = "El nombre de usuario ya existe!";
                 }
             }
+
             await _userManager.UpdateAsync(appliUser);
+
+            if (svm.TypeUser == "Cliente")
+            {
+
+                if (svm.AditionalAmount > 0)
+                {
+                    var vm = await _savingAccountService.GetPrincipalByUserId(svm.Id);
+                    vm.Balance += svm.AditionalAmount;
+                    await _savingAccountService.Update(vm, vm.SavingAccountId);
+                }
+
+            }
             return sv;
         }
 
@@ -338,7 +339,7 @@ namespace BankingApp.Infrastructure.Identity.Services
                     await _userManager.AddToRoleAsync(appliUser, Roles.Client.ToString());
                 }
 
-                await _emailService.SendAsync( new EmailRequest()
+                await _emailService.SendAsync(new EmailRequest()
                 {
                     To = appliUser.Email,
                     Body = $"<h4> Saludos; </h4>" + "<p> Usted ha sido registrado en el sistema bancario BankingApp, revise su cuenta principal y haga las operaciones que tenga que hacer.</p>",

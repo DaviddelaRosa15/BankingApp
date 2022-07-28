@@ -63,7 +63,7 @@ namespace BankingApp.Core.Application.Services
 
             var result = await _loanRepository.GetAllWithIncludeAsync(new List<string>() {});
 
-            return result.Where(x => x.UserId == userViewModel.Id).Select(loan => new LoanViewModel()
+            return result.Where(x => x.UserId == userViewModel.Id).OrderBy(n => n.Created).Select(loan => new LoanViewModel()
             {
                 Id = loan.Id,
                 LoanAmount = loan.LoanAmount,
