@@ -127,7 +127,7 @@ namespace BankingApp.WebApp.Controllers
         }
         public async Task<IActionResult> DeleteSavingAccount(int id)
         {
-            var account = await _savingAccountService.Delete(id);
+            await _savingAccountService.Delete(id);
             return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = account.UserId });
         }
         #endregion

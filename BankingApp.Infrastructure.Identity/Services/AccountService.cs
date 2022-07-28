@@ -202,7 +202,7 @@ namespace BankingApp.Infrastructure.Identity.Services
 
                 if (svm.Amount > 0)
                 {
-                    var vm = await _savingAccountService.GetCardByIdUserAsync(svm.Id);
+                    var vm = await _savingAccountService.GetPrincipalByUserId(svm.Id);
                     vm.Balance += svm.AditionalAmount;
                     await _savingAccountService.Update(vm, vm.SavingAccountId);
                 }

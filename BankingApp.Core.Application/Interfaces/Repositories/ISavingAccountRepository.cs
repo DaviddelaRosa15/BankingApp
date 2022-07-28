@@ -11,6 +11,6 @@ namespace BankingApp.Core.Application.Interfaces.Repositories
 {
     public interface ISavingAccountRepository : IGenericRepository<SavingAccount>
     {
-        Task<SaveVM_SavingAccount> GetCardByIdUserAsync(string id);
+
     }
 }
