@@ -107,11 +107,12 @@ namespace BankingApp.WebApp.Controllers
         #endregion
 
         #region SavingAccount
-        public async Task<IActionResult> CreatedSavingAccount(string id)
+        public IActionResult CreatedSavingAccount(string id)
         {
             ViewBag.Id = id;
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> CreatedSavingAccount(SaveVM_SavingAccount svm)
         {
@@ -128,16 +129,17 @@ namespace BankingApp.WebApp.Controllers
         public async Task<IActionResult> DeleteSavingAccount(int id)
         {
             await _savingAccountService.Delete(id);
-            return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = account.UserId });
+            return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = ViewBag.UserIdSave });
         }
         #endregion
 
         #region Loan
-        public async Task<IActionResult> CreatedLoan(string id)
+        public IActionResult CreatedLoan(string id)
         {
             ViewBag.Id = id;
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> CreatedLoan(SaveLoanViewModel svm)
         {
@@ -153,18 +155,11 @@ namespace BankingApp.WebApp.Controllers
         }
         public async Task<IActionResult> DeleteLoan(int id)
         {
-            var loan = await _loanService.Delete(id);
-            if (loan.HasError)
-            {
-                return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = loan.UserId, error = loan.Error });
-            }
-            return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = loan.UserId });
+            await _loanService.Delete(id);
+
+            return RedirectToRoute(new { controller = "AdminClient", action = "Edit", id = ViewBag.UserIdLoan });
         }
         #endregion
-
-
-
-
 
     }
 }

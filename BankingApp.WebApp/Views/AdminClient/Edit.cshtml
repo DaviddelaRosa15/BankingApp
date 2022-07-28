@@ -114,7 +114,6 @@
                                 else
                                 {
                                     <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#desactivar-@SavingAccount.SavingAccountId">Quitar</button>
-
                                 }
 
                             </td>
@@ -130,7 +129,7 @@
                                     <div class="modal-body">
                                         <a class="btn btn-outline-danger" asp-controller="AdminClient" asp-action="DeleteSavingAccount" asp-route-id="@SavingAccount.SavingAccountId">Sí</a>
                                         <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
-
+                                        ViewBag.UserIdSave =@SavingAccount.UserId;
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +155,7 @@
                 <thead>
                     <tr>
                         <th class="table-secondary">Id</th>
-                        <th class="table-secondary">Monto</th>
+                        <th class="table-secondary">Monto de prestamo</th>
                         <th class="table-secondary">Monto pagado</th>
                         <th class="table-secondary">Pagado</th>
                         <th class="table-secondary">----</th>
@@ -164,19 +163,19 @@
                 </thead>
                 <tbody>
 
-                    @foreach (SaveLoanViewModel SavingAccount in ViewBag.Loan as List<SaveLoanViewModel>)
+                    @foreach (SaveLoanViewModel loan in ViewBag.Loan as List<SaveLoanViewModel>)
                     {
                         <tr>
-                            <td scope="row">@SavingAccount.Id</td>
-                            <td scope="row">@SavingAccount.LoanAmount</td>
-                            <td scope="row">@SavingAccount.AmountPaid</td>
-                            <td scope="row">@(SavingAccount.IsPaid ?"Pagado":"Sin pagar") </td>
+                            <td scope="row">@loan.Id</td>
+                            <td scope="row">@loan.LoanAmount</td>
+                            <td scope="row">@loan.AmountPaid</td>
+                            <td scope="row">@(loan.IsPaid ?"Pagado":"Sin pagar") </td>
                             <td class="btn-group">
-                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#desactivar-@SavingAccount.Id">Quitar</button>
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#desactivar-@loan.Id">Quitar</button>
                             </td>
                         </tr>
                         <!-- Modal to confirm action -->
-                        <div class="modal fade" id="desactivar-@SavingAccount.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="desactivar-@loan.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -184,22 +183,18 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <a class="btn btn-outline-danger" asp-controller="AdminClient" asp-action="DeleteLoan" asp-route-id="@SavingAccount.Id">Sí</a>
+                                        <a class="btn btn-outline-danger" asp-controller="AdminClient" asp-action="DeleteLoan" asp-route-id="@loan.Id">Sí</a>
                                         <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
-
+                                        ViewBag.UserIdLoan = @loan.UserId;
                                     </div>
                                 </div>
                             </div>
                         </div>
                     }
-
                 </tbody>
             </table>
         }
-
-
     </div>
-
 
     <div class="card shadow-sm cardListProduct">
         <div class="card-header bg-info text-light cont_List_Friend_Title">
@@ -248,15 +243,12 @@
                                     <div class="modal-body">
                                         <a class="btn btn-outline-danger" asp-controller="AdminClient" asp-action="DeleteCreditCard" asp-route-id="@card.Id">Sí</a>
                                         <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
-
+                                        ViewBag.UserIdCard = @card.UserId;
                                     </div>
                                 </div>
                             </div>
                         </div>
                     }
-
-
-
                 </tbody>
             </table>
         }

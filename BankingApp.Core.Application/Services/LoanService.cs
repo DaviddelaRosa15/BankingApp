@@ -32,7 +32,7 @@ namespace BankingApp.Core.Application.Services
             _httpContextAccessor = httpContextAccessor;
             userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
-        //Tengo una pregunta
+
         public override async Task<SaveLoanViewModel> Add(SaveLoanViewModel vm)
         {
             SaveLoanViewModel loanVm = new();
@@ -74,54 +74,19 @@ namespace BankingApp.Core.Application.Services
             }).ToList();
 
         }
+
         public async Task<List<SaveLoanViewModel>> GetAllLoanByIdUser(string id)
         {
             List<Loan> loan = await _loanRepository.GetAllAsync();
             List<SaveLoanViewModel> svm = _mapper.Map<List<SaveLoanViewModel>>(loan);
             return svm.Where(svm => svm.UserId == id).ToList();
         }
-        public override async Task<SaveLoanViewModel> Delete(int id)
-        {
-            Loan loan = await _loanRepository.GetByIdAsync(id);
-            SaveLoanViewModel saveLoanViewModel = _mapper.Map<SaveLoanViewModel>(loan);
-            if (!loan.IsPaid)
-            {
-                saveLoanViewModel.HasError = true;
-                saveLoanViewModel.Error = "El préstamos no se puede eliminar porque el mismo no esta pago!";
-                return saveLoanViewModel;
-            }
-            saveLoanViewModel.HasError = false;
-            await base.Delete(id);
-            return saveLoanViewModel;
-
-        }
-        //public async Task<CountLoan> CountLoan()
-        //{
-        //    CountLoan countLoan = new();
-        //    List<Loan> loans = await _loanRepository.GetAllAsync();
-        //    countLoan.LoanTotal = loans.Count;
-        //    foreach (Loan loan in loans)
-        //    {
-        //        if (loan.Created.ToString("dd-MM-yy").Equals(DateTime.Now.ToString("dd-MM-yy")))
-        //        {
-        //            countLoan.LoanDaily += 1;
-        //        }
-        //    }
-        //    return countLoan;
-
-        //}
 
         public async Task<int> CountProductLoan()
         {
             List<Loan> loans = await _loanRepository.GetAllAsync();
             return loans.Count();
         }
-
-
-
-
-
-
 
     }
 }

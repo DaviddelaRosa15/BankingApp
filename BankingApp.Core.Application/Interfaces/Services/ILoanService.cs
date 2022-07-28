@@ -12,8 +12,6 @@ namespace BankingApp.Core.Application.Interfaces.Services
     {
         Task<List<LoanViewModel>> GetAllViewModelWithInclude();
         Task<List<SaveLoanViewModel>> GetAllLoanByIdUser(string id);
-        Task<SaveLoanViewModel> Delete(int id);
-        //Task<CountLoan> CountLoan();
         Task<int> CountProductLoan();
     }
 }
