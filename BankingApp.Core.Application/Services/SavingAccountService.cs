@@ -30,6 +30,17 @@ namespace BankingApp.Core.Application.Services
             userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user_session");
         }
 
+        public override async Task Delete(int id)
+        {
+            var account = await GetByIdSaveViewModel(id);
+            var principal = await GetPrincipalByUserId(account.UserId);
+
+            principal.Balance += account.Balance;
+            await Update(principal, principal.SavingAccountId);
+
+            await base.Delete(id);
+        }
+
         public async Task<SaveVM_SavingAccount> GetPrincipalByUserId(string id)
         {
             var accountList = await _accountRepository.GetAllAsync();
@@ -46,7 +57,6 @@ namespace BankingApp.Core.Application.Services
 
             return save;
         }
-
         public async Task<List<SavingAccountViewModel>> GetAllViewModelWithInclude()
         {
             var accountList = await _accountRepository.GetAllWithIncludeAsync(new List<string>() { "beneficiaries" });
@@ -59,7 +69,6 @@ namespace BankingApp.Core.Application.Services
                 IsPrincipal = account.IsPrincipal
             }).ToList();
         }
-
         public async Task<List<SaveVM_SavingAccount>> GetAllAccountByIdUser(string id)
         {
             List<SavingAccount> credit = await _accountRepository.GetAllAsync();

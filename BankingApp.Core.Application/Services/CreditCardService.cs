@@ -42,21 +42,7 @@ namespace BankingApp.Core.Application.Services
                 UserId = card.UserId
             }).ToList();
         }
-        public override async Task<SaveCreditCardViewModel> Delete(int id)
-        {
-            var creditCard = await _creditCardRepository.GetByIdAsync(id);
-            SaveCreditCardViewModel card = _mapper.Map<SaveCreditCardViewModel>(creditCard); ;
-            if (creditCard.Debit <= 0)
-            {
-                await base.Delete(id);
-                card.HasError = false;
-                return card;
-            }
-            card.HasError = true;
-            card.Error = "No se puede eliminar la tarjeta de credito, ya que esta debe";
-            return card;
 
-        }
         public override async Task<SaveCreditCardViewModel> Add(SaveCreditCardViewModel vm)
         {
             if (vm.Limit < 500 || vm.Limit > 100000)

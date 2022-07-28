@@ -127,9 +127,12 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <a class="btn btn-outline-danger" asp-controller="AdminClient" asp-action="DeleteSavingAccount" asp-route-id="@SavingAccount.SavingAccountId">Sí</a>
-                                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
-                                        ViewBag.UserIdSave =@SavingAccount.UserId;
+                                        <form method="post" asp-controller="AdminClient" asp-action="DeleteSavingAccount">
+                                            <input hidden value=@SavingAccount.UserId name="userId" />
+                                            <input hidden value=@SavingAccount.SavingAccountId name="id" />
+                                            <button class="btn btn-outline-danger" type="submit">Sí</button>
+                                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -183,9 +186,19 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <a class="btn btn-outline-danger" asp-controller="AdminClient" asp-action="DeleteLoan" asp-route-id="@loan.Id">Sí</a>
-                                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
-                                        ViewBag.UserIdLoan = @loan.UserId;
+                                        @if (loan.IsPaid)
+                                        {
+                                            <form method="post" asp-controller="AdminClient" asp-action="DeleteLoan">
+                                                <input hidden value=@loan.UserId name="userId" />
+                                                <input hidden value=@loan.Id name="id" />
+                                                <button class="btn btn-outline-danger" type="submit">Sí</button>
+                                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <h4>El usuario debe este prestamo, debe saldarlo para poder eliminarlo.</h4>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -241,9 +254,19 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <a class="btn btn-outline-danger" asp-controller="AdminClient" asp-action="DeleteCreditCard" asp-route-id="@card.Id">Sí</a>
-                                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
-                                        ViewBag.UserIdCard = @card.UserId;
+                                        @if (card.Debit == 0)
+                                        {
+                                            <form method="post" asp-controller="AdminClient" asp-action="DeleteCreditCard">
+                                                <input hidden value=@card.UserId name="userId" />
+                                                <input hidden value=@card.Id name="id" />
+                                                <button class="btn btn-outline-danger" type="submit">Sí</button>
+                                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">No</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <h4>El usuario debe esta tarjeta, debe saldarla para poder eliminarla.</h4>
+                                        }
                                     </div>
                                 </div>
                             </div>
