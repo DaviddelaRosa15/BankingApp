@@ -67,10 +67,10 @@
             <hr />
 
             <ul class="list-group">
-                <li><a class="list-group-item" asp-controller="Client" asp-action="ExpressPay">Expreso</a></li>
-                <li><a class="list-group-item" asp-controller="Client" asp-action="MyBeneficiariesPay">Beneficiarios</a></li>
-                <li><a class="list-group-item" asp-controller="Client" asp-action="CreditCardPay">Tarjeta de crédito</a></li>
-                <li><a class="list-group-item" asp-controller="Client" asp-action="LoanPay">Préstamo</a></li>
+                <a class="list-group-item" asp-controller="Client" asp-action="ExpressPay">Expreso</a>
+                <a class="list-group-item" asp-controller="Client" asp-action="MyBeneficiariesPay">Beneficiarios</a>
+                <a class="list-group-item" asp-controller="Client" asp-action="CreditCardPay">Tarjeta de crédito</a>
+                <a class="list-group-item" asp-controller="Client" asp-action="LoanPay">Préstamo</a>
             </ul>
 
 
@@ -83,11 +83,11 @@
                 <div class="d-flex justify-content-between p-3">
                     <h3>Cuentas de ahorro</h3>
 
-                    <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#SaveAccountCollapse" aria-expanded="false" aria-controls="SaveAccountCollapse">
+                    <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#SaveAccountCollapse" aria-expanded="true" aria-controls="SaveAccountCollapse">
                         🔽
                     </button>
                 </div>
-                <div class="collapse" id="SaveAccountCollapse">
+                <div class="collapse show" id="SaveAccountCollapse">
                     <div class="card card-body">
                         @* CardBody *@
 
@@ -95,19 +95,19 @@
                             foreach (SavingAccountViewModel savingAccount in Model.SavingAccounts.OrderBy(data => data.IsPrincipal))
                             {
 
-                                        <div class="row p-4">
+                                            <div class="row p-4">
 
-                                            <div class="col-6">
-                                                <h6 class="text-secondary fw-bold">Número de cuenta</h6>
-                                                <p><small>@savingAccount.SavingAccountId</small></p>
+                                                <div class="col-6">
+                                                    <h6 class="text-secondary fw-bold">Número de cuenta</h6>
+                                                    <p><small>@savingAccount.SavingAccountId</small></p>
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <h6 class="text-secondary fw-bold">Balance disponible</h6>
+                                                    <p><small>@savingAccount.Balance</small></p>
+                                                </div>
+
                                             </div>
-
-                                            <div class="col-6">
-                                                <h6 class="text-secondary fw-bold">Balance disponible</h6>
-                                                <p><small>@savingAccount.Balance</small></p>
-                                            </div>
-
-                                        </div>
 
                             }
                         }
@@ -122,41 +122,41 @@
                 <div class="d-flex justify-content-between p-3">
                     <h3>Tarjetas de crédito</h3>
 
-                    <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#CreditCardsCollapse" aria-expanded="false" aria-controls="CreditCardsCollapse">
+                    <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#CreditCardsCollapse" aria-expanded="true" aria-controls="CreditCardsCollapse">
                         🔽
                     </button>
                 </div>
-                <div class="collapse" id="CreditCardsCollapse">
+                <div class="collapse show" id="CreditCardsCollapse">
                     <div class="card card-body">
                         @* CardBody *@
 
                         @{
                             if (Model.CreditCards.Count == 0 || Model.CreditCards == null)
                             {
-                                        <div class="row"> <h6> Contact with any of our administrator or headsquare and open a new one.</h6> </div>
+                                            <div class="row"> <h6> Contact with any of our administrator or headsquare and open a new one.</h6> </div>
                             }
 
                             foreach (CreditCardViewModel creditCard in Model.CreditCards)
                             {
 
-                                        <div class="row p-4">
+                                            <div class="row p-4">
 
-                                            <div class="col-4">
-                                                <h6 class="text-secondary fw-bold">Id tarjeta</h6>
-                                                <p><small>@creditCard.Id</small></p>
+                                                <div class="col-4">
+                                                    <h6 class="text-secondary fw-bold">Id tarjeta</h6>
+                                                    <p><small>@creditCard.Id</small></p>
+                                                </div>
+
+                                                <div class="col-4">
+                                                    <h6 class="text-secondary fw-bold">Debe</h6>
+                                                    <p><small>@(creditCard.Debit == 0 ? "Saldada" : creditCard.Debit)</small></p>
+                                                </div>
+
+                                                <div class="col-4">
+                                                    <h6 class="text-secondary fw-bold">Disponible</h6>
+                                                    <p><small>@creditCard.AvailableCredit</small></p>
+                                                </div>
+
                                             </div>
-
-                                            <div class="col-4">
-                                                <h6 class="text-secondary fw-bold">Debe</h6>
-                                                <p><small>@(creditCard.Debit == 0 ? "Saldada" : creditCard.Debit)</small></p>
-                                            </div>
-
-                                            <div class="col-4">
-                                                <h6 class="text-secondary fw-bold">Disponible</h6>
-                                                <p><small>@creditCard.AvailableCredit</small></p>
-                                            </div>
-
-                                        </div>
 
                             }
                         }
@@ -171,11 +171,11 @@
                 <div class="d-flex justify-content-between p-3">
                     <h3>Prestamos</h3>
 
-                    <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#LoanCollapse" aria-expanded="false" aria-controls="LoanCollapse">
+                    <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#LoanCollapse" aria-expanded="true" aria-controls="LoanCollapse">
                         🔽
                     </button>
                 </div>
-                <div class="collapse" id="LoanCollapse">
+                <div class="collapse show" id="LoanCollapse">
                     <div class="card card-body">
                         @* CardBody *@
 
@@ -183,30 +183,30 @@
 
                             if (Model.Loans.Count() == 0 || Model.Loans == null)
                             {
-                                        <div class="row"> <h6> Contact with any of our administrator or go to our headsquare and start a new one.</h6> </div>
+                                            <div class="row"> <h6> Contact with any of our administrator or go to our headsquare and start a new one.</h6> </div>
                             }
 
                             foreach (LoanViewModel loan in Model.Loans.ToList())
                             {
 
-                                        <div class="row p-4">
+                                            <div class="row p-4">
 
-                                            <div class="col-4">
-                                                <h6 class="text-secondary fw-bold">Id loan</h6>
-                                                <p><small>@loan.Id</small></p>
+                                                <div class="col-4">
+                                                    <h6 class="text-secondary fw-bold">Id loan</h6>
+                                                    <p><small>@loan.Id</small></p>
+                                                </div>
+
+                                                <div class="col-4">
+                                                    <h6 class="text-secondary fw-bold">Debe</h6>
+                                                    <p><small>@(loan.LoanAmount - loan.AmountPaid == 0 ? "Saldado" : loan.LoanAmount - loan.AmountPaid)</small></p>
+                                                </div>
+
+                                                <div class="col-4">
+                                                    <h6 class="text-secondary fw-bold">Monto asignado</h6>
+                                                    <p><small>@loan.LoanAmount</small></p>
+                                                </div>
+
                                             </div>
-
-                                            <div class="col-4">
-                                                <h6 class="text-secondary fw-bold">Debe</h6>
-                                                <p><small>@(loan.LoanAmount - loan.AmountPaid == 0 ? "Saldado" : loan.LoanAmount - loan.AmountPaid)</small></p>
-                                            </div>
-
-                                            <div class="col-4">
-                                                <h6 class="text-secondary fw-bold">Monto asignado</h6>
-                                                <p><small>@loan.LoanAmount</small></p>
-                                            </div>
-
-                                        </div>
 
                             }
                         }
