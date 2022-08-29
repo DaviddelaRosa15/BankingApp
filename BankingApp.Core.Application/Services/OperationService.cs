@@ -220,7 +220,7 @@ namespace BankingApp.Core.Application.Services
             var accountDestiny = await _savingService.GetByIdSaveViewModel(vm.DestinyAccount);
 
             accountDestiny.Balance += vm.Amount;
-            cardOrigin.AvailableCredit -= vm.Amount;
+            cardOrigin.AvailableCredit -= vm.Amount * 1.0625; // tal vez se le deberia quitar con todo y descuento aplicado.
             cardOrigin.Debit += vm.Amount * 1.0625;
 
             await _savingService.Update(accountDestiny, accountDestiny.SavingAccountId);
